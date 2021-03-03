@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerApi", "CrawlerApi\CrawlerApi.csproj", "{C7F21D1D-C99D-4744-A91E-1DEE036E97FC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C7F21D1D-C99D-4744-A91E-1DEE036E97FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7F21D1D-C99D-4744-A91E-1DEE036E97FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7F21D1D-C99D-4744-A91E-1DEE036E97FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7F21D1D-C99D-4744-A91E-1DEE036E97FC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ECC492DB-3AC9-49C9-BB5F-5ABD317865C1}
+	EndGlobalSection
+EndGlobal
