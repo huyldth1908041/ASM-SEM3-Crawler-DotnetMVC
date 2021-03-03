@@ -1,0 +1,216 @@
+﻿@model IEnumerable<ReadNewsWebClient.Models.Article>
+@{
+    ViewBag.Title = "Index";
+
+    List<ReadNewsWebClient.Models.Article> topFive = (List<ReadNewsWebClient.Models.Article>)ViewBag.TopFive;
+    List<ReadNewsWebClient.Models.Category> categories = (List<ReadNewsWebClient.Models.Category>)ViewBag.ListCategory;
+    
+
+}
+
+<!--app banner-->
+<div class="container-fluid paddding mb-5">
+    <div class="row mx-0">
+        <div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
+            <div class="fh5co_suceefh5co_height">
+                <img src="@topFive.First().ImgUrls.Split(',')[0]" alt="img" />
+                <div class="fh5co_suceefh5co_height_position_absolute"></div>
+                <div class="fh5co_suceefh5co_height_position_absolute_font">
+                    <div class="">
+                        <a href="#" class="color_fff">
+                            <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@topFive.First().CreatedAt.ToString("MMM, dd, yyyy")
+                        </a>
+                    </div>
+                    <div class=""><a href="single.html" class="fh5co_good_font"> @topFive.First().Title</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
+                    <div class="fh5co_suceefh5co_height_2">
+                        <img src="@topFive[1].ImgUrls.Split(',')[0]" alt="img" />
+                        <div class="fh5co_suceefh5co_height_position_absolute"></div>
+                        <div class="fh5co_suceefh5co_height_position_absolute_font_2">
+                            <div class="">
+                                <a href="#" class="color_fff">
+                                    <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@topFive[1].CreatedAt.ToString("MMM, dd, yyyy")
+                                </a>
+                            </div>
+                            <div class=""><a href="single.html" class="fh5co_good_font_2">@topFive[1].Title</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
+                    <div class="fh5co_suceefh5co_height_2">
+                        <img src="@topFive[2].ImgUrls.Split(',')[0]" alt="img" />
+                        <div class="fh5co_suceefh5co_height_position_absolute"></div>
+                        <div class="fh5co_suceefh5co_height_position_absolute_font_2">
+                            <div class=""><a href="#" class="color_fff"> <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@topFive[2].CreatedAt.ToString("MMM, dd, yyyy") </a></div>
+                            <div class=""><a href="single.html" class="fh5co_good_font_2"> @topFive[2].Title </a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
+                    <div class="fh5co_suceefh5co_height_2">
+                        <img src="@topFive[3].ImgUrls.Split(',')[0]" alt="img" />
+                        <div class="fh5co_suceefh5co_height_position_absolute"></div>
+                        <div class="fh5co_suceefh5co_height_position_absolute_font_2">
+                            <div class="">
+                                <a href="#" class="color_fff">
+                                    <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@topFive[3].CreatedAt.ToString("MMM, dd, yyyy")
+                                </a>
+                            </div>
+                            <div class=""><a href="single.html" class="fh5co_good_font_2"> @topFive[3].Title </a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
+                    <div class="fh5co_suceefh5co_height_2">
+                        <img src="@topFive[4].ImgUrls.Split(',')[0]" alt="img" />
+                        <div class="fh5co_suceefh5co_height_position_absolute"></div>
+                        <div class="fh5co_suceefh5co_height_position_absolute_font_2">
+                            <div class="">
+                                <a href="#" class="color_fff">
+                                    <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@topFive[4].CreatedAt.ToString("MMM, dd, yyyy")
+                                </a>
+                            </div>
+                            <div class=""><a href="single.html" class="fh5co_good_font_2"> @topFive[4].Title </a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End app banner-->
+<!--trending-->
+<div class="container-fluid pt-3">
+    <div class="container animate-box" data-animate-effect="fadeIn">
+        <div>
+            <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Trending</div>
+        </div>
+        <div class="owl-carousel owl-theme js" id="slider1">
+            @foreach (var item in topFive)
+            {
+                <div class="item px-2">
+                    <div class="fh5co_latest_trading_img_position_relative">
+                        <div class="fh5co_latest_trading_img">
+                            <img src="@item.ImgUrls.Split(',')[0]" alt=""
+                                 class="fh5co_img_special_relative" />
+                        </div>
+                        <div class="fh5co_latest_trading_img_position_absolute"></div>
+                        <div class="fh5co_latest_trading_img_position_absolute_1">
+                            <a href="single.html" class="text-white">@item.Title</a>
+                            <div class="fh5co_latest_trading_date_and_name_color"> @item.CreatedAt.ToString("MMMM dd, yyyy")</div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+
+        </div>
+    </div>
+</div>
+<!--end trending-->
+<!--News-->
+<div class="container-fluid pb-4 pt-5">
+    <div class="container animate-box">
+        <div>
+            <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">News</div>
+        </div>
+        <div class="owl-carousel owl-theme" id="slider2">
+            @foreach (var item in topFive)
+            {
+                <div class="item px-2">
+                    <div class="fh5co_hover_news_img">
+                        <div class="fh5co_news_img"><img src="@item.ImgUrls.Split(',')[0]" alt="" /></div>
+                        <div>
+                            <a href="single.html" class="d-block fh5co_small_post_heading"><span class="">@item.Title</span></a>
+                            <div class="c_g"><i class="fa fa-clock-o"></i> @item.CreatedAt.ToString("MMM dd, yyyy")</div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<!--End news-->
+<!-- News 2 colums-->
+<div class="container-fluid pb-4 pt-4 paddding">
+    <div class="container paddding">
+        <div class="row mx-0">
+            <div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
+                <div>
+                    <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">News</div>
+                </div>
+                @foreach (var item in topFive)
+                {
+                    <div class="row pb-4">
+                        <div class="col-md-5">
+                            <div class="fh5co_hover_news_img">
+                                <div class="fh5co_news_img"><img src="@item.ImgUrls.Split(',')[0]" alt="" /></div>
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 animate-box">
+                            <a href="single.html" class="fh5co_magna py-2">
+                                @item.Title
+                            </a> <a href="single.html" class="fh5co_mini_time py-3">
+
+                                @item.CreatedAt.ToString("MMMM dd, yyyy")
+                            </a>
+                            <div class="fh5co_consectetur">
+                                @item.Description
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+            <div class="col-md-3 animate-box" data-animate-effect="fadeInRight">
+                <div>
+                    <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Tags</div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="fh5co_tags_all">
+                    @foreach (var item in categories)
+                    {
+                        <a href="#" class="fh5co_tagg">@item.Name</a>
+                    }
+
+                </div>
+                <div>
+                    <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Most Popular</div>
+                </div>
+                @foreach (var item in topFive)
+                {
+                    <div class="row pb-3">
+                        <div class="col-5 align-self-center">
+                            <img src="@item.ImgUrls.Split(',')[0]" alt="img" class="fh5co_most_trading" />
+                        </div>
+                        <div class="col-7 paddding">
+                            <div class="most_fh5co_treding_font">@item.Title</div>
+                            <div class="most_fh5co_treding_font_123">@item.CreatedAt.ToString("MMMM dd, yyyy")</div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+        @*<div class="row mx-0 animate-box" data-animate-effect="fadeInUp">
+                <div class="col-12 text-center pb-4 pt-4">
+                    <a href="#" class="btn_mange_pagging"><i class="fa fa-long-arrow-left"></i>&nbsp;&nbsp; Previous</a>
+                    <a href="#" class="btn_pagging">1</a>
+                    <a href="#" class="btn_pagging">2</a>
+                    <a href="#" class="btn_pagging">3</a>
+                    <a href="#" class="btn_pagging">...</a>
+                    <a href="#" class="btn_mange_pagging">Next <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp; </a>
+                </div>
+            </div>*@
+    </div>
+</div>
+<!--End news 2 colums-->
