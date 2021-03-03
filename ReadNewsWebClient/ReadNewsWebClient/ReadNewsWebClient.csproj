@@ -122,6 +122,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -129,21 +130,47 @@
     </Compile>
     <Compile Include="Models\Article.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CrawlerConfigsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Css\animate.css" />
     <Content Include="Content\Css\bootstrap.css" />
+    <Content Include="Content\Css\material-dashboard-rtl.css" />
+    <Content Include="Content\Css\material-dashboard.css" />
+    <Content Include="Content\Css\material-dashboard.min.css" />
     <Content Include="Content\Css\media_query.css" />
     <Content Include="Content\Css\owl.carousel.css" />
     <Content Include="Content\Css\owl.theme.default.css" />
     <Content Include="Content\Css\style_1.css" />
     <Content Include="Content\Js\bootstrap.js" />
+    <Content Include="Content\Js\core\bootstrap-material-design.min.js" />
+    <Content Include="Content\Js\core\jquery.min.js" />
+    <Content Include="Content\Js\core\popper.min.js" />
     <Content Include="Content\Js\jquery.stellar.min.js" />
     <Content Include="Content\Js\jquery.waypoints.min.js" />
     <Content Include="Content\Js\main.js" />
+    <Content Include="Content\Js\material-dashboard.js" />
+    <Content Include="Content\Js\material-dashboard.min.js" />
     <Content Include="Content\Js\modernizr-3.5.0.min.js" />
     <Content Include="Content\Js\owl.carousel.min.js" />
+    <Content Include="Content\Js\plugins\arrive.min.js" />
+    <Content Include="Content\Js\plugins\bootstrap-datetimepicker.min.js" />
+    <Content Include="Content\Js\plugins\bootstrap-notify.js" />
+    <Content Include="Content\Js\plugins\bootstrap-selectpicker.js" />
+    <Content Include="Content\Js\plugins\bootstrap-tagsinput.js" />
+    <Content Include="Content\Js\plugins\chartist.min.js" />
+    <Content Include="Content\Js\plugins\fullcalendar.min.js" />
+    <Content Include="Content\Js\plugins\jasny-bootstrap.min.js" />
+    <Content Include="Content\Js\plugins\jquery-jvectormap.js" />
+    <Content Include="Content\Js\plugins\jquery.bootstrap-wizard.js" />
+    <Content Include="Content\Js\plugins\jquery.dataTables.min.js" />
+    <Content Include="Content\Js\plugins\jquery.tagsinput.js" />
+    <Content Include="Content\Js\plugins\jquery.validate.min.js" />
+    <Content Include="Content\Js\plugins\moment.min.js" />
+    <Content Include="Content\Js\plugins\nouislider.min.js" />
+    <Content Include="Content\Js\plugins\perfect-scrollbar.jquery.min.js" />
+    <Content Include="Content\Js\plugins\sweetalert2.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -151,6 +178,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\Css\bootstrap.css.map" />
     <Content Include="Content\Css\style_1.css.map" />
+    <Content Include="Content\Css\material-dashboard.css.map" />
+    <Content Include="Content\Js\material-dashboard.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -177,6 +206,8 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Article\Index.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Admin\CreateConfig.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
