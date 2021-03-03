@@ -43,5 +43,18 @@ namespace ReadNewsWebClient.Controllers
 
         }
 
+        public ActionResult ListCategory()
+        {
+            var list = new List<Category>()
+            {
+                new Category{
+
+                    Name= "doi-song",
+                    Id = 1
+                }
+            };
+            return View(list);
+        }
+
     }
 }
