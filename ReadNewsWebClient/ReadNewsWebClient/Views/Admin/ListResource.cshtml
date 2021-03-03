@@ -1,0 +1,78 @@
+﻿@model IEnumerable<ReadNewsWebClient.Models.CrawlerConfigsViewModel>
+
+@{
+    ViewBag.Title = "ListResource";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>ListResource</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateConfig")
+    @Html.ActionLink("Run Url crawler", "RunUrlCrawler","Admin", new {@class = "btn btn-danger" })
+    @Html.ActionLink("Run Content crawler", "RunContentCrawler","Admin", new {@class = "btn btn-danger" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Path)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Route)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LinkSelector)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContentSelector)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TitleSelector)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DescriptionSelector)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RemovalSelector)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Path)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Route)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LinkSelector)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContentSelector)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TitleSelector)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescriptionSelector)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RemovalSelector)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoryId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
