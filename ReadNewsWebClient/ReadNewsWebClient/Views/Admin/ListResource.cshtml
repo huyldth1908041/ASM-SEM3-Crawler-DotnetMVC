@@ -12,6 +12,12 @@
     @Html.ActionLink("Run Url crawler", "RunUrlCrawler","Admin", new {@class = "btn btn-danger" })
     @Html.ActionLink("Run Content crawler", "RunContentCrawler","Admin", new {@class = "btn btn-danger" })
 </p>
+<p class="text-danger">
+    @TempData["RunCrawlerStatus"]
+</p>
+<p class="text-danger">
+    @TempData["GetListStatus"]
+</p>
 <table class="table">
     <tr>
         <th>

@@ -1,7 +1,11 @@
-﻿using ReadNewsWebClient.Models;
+﻿using Newtonsoft.Json;
+using ReadNewsWebClient.API;
+using ReadNewsWebClient.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 
@@ -22,20 +26,67 @@ namespace ReadNewsWebClient.Controllers
 
         public ActionResult ListResource()
         {
-
-            var list = new List<CrawlerConfigsViewModel>()
+            var list = new List<CrawlerConfigsViewModel>();
+            var getListResourceUrl = ApiEndPoint.ApiDomain + ApiEndPoint.GetListCrawlerConfigPath;
+            try
             {
-             new CrawlerConfigsViewModel(){
-                 Path ="doi-sang",
-                 Route="vnespress"
-             }
-            };
+                using (HttpClient httpClient = new HttpClient())
+                {
+
+
+                    HttpResponseMessage getListResult = httpClient.GetAsync(getListResourceUrl).Result;
+                    if (!getListResult.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        TempData["GetListStatus"] = "Run url crawler Failed!";
+                        return View(list);
+                    }
+
+                    var jsonResult = getListResult.Content.ReadAsStringAsync().Result;
+                    var listConfigs = JsonConvert.DeserializeObject<List<CrawlerConfigsViewModel>>(jsonResult);
+                    list = listConfigs;
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                TempData["GetListStatus"] = "Can not connect to API";
+
+            }
             return View(list);
         }
 
-        public void  RunUrlCrawler()
+        public ActionResult RunUrlCrawler()
         {
+            var runUlrApiUrl = ApiEndPoint.ApiDomain + ApiEndPoint.RunUrlCrawlerPath;
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
 
+
+                    HttpResponseMessage runResult = httpClient.PostAsync(runUlrApiUrl, null).Result;
+                    if (!runResult.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        TempData["RunCrawlerStatus"] = "Run url crawler Failed!";
+                        return RedirectToAction("ListResource");
+                    }
+                    else
+                    {
+                        TempData["RunCrawlerStatus"] = "Run url crawler Sucess!";
+                        return RedirectToAction("ListResource");
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                TempData["RunCrawlerStatus"] = "Can not connect to API";
+                return RedirectToAction("ListResource");
+            }
         }
 
         public void RunContentCrawler()
