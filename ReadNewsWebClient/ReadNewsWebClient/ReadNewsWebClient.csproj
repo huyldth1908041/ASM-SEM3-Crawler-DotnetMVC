@@ -210,9 +210,14 @@
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\CreateConfig.cshtml" />
     <Content Include="Views\Admin\ListResource.cshtml" />
+
+    <Content Include="Views\Admin\ListCategory.cshtml" />
+    <Content Include="Views\Article\ReadArticle.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
