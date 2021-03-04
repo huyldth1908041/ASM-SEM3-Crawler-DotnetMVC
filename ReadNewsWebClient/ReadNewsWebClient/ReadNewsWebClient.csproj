@@ -213,7 +213,6 @@
     <Content Include="Views\Admin\ListResource.cshtml" />
     <Content Include="Views\Admin\ListCategory.cshtml" />
     <Content Include="Views\Article\Article.cshtml" />
-    <Content Include="Views\Admin\ListNewArticle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
