@@ -149,5 +149,19 @@ namespace ReadNewsWebClient.Controllers
           
         }
 
+        public ActionResult ListAllArticle()
+        {
+            var list = new List<Article>()
+            {
+                new Article{
+
+                   Content= "ok",
+                   Source="vnexoress"
+                }
+            };
+            return View(list);
+
+        }
+
     }
 }
