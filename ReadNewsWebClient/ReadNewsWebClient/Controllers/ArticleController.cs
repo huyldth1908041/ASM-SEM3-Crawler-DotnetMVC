@@ -110,5 +110,13 @@ namespace ReadNewsWebClient.Controllers
             ViewBag.ListCategory = listCategory;
             return View(list);
         }
+
+        public ActionResult ReadArticle(int id) 
+        {
+            var article = _articles[id];
+            ViewBag.listCategory = _categories;
+            ViewBag.listArticle = _articles;
+            return View(article);
+        }
     }
 }
