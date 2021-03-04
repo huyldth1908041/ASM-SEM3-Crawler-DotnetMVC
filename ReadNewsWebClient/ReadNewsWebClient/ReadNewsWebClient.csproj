@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Css\animate.css" />
+    <Content Include="Content\Css\article.css" />
     <Content Include="Content\Css\bootstrap.css" />
     <Content Include="Content\Css\material-dashboard-rtl.css" />
     <Content Include="Content\Css\material-dashboard.css" />
@@ -211,7 +212,7 @@
     <Content Include="Views\Admin\CreateConfig.cshtml" />
     <Content Include="Views\Admin\ListResource.cshtml" />
     <Content Include="Views\Admin\ListCategory.cshtml" />
-    <Content Include="Views\Article\ReadArticle.cshtml" />
+    <Content Include="Views\Article\Article.cshtml" />
     <Content Include="Views\Admin\ListNewArticle.cshtml" />
   </ItemGroup>
   <ItemGroup>
