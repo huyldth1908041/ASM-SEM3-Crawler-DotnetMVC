@@ -111,12 +111,12 @@ namespace ReadNewsWebClient.Controllers
             return View(list);
         }
 
-        public ActionResult ReadArticle(int id) 
+        public ActionResult Read(int id) 
         {
             var article = _articles[id];
             ViewBag.listCategory = _categories;
             ViewBag.listArticle = _articles;
-            return View(article);
+            return View("Article", article);
         }
     }
 }
