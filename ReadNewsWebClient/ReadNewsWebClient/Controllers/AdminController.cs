@@ -135,5 +135,10 @@ namespace ReadNewsWebClient.Controllers
             return View(list);
         }
 
+        public ActionResult ListNewArticle()
+        {
+            return View();
+        }
+
     }
 }
