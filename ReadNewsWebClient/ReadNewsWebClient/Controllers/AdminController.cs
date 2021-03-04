@@ -141,7 +141,7 @@ namespace ReadNewsWebClient.Controllers
             {
                 new Article{
 
-                   Content= "",
+                   Content= "ok",
                    Source="vnexoress"
                 }
             };
