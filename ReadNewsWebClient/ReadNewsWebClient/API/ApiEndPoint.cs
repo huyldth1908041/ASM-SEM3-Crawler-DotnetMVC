@@ -11,6 +11,7 @@ namespace ReadNewsWebClient.API
         public static string LoginPath = "/oauth/token";
         public static string GetUserInfoPath = "/api/Account/GetUserInfo";
         public static string RunUrlCrawlerPath = "/api/Bot/RunUrlCrawlerBot";
+        public static string RunContentCrawlerPath = "/api/Bot/RunContentCrawlerBot";
         public static string GetListCrawlerConfigPath = "/api/CrawlerConfig/GetListConfig";
     }
 }
