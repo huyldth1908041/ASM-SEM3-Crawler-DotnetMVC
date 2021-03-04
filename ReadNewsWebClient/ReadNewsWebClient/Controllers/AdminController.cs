@@ -89,8 +89,36 @@ namespace ReadNewsWebClient.Controllers
             }
         }
 
-        public void RunContentCrawler()
+        public ActionResult RunContentCrawler()
         {
+            var runContentCrawlerApiUrl = ApiEndPoint.ApiDomain + ApiEndPoint.RunContentCrawlerPath;
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+
+
+                    HttpResponseMessage runResult = httpClient.PostAsync(runContentCrawlerApiUrl, null).Result;
+                    if (!runResult.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        TempData["RunCrawlerStatus"] = "Run content crawler Failed!";
+                        return RedirectToAction("ListResource");
+                    }
+                    else
+                    {
+                        TempData["RunCrawlerStatus"] = "Run content crawler Sucess!";
+                        return RedirectToAction("ListResource");
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                TempData["RunCrawlerStatus"] = "Can not connect to API";
+                return RedirectToAction("ListResource");
+            }
 
         }
 
