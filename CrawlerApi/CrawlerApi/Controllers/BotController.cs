@@ -87,6 +87,7 @@ namespace CrawlerApi.Controllers
             {
                 Debug.WriteLine($"Exception: {ex.Message}\n\n");
                 Debug.WriteLine($"Make sure the Azurite storage emulator running and try again.");
+                
                 return BadRequest();
 
             }
