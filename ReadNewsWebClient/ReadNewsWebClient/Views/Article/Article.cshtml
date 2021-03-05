@@ -46,7 +46,7 @@
                             <img src="@item.ImgUrls.Split(',')[0]" alt="img" class="fh5co_most_trading" />
                         </div>
                         <div class="col-7 paddding">
-                            <div class="most_fh5co_treding_font">@item.Title</div>
+                            @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "most_fh5co_treding_font line-cutoff text-black" })
                             <div class="most_fh5co_treding_font_123">@item.CreatedAt.ToString("MMM dd, yyyy")</div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                     <div class="fh5co_hover_news_img">
                         <div class="fh5co_news_img"><img src="@item.ImgUrls.Split(',')[0]" alt="img" /></div>
                         <div>
-                            <a href="#" class="d-block fh5co_small_post_heading"><span class="">@item.Title</span></a>
+                            @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "d-block fh5co_small_post_heading" })
                             <div class="c_g"><i class="fa fa-clock-o"></i> @item.CreatedAt.ToString("MMM dd, yyyy")</div>
                         </div>
                     </div>
