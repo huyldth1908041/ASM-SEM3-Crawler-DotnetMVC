@@ -214,11 +214,11 @@
     <Content Include="Views\Admin\ListCategory.cshtml" />
 
     <Content Include="Views\Article\ReadArticle.cshtml" />
-    <Content Include="Views\Admin\ListNewArticle.cshtml" />
+    <Content Include="Views\Admin\ListPendingArticle.cshtml" />
     <Content Include="Views\Admin\ListAllArticle.cshtml" />
-
+    <Content Include="Views\Admin\PopUpPreviewUrl.cshtml" />
+    <Content Include="Views\Admin\CreateCategory.cshtml" />
     <Content Include="Views\Article\Article.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
