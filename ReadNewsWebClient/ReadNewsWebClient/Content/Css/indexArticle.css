@@ -1,0 +1,41 @@
+﻿
+.fh5co_suceefh5co_height_position_absolute_font {
+    width: 95% !important;
+    top: 70% !important;
+}
+
+.fh5co_suceefh5co_height_position_absolute_font_2 {
+    width: 95% !important;
+}
+
+.fh5co_news_img {
+    margin-bottom: 15px;
+}
+
+.py-3 {
+    padding-top: 0 !important;
+    padding-left: 10px;
+}
+
+.input-search {
+    border: 1px solid #0000001a;
+    border-radius: 15px;
+}
+
+.input-search:focus {
+    border: 1px solid #0000001a;
+    border-radius: 15px;
+}
+.line-cutoff {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    /*color: black;*/
+}
+.text-black{
+    color: black;
+}
+.font-auto{
+    font-family: auto;
+}
