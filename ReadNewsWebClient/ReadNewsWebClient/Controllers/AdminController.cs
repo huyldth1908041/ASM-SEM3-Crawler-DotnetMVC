@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace ReadNewsWebClient.Controllers
 {
@@ -22,6 +23,11 @@ namespace ReadNewsWebClient.Controllers
         public ActionResult CreateConfig()
         {
             return View();
+        }
+
+        public ActionResult PopUpPreviewUrl()
+        {
+            return PartialView();
         }
 
         public ActionResult ListResource()
@@ -135,33 +141,89 @@ namespace ReadNewsWebClient.Controllers
             return View(list);
         }
 
-        public ActionResult ListNewArticle()
+        public ActionResult ListPendingArticle()
         {
-            var list = new List<Article>()
+            var getListPendingArticle = ApiEndPoint.ApiDomain + ApiEndPoint.GetListPendingArticlePath;
+         
+            try
             {
-                new Article{
+                using (HttpClient httpClient = new HttpClient())
+                {
 
-                   Content= "ok",
-                   Source="vnexoress"
+
+                    HttpResponseMessage runResult = httpClient.GetAsync(getListPendingArticle).Result;
+                    if (!runResult.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        TempData["getListPendingArticle"] = "Get list pending article Failed!";
+                        return RedirectToAction("ListAllArticle");
+                    }
+                    else
+                    {
+                        var jsonString = runResult.Content.ReadAsStringAsync().Result;
+                        var list = JsonConvert.DeserializeObject<Article>(jsonString);
+                        TempData["GetListPendingArticleStatus"] = "Get list pending article Sucess!";
+                        return View(list);
+                    }
                 }
-            };
-            return View(list);
-          
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                TempData["GetListPendingArticleStatus"] = "Can not connect to API";
+                return RedirectToAction("ListResource");
+            }
+        
+        }
+
+        public ActionResult ArticeDetail( int id)
+        {
+            return View();
         }
 
         public ActionResult ListAllArticle()
         {
-            var list = new List<Article>()
-            {
-                new Article{
+            var getListAllArticle = ApiEndPoint.ApiDomain + ApiEndPoint.GetListAllArticlePath;
 
-                   Content= "ok",
-                   Source="vnexoress"
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+
+
+                    HttpResponseMessage runResult = httpClient.GetAsync(getListAllArticle).Result;
+                    if (!runResult.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        TempData["getListAllArticle"] = "Get list  article Failed!";
+                        return View();
+                    }
+                    else
+                    {
+                        TempData["GetListPendingArticleStatus"] = "Get list pending article Sucess!";
+                        var jsonString = runResult.Content.ReadAsStringAsync().Result;
+                        var list = JsonConvert.DeserializeObject<List<Article>>(jsonString);
+                        return View(list); 
+                    }
                 }
-            };
-            return View(list);
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                TempData["GetListPendingArticleStatus"] = "Can not connect to API";
+                return RedirectToAction("ListResource");
+            }
 
         }
+
+        public ActionResult CreateCategory()
+        {
+            return View();
+        }
+
+
 
     }
 }

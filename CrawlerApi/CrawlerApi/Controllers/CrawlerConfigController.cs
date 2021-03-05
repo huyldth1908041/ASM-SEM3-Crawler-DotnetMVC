@@ -19,10 +19,10 @@ namespace CrawlerApi.Controllers
         public IHttpActionResult GetListConfig()
         {
             var listConfigsIndb = _db.CrawlerConfigs.ToList();
-            var listConfigsBinding = new List<CrawlerConfigDataBidingModel>();
+            var listConfigsBinding = new List<CrawlerConfigDataBindingModel>();
             foreach(var item in listConfigsIndb)
             {
-                var bindingModel = new CrawlerConfigDataBidingModel()
+                var bindingModel = new CrawlerConfigDataBindingModel()
                 {
                     Id = item.Id,
                     ContentSelector = item.ContentSelector,

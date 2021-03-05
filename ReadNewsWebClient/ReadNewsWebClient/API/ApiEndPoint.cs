@@ -13,5 +13,7 @@ namespace ReadNewsWebClient.API
         public static string RunUrlCrawlerPath = "/api/Bot/RunUrlCrawlerBot";
         public static string RunContentCrawlerPath = "/api/Bot/RunContentCrawlerBot";
         public static string GetListCrawlerConfigPath = "/api/CrawlerConfig/GetListConfig";
+        public static string GetListPendingArticlePath = "/api/ArticleManager/GetListPendingArticle";
+        public static string GetListAllArticlePath = "/api/ArticleManager/GetListAllArticle";
     }
 }
