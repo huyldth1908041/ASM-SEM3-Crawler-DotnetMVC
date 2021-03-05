@@ -5,29 +5,33 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>ListNewArticle</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
+<h2>List Pending Article</h2>
+<p>List contains: @Model.Count() items</p>
+<p class="text-danger">
+    @TempData["GetListPendingArticleStatus"]
+</p>
+<p class="text-danger">
+    @TempData["AritcleDetailStatus"]
 </p>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Content)
-        </th>
-        <th>
+
+        @*<th>
             @Html.DisplayNameFor(model => model.Source)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Link)
-        </th>
-        <th>
+        </th>*@
+        @*<th>
             @Html.DisplayNameFor(model => model.ImgUrls)
         </th>
         <th>
@@ -38,45 +42,45 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CategoryId)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Content)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Source)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Link)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImgUrls)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UpdatedAt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedAt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CategoryId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Title)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Description)
+    </td>
+
+    @*<td>
+        @Html.DisplayFor(modelItem => item.Source)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Link)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ImgUrls)
+    </td>*@
+    @*<td>
+        @Html.DisplayFor(modelItem => item.UpdatedAt)
+    </td>*@
+    <td>
+        @Html.DisplayFor(modelItem => item.CreatedAt)
+    </td>
+    @*<td>
+        @Html.DisplayFor(modelItem => item.CategoryId)
+    </td>*@
+    <td>
+        @Html.ActionLink("Details", "ArticeDetail", "Admin", new { id = item.Id }, new { @class = "btn btn-primary"}) 
+       
+    </td>
+</tr>
 }
 
 </table>
