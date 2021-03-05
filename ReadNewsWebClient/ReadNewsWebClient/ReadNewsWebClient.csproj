@@ -212,8 +212,6 @@
     <Content Include="Views\Admin\CreateConfig.cshtml" />
     <Content Include="Views\Admin\ListResource.cshtml" />
     <Content Include="Views\Admin\ListCategory.cshtml" />
-
-    <Content Include="Views\Article\ReadArticle.cshtml" />
     <Content Include="Views\Admin\ListPendingArticle.cshtml" />
     <Content Include="Views\Admin\ListAllArticle.cshtml" />
     <Content Include="Views\Admin\PopUpPreviewUrl.cshtml" />
