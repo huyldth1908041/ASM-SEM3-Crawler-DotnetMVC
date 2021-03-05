@@ -27,7 +27,7 @@ namespace ReadNewsWebClient
 
             bundles.Add(new StyleBundle("~/bundles/app_styles").Include(
                       "~/Content/Css/animate.css", "~/Content/Css/owl.carousel.css",
-                      "~/Content/Css/owl.theme.default.css", "~/Content/Css/style_1.css", "~/Content/Css/indexArticle.css"));
+                      "~/Content/Css/owl.theme.default.css", "~/Content/Css/style_1.css", "~/Content/Css/indexArticle.css", "~/Content/Css/adminPending.css"));
 
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
