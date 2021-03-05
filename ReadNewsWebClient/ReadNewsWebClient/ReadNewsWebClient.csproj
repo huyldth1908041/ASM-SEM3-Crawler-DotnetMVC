@@ -135,7 +135,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Css\Admin.css" />
     <Content Include="Content\Css\adminPending.css" />
     <Content Include="Content\Css\animate.css" />
     <Content Include="Content\Css\article.css" />
