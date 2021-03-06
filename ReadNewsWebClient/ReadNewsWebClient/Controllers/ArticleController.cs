@@ -107,7 +107,7 @@ namespace ReadNewsWebClient.Controllers
         public ActionResult Index()
         {
             var list = GetListArticle();
-            var returnList = from a in list select a;
+            //var returnList = from a in list select a;
    
             ViewBag.TopFive = returnList;
             var listCategory = _categories;
@@ -157,6 +157,11 @@ namespace ReadNewsWebClient.Controllers
                 return null;
             }
 
+        }
+
+        private List<Article> SaveArticles()
+        {
+            return null;
         }
     }
 }
