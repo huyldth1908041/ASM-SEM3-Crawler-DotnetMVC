@@ -21,7 +21,7 @@ namespace CrawlerApi.Controllers
         public IHttpActionResult GetListPendingArticle()
         {
             List<Article> listPendingArticle = _db.Articles.Where(a => a.Status == 0).ToList();
-          
+
             List<ArticleDataBindingModel> listArticleDataBindingModel = new List<ArticleDataBindingModel>();
             foreach (var item in listPendingArticle)
             {
@@ -44,7 +44,7 @@ namespace CrawlerApi.Controllers
             }
 
             return Json(listArticleDataBindingModel);
-        
+
         }
 
         [System.Web.Http.HttpGet]
@@ -75,7 +75,104 @@ namespace CrawlerApi.Controllers
             return Json(listArticleDataBindingModel);
         }
 
+        [System.Web.Http.HttpPut]
+        public IHttpActionResult UpdateArticle(ArticleDataBindingModel articleDataBindingModel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Not a valid model");
 
+            var existingStudent = _db.Articles.Where(a => a.Id == articleDataBindingModel.Id)
+                                                    .FirstOrDefault<Article>();
+
+            if (existingStudent != null)
+            {
+                existingStudent.Id = articleDataBindingModel.Id;
+                existingStudent.CategoryId = articleDataBindingModel.CategoryId;
+                existingStudent.Content = articleDataBindingModel.Content;
+                existingStudent.CreatedAt = articleDataBindingModel.CreatedAt;
+                existingStudent.Description = articleDataBindingModel.Description;
+                existingStudent.ImgUrls = articleDataBindingModel.ImgUrls;
+                existingStudent.Link = articleDataBindingModel.Link;
+                existingStudent.Source = articleDataBindingModel.Source;
+                existingStudent.Status = (Article.ArticleStatus)articleDataBindingModel.Status;
+                existingStudent.Title = articleDataBindingModel.Title;
+                existingStudent.UpdatedAt = articleDataBindingModel.UpdatedAt;
+
+                _db.SaveChanges();
+            }
+            else
+            {
+                return NotFound();
+            }
+
+
+            return Ok();
+        }
+
+
+        [System.Web.Http.HttpPut]
+        public IHttpActionResult CreateArticle(ArticleDataBindingModel articleDataBindingModel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Not a valid model");
+
+            var existingStudent = _db.Articles.Where(a => a.Id == articleDataBindingModel.Id)
+                                                    .FirstOrDefault<Article>();
+
+            if (existingStudent == null)
+            {
+                existingStudent.Id = articleDataBindingModel.Id;
+                existingStudent.CategoryId = articleDataBindingModel.CategoryId;
+                existingStudent.Content = articleDataBindingModel.Content;
+                existingStudent.CreatedAt = articleDataBindingModel.CreatedAt;
+                existingStudent.Description = articleDataBindingModel.Description;
+                existingStudent.ImgUrls = articleDataBindingModel.ImgUrls;
+                existingStudent.Link = articleDataBindingModel.Link;
+                existingStudent.Source = articleDataBindingModel.Source;
+                existingStudent.Status = (Article.ArticleStatus)articleDataBindingModel.Status;
+                existingStudent.Title = articleDataBindingModel.Title;
+                existingStudent.UpdatedAt = articleDataBindingModel.UpdatedAt;
+
+                _db.SaveChanges();
+            }
+            else
+            {
+                return NotFound();
+            }
+
+
+            return Ok();
+        }
+
+        //Create or update an category
+
+        [System.Web.Http.HttpPost]
+        public IHttpActionResult ManagerCategory(CategoryBindindModelToManager categoryBindindModelToManager)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Not a valid model");
+
+            var existingCategory = _db.Categories.Where(a => a.Id == categoryBindindModelToManager.Id)
+                                                    .FirstOrDefault<Category>();
+
+            if(existingCategory != null)
+            {
+                existingCategory.Name = categoryBindindModelToManager.Name;
+                _db.SaveChanges();
+                return Ok();
+
+            }
+            else
+            {
+                _db.Categories.Add(new Category()
+                {
+                    Id = categoryBindindModelToManager.Id,
+                    Name = categoryBindindModelToManager.Name
+                });
+                return Ok();
+
+            }
+        }
 
     }
 }

@@ -93,4 +93,11 @@ namespace CrawlerApi.Models
         //foreing key
         public int CategoryId { get; set; }
     }
+
+    public class CategoryBindindModelToManager
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
 }
