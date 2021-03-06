@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Index";
 
-    List<ReadNewsWebClient.Models.Article> topFive = (List<ReadNewsWebClient.Models.Article>)ViewBag.TopFive;
+    List<ReadNewsWebClient.Models.Article> topFive = ViewBag.TopFive.ToList();
     List<ReadNewsWebClient.Models.Category> categories = (List<ReadNewsWebClient.Models.Category>)ViewBag.ListCategory;
     
 

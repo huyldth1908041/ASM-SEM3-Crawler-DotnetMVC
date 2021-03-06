@@ -135,6 +135,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Css\adminPending.css" />
     <Content Include="Content\Css\animate.css" />
     <Content Include="Content\Css\article.css" />
     <Content Include="Content\Css\bootstrap.css" />
@@ -212,13 +213,12 @@
     <Content Include="Views\Admin\CreateConfig.cshtml" />
     <Content Include="Views\Admin\ListResource.cshtml" />
     <Content Include="Views\Admin\ListCategory.cshtml" />
-
-    <Content Include="Views\Article\ReadArticle.cshtml" />
     <Content Include="Views\Admin\ListPendingArticle.cshtml" />
     <Content Include="Views\Admin\ListAllArticle.cshtml" />
     <Content Include="Views\Admin\PopUpPreviewUrl.cshtml" />
     <Content Include="Views\Admin\CreateCategory.cshtml" />
     <Content Include="Views\Article\Article.cshtml" />
+    <Content Include="Views\Admin\ArticeDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

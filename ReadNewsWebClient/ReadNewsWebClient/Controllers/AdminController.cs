@@ -143,6 +143,7 @@ namespace ReadNewsWebClient.Controllers
 
         public ActionResult ListPendingArticle()
         {
+            var listPendingAricle = new List<Article>();
             var getListPendingArticle = ApiEndPoint.ApiDomain + ApiEndPoint.GetListPendingArticlePath;
          
             try
@@ -156,15 +157,16 @@ namespace ReadNewsWebClient.Controllers
                     {
 
                         //request failed
-                        TempData["getListPendingArticle"] = "Get list pending article Failed!";
-                        return RedirectToAction("ListAllArticle");
+                        TempData["GetListPendingArticleStatus"] = "Get list pending article Failed!";
+                        return View(listPendingAricle);
                     }
                     else
                     {
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
-                        var list = JsonConvert.DeserializeObject<Article>(jsonString);
-                        TempData["GetListPendingArticleStatus"] = "Get list pending article Sucess!";
-                        return View(list);
+                        listPendingAricle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
+                        var orderByCreatedAt = from article in listPendingAricle orderby article.CreatedAt descending select article;
+                        listPendingAricle = orderByCreatedAt.ToList();
+                        return View(listPendingAricle);
                     }
                 }
             }
@@ -172,7 +174,7 @@ namespace ReadNewsWebClient.Controllers
             {
                 Debug.WriteLine(err.Message);
                 TempData["GetListPendingArticleStatus"] = "Can not connect to API";
-                return RedirectToAction("ListResource");
+                return View(listPendingAricle);
             }
         
         }
@@ -184,13 +186,44 @@ namespace ReadNewsWebClient.Controllers
 
         public ActionResult ArticeDetail( int id)
         {
-            return View();
+            //call api
+            var url = ApiEndPoint.GenerateGetArticleByIdUrl(id);
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+
+
+                    HttpResponseMessage runResult = httpClient.GetAsync(url).Result;
+                    if (!runResult.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        TempData["AritcleDetailStatus"] = "Get article detais infor failed at index: " + id;
+                        return RedirectToAction("ListPendingArticle");
+                    }
+                    else
+                    {
+                       
+                        var jsonString = runResult.Content.ReadAsStringAsync().Result;
+                        var article = JsonConvert.DeserializeObject<Article>(jsonString);
+                        return View(article);
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                TempData["AritcleDetailStatus"] = $"{err.Message} at index: {id}";
+                return RedirectToAction("ListPendingArticle");
+            }
+           
         }
 
         public ActionResult ListAllArticle()
         {
             var getListAllArticle = ApiEndPoint.ApiDomain + ApiEndPoint.GetListAllArticlePath;
-
+            var listAllArticle = new List<Article>();
             try
             {
                 using (HttpClient httpClient = new HttpClient())
@@ -202,23 +235,23 @@ namespace ReadNewsWebClient.Controllers
                     {
 
                         //request failed
-                        TempData["getListAllArticle"] = "Get list  article Failed!";
-                        return View();
+                        TempData["GetListAllArticleStatus"] = "Get list article Failed!";
+                        return View(listAllArticle);
                     }
                     else
                     {
-                        TempData["GetListPendingArticleStatus"] = "Get list pending article Sucess!";
+                    
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
-                        var list = JsonConvert.DeserializeObject<List<Article>>(jsonString);
-                        return View(list); 
+                        listAllArticle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
+                        return View(listAllArticle); 
                     }
                 }
             }
             catch (Exception err)
             {
                 Debug.WriteLine(err.Message);
-                TempData["GetListPendingArticleStatus"] = "Can not connect to API";
-                return RedirectToAction("ListResource");
+                TempData["GetListAllArticleStatus"] = "Can not connect to API";
+                return View(listAllArticle);
             }
 
         }
@@ -227,8 +260,5 @@ namespace ReadNewsWebClient.Controllers
         {
             return View();
         }
-
-
-
     }
 }

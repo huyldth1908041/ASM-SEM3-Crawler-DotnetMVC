@@ -1,0 +1,11 @@
+﻿.modal-content{
+    width: 800px;
+}
+.modal-title {
+    font-size: 25px;
+    font-weight: 400;
+    margin-right: 10px;
+}
+.img-container{
+    text-align: center;
+}

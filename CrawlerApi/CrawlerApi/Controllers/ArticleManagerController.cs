@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
+using System.Net.Http;
+
 
 namespace CrawlerApi.Controllers
 {
@@ -17,7 +18,7 @@ namespace CrawlerApi.Controllers
             _db = new OwinApiContext();
         }
         // GET: ArticleManager
-        [System.Web.Http.HttpGet]
+        [HttpGet]
         public IHttpActionResult GetListPendingArticle()
         {
             List<Article> listPendingArticle = _db.Articles.Where(a => a.Status == 0).ToList();
@@ -47,7 +48,7 @@ namespace CrawlerApi.Controllers
 
         }
 
-        [System.Web.Http.HttpGet]
+        [HttpGet]
         public IHttpActionResult GetListAllArticle()
         {
             List<Article> listAllArticle = _db.Articles.ToList();
@@ -151,7 +152,8 @@ namespace CrawlerApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest("Not a valid model");
-
+              
+        
             var existingCategory = _db.Categories.Where(a => a.Id == categoryBindindModelToManager.Id)
                                                     .FirstOrDefault<Category>();
 
@@ -173,6 +175,31 @@ namespace CrawlerApi.Controllers
 
             }
         }
+        
+        [HttpGet]
+        public IHttpActionResult GetArticleById(int id)
+        {
+            var inDbArticle = _db.Articles.Find(id);
+            if(inDbArticle == null)
+            {
+                return BadRequest();
+            }
+            var bindingArticle = new ArticleDataBindingModel()
+            {
+                CategoryId = inDbArticle.CategoryId,
+                Content = inDbArticle.Content,
+                CreatedAt = inDbArticle.CreatedAt,
+                Description = inDbArticle.Description,
+                Id = inDbArticle.Id,
+                ImgUrls = inDbArticle.ImgUrls,
+                Link = inDbArticle.Link,
+                Source = inDbArticle.Source,
+                Status = (int) inDbArticle.Status,
+                Title = inDbArticle.Title,
+                UpdatedAt = inDbArticle.UpdatedAt
+            };
+            return Json(bindingArticle);
+        } 
 
     }
 }
