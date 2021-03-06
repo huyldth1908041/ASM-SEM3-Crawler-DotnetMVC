@@ -108,7 +108,7 @@ namespace ReadNewsWebClient.Controllers
         {
             var list = GetListArticle();
             var returnList = from a in list select a;
-   
+
             ViewBag.TopFive = returnList;
             var listCategory = _categories;
             ViewBag.ListCategory = listCategory;
@@ -157,6 +157,11 @@ namespace ReadNewsWebClient.Controllers
                 return null;
             }
 
+        }
+
+        private List<Article> SaveArticles()
+        {
+            return null;
         }
     }
 }
