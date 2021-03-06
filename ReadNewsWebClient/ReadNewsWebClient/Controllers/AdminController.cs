@@ -177,6 +177,11 @@ namespace ReadNewsWebClient.Controllers
         
         }
 
+        public ActionResult BrowserArtice(Article article)
+        {
+            return View();
+        }
+
         public ActionResult ArticeDetail( int id)
         {
             return View();
