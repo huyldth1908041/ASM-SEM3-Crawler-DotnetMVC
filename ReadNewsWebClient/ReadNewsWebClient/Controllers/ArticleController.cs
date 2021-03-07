@@ -117,10 +117,40 @@ namespace ReadNewsWebClient.Controllers
 
         public ActionResult Read(int id) 
         {
-            var article = _articles[id];
-            ViewBag.listCategory = _categories;
-            ViewBag.listArticle = _articles;
-            return View("Article", article);
+            //call api
+            var url = ApiEndPoint.GenerateGetArticleByIdUrl(id);
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    HttpResponseMessage runResult = httpClient.GetAsync(url).Result;
+                    if (!runResult.IsSuccessStatusCode)
+                    {
+                        //request failed
+                        TempData["AritcleDetailStatus"] = "Get article detais infor failed at index: " + id;
+                        return RedirectToAction("ListPendingArticle");
+                    }
+                    else
+                    {
+                        //request success
+                        var jsonString = runResult.Content.ReadAsStringAsync().Result;
+                        var article = JsonConvert.DeserializeObject<Article>(jsonString);
+                        ViewBag.listCategory = _categories;
+                        ViewBag.listArticle = _articles;
+                        return View(article);
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                TempData["AritcleDetailStatus"] = $"{err.Message} at index: {id}";
+                return null;
+            }
+            //var article = _articles[id];
+            //ViewBag.listCategory = _categories;
+            //ViewBag.listArticle = _articles;
+            //return View("Article", article);
         }
 
         private List<Article> GetListArticle()
@@ -136,7 +166,6 @@ namespace ReadNewsWebClient.Controllers
                     HttpResponseMessage runResult = httpClient.GetAsync(getListAllArticle).Result;
                     if (!runResult.IsSuccessStatusCode)
                     {
-
                         //request failed
                         TempData["getListAllArticle"] = "Get list article Failed!";
                         return null;
