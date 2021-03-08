@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -20,9 +21,58 @@ namespace ReadNewsWebClient.Controllers
             return View();
         }
 
+
         public ActionResult CreateConfig()
         {
+
+            var listCategory = GetCategory();
+            if (listCategory != null || listCategory.Count() != 0)
+            {
+                ViewBag.ListCategory = listCategory;
+            }
+            else
+            {
+                ViewBag.ListCategory = new List<Category>();
+            }
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateConfig([Bind(Include = "Path,Route,LinkSelector,ContentSelector,TitleSelector,DescriptionSelector,RemovalSelector,CategoryId")] CrawlerConfigsViewModel crawlerConfigsViewModel)
+        {
+
+            var createConfig = ApiEndPoint.ApiDomain + ApiEndPoint.CreateConfigPath;
+            try
+            {
+                ViewBag.ListCategory = GetCategory();
+                using (HttpClient httpClient = new HttpClient())
+                {
+
+                    var jsonString = JsonConvert.SerializeObject(crawlerConfigsViewModel);
+                    var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                    HttpResponseMessage getListResult = httpClient.PostAsync(createConfig, data).Result;
+                    if (!getListResult.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        Debug.WriteLine("failed");
+
+                        return View(crawlerConfigsViewModel);
+
+                    }
+                    Debug.WriteLine("OK");
+                    var jsonResult = getListResult.Content.ReadAsStringAsync().Result;
+                    var listConfigs = JsonConvert.DeserializeObject<List<CrawlerConfigsViewModel>>(jsonResult);
+                    return RedirectToAction("ListResource");
+                }
+            }
+            catch (Exception err)
+            {
+
+                Debug.WriteLine(err.Message);
+                return View(crawlerConfigsViewModel);
+            }
+
         }
 
         public ActionResult PopUpPreviewUrl()
@@ -145,7 +195,7 @@ namespace ReadNewsWebClient.Controllers
         {
             var listPendingAricle = new List<Article>();
             var getListPendingArticle = ApiEndPoint.ApiDomain + ApiEndPoint.GetListPendingArticlePath;
-         
+
             try
             {
                 using (HttpClient httpClient = new HttpClient())
@@ -176,10 +226,10 @@ namespace ReadNewsWebClient.Controllers
                 TempData["GetListPendingArticleStatus"] = "Can not connect to API";
                 return View(listPendingAricle);
             }
-        
+
         }
 
-        public ActionResult ArticeDetail( int id)
+        public ActionResult ArticeDetail(int id)
         {
             //call api
             var url = ApiEndPoint.GenerateGetArticleByIdUrl(id);
@@ -199,7 +249,7 @@ namespace ReadNewsWebClient.Controllers
                     }
                     else
                     {
-                       
+
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
                         var article = JsonConvert.DeserializeObject<Article>(jsonString);
                         return View(article);
@@ -212,7 +262,7 @@ namespace ReadNewsWebClient.Controllers
                 TempData["AritcleDetailStatus"] = $"{err.Message} at index: {id}";
                 return RedirectToAction("ListPendingArticle");
             }
-           
+
         }
 
         public ActionResult ListAllArticle()
@@ -235,10 +285,10 @@ namespace ReadNewsWebClient.Controllers
                     }
                     else
                     {
-                    
+
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
                         listAllArticle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
-                        return View(listAllArticle); 
+                        return View(listAllArticle);
                     }
                 }
             }
@@ -254,6 +304,42 @@ namespace ReadNewsWebClient.Controllers
         public ActionResult CreateCategory()
         {
             return View();
+        }
+
+        private List<Category> GetCategory()
+        {
+            var list = new List<Category>();
+            var getListCategory = ApiEndPoint.ApiDomain + ApiEndPoint.GetListCategoryPath;
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+
+
+                    HttpResponseMessage getListResult = httpClient.GetAsync(getListCategory).Result;
+                    if (!getListResult.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        Debug.WriteLine("Null list cate");
+                        return null;
+
+                    }
+
+                    var jsonResult = getListResult.Content.ReadAsStringAsync().Result;
+                    var listCate = JsonConvert.DeserializeObject<List<Category>>(jsonResult);
+                    list = listCate;
+
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+
+                return null;
+            }
+            return list;
+
         }
     }
 }

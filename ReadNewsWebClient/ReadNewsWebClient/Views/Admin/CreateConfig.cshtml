@@ -3,90 +3,205 @@
 @{
     ViewBag.Title = "CreateConfig";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var listCategory = (List<ReadNewsWebClient.Models.Category>)ViewBag.ListCategory;
+    var categorySelectList = new SelectList(listCategory, "Id", "Name", 1);
 }
 
 <h2>CreateConfig</h2>
 
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>CrawlerConfigsViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Path, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Path, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Path, "", new { @class = "text-danger" })
-            </div>
-        </div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Route, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Route, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Route, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LinkSelector, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LinkSelector, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LinkSelector, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContentSelector, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContentSelector, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContentSelector, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Create new config</h4>
+                            <p class="card-category">Enter source</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-horizontal">
+                                @*<h4>CrawlerConfigsViewModel</h4>*@
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TitleSelector, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TitleSelector, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TitleSelector, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Route, htmlAttributes: new { @class = "bmd-label-floating col-md-3 " })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Route, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Route, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.DescriptionSelector, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DescriptionSelector, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DescriptionSelector, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Path, htmlAttributes: new { @class = "bmd-label-floating col-md-3 " })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Path, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Path, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.RemovalSelector, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RemovalSelector, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RemovalSelector, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "bmd-label-floating col-md-3 " })
+                                    <div class="col-md-10">
+                                        @*@Html.EditorFor(model => model.CategoryId, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        @Html.DropDownListFor(model => model.CategoryId, categorySelectList, htmlAttributes: new { @class = "form-control" })
+                                        @*@Html.DropDownListFor(x => Model.CategoryId, new SelectList(Model.ListSelectCate, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "category" })*@
+                                        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CategoryId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <a class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Preview</a>
+                                        @*<a class="btn-primary" id="previewUrl" value ="{}"> preview</a>*@
+                                        @Html.ActionLink("Preview", "PopUpPreviewUrl ", new { @class = "btn btn-primary", data_toggle = "modal", data_target = "#myModal" })
+                                    </div>
+                                </div>
+                            </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>
+
+                    //url preview modal
+
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Modal Header</h4>
+
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="myModalContent">
+
+                                    </div>
+                                    <table class="table">
+                                        <tr>
+                                            <th>
+                                                Id
+                                            </th>
+                                            <th>
+                                                Url
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>https://vnexpress.net/sai-gon-nang-nong-38-do-c-4245110.html</td>
+                                        </tr>
+                                    </table>"
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title">Create new config</h4>
+                            <p class="card-category">Enter source</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-horizontal">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.LinkSelector, htmlAttributes: new { @class = "bmd-label-floating col-md-3 " })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.LinkSelector, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.LinkSelector, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ContentSelector, htmlAttributes: new { @class = "bmd-label-floating col-md-3 " })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.ContentSelector, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.ContentSelector, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TitleSelector, htmlAttributes: new { @class = "bmd-label-floating col-md-3 " })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.TitleSelector, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.TitleSelector, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DescriptionSelector, htmlAttributes: new { @class = "bmd-label-floating col-md-3 " })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.DescriptionSelector, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DescriptionSelector, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.RemovalSelector, htmlAttributes: new { @class = "bmd-label-floating col-md-3 " })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.RemovalSelector, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.RemovalSelector, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <a class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal1">Preview</a>
+                                        @Html.ActionLink("Preview", "PopUpPreviewUrl ", new { @class = "btn btn-primary", data_toggle = "modal", data_target = "#myModal" })
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    //article preview modal
+
+                    <div id="myModal1" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Modal Header</h4>
+
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Article content</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>
+                }
+
             </div>
         </div>
     </div>
-}
+
+</div>
 
 <div>
     @Html.ActionLink("Back to List", "Index")
