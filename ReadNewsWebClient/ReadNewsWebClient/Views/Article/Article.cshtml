@@ -42,15 +42,15 @@
                 <div>
                     <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Most Popular</div>
                 </div>
-                @foreach (var item in listArticle)
+                @for(int i = 0; i < 6; i++)
                 {
                     <div class="row pb-3">
                         <div class="col-5 align-self-center">
-                            <img src="@item.ImgUrls.Split(',')[0]" alt="img" class="fh5co_most_trading" />
+                            <img src="@listArticle[i].ImgUrls.Split(',')[0]" alt="img" class="fh5co_most_trading" />
                         </div>
                         <div class="col-7 paddding">
-                            @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "most_fh5co_treding_font line-cutoff text-black" })
-                            <div class="most_fh5co_treding_font_123">@item.CreatedAt.ToString("MMM dd, yyyy")</div>
+                            @Html.ActionLink(listArticle[i].Title, "Read", "Article", new { id = listArticle[i].Id }, new { @class = "most_fh5co_treding_font line-cutoff text-black" })
+                            <div class="most_fh5co_treding_font_123">@listArticle[i].CreatedAt.ToString("MMM dd, yyyy")</div>
                         </div>
                     </div>
                 }
@@ -65,14 +65,14 @@
             <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Trending</div>
         </div>
         <div class="owl-carousel owl-theme" id="slider2">
-            @foreach (var item in listArticle)
+            @for(int i = 0; i < 6; i++)
             {
                 <div class="item px-2">
                     <div class="fh5co_hover_news_img">
-                        <div class="fh5co_news_img"><img src="@item.ImgUrls.Split(',')[0]" alt="img" /></div>
+                        <div class="fh5co_news_img"><img src="@listArticle[i].ImgUrls.Split(',')[0]" alt="img" /></div>
                         <div>
-                            @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "d-block fh5co_small_post_heading" })
-                            <div class="c_g"><i class="fa fa-clock-o"></i> @item.CreatedAt.ToString("MMM dd, yyyy")</div>
+                            @Html.ActionLink(listArticle[i].Title, "Read", "Article", new { id = listArticle[i].Id }, new { @class = "d-block fh5co_small_post_heading" })
+                            <div class="c_g"><i class="fa fa-clock-o"></i> @listArticle[i].CreatedAt.ToString("MMM dd, yyyy")</div>
                         </div>
                     </div>
                 </div>
