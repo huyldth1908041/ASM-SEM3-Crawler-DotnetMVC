@@ -107,12 +107,12 @@ namespace ReadNewsWebClient.Controllers
         public ActionResult Index()
         {
             var list = GetListArticle();
-            var returnList = from a in list select a;
-
-            ViewBag.TopFive = returnList;
-            var listCategory = _categories;
-            ViewBag.ListCategory = listCategory;
-            return View(returnList);
+            if(list == null)
+            {
+                return View("~/Views/Shared/Error.cshtml");
+            }
+            ViewBag.ListCategory = _categories;
+            return View(list);
         }
 
         public ActionResult Read(int id) 
@@ -136,8 +136,8 @@ namespace ReadNewsWebClient.Controllers
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
                         var article = JsonConvert.DeserializeObject<Article>(jsonString);
                         ViewBag.listCategory = _categories;
-                        ViewBag.listArticle = _articles;
-                        return View(article);
+                        ViewBag.listArticle = GetListArticle();
+                        return View("Article", article);
                     }
                 }
             }
@@ -145,7 +145,7 @@ namespace ReadNewsWebClient.Controllers
             {
                 Debug.WriteLine(err.Message);
                 TempData["AritcleDetailStatus"] = $"{err.Message} at index: {id}";
-                return null;
+                return RedirectToAction("Index");
             }
             //var article = _articles[id];
             //ViewBag.listCategory = _categories;
