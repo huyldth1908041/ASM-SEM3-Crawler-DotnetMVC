@@ -101,20 +101,7 @@ namespace CrawlerApi.Controllers
             return Json(bindingArticle);
         }
 
-        public IHttpActionResult GetListCategory()
-        {
-            List<Category> listCate = _db.Categories.ToList();
-            List<CategoryBindindModel> listCategoryBindindModels = new List<CategoryBindindModel>();
-            foreach (var item in listCate)
-            {
-                listCategoryBindindModels.Add(new CategoryBindindModel()
-                {
-                    Id = item.Id,
-                    Name = item.Name
-                });
-            }
-            return Json(listCategoryBindindModels);
-        }
+        
 
         public IHttpActionResult CreateConfig(CrawlerConfigDataBindingModel crawlerConfigDataBindingModel)
         {
@@ -137,38 +124,7 @@ namespace CrawlerApi.Controllers
             return Json(newConfig);
         }
 
-        //Create or update an category
-        public IHttpActionResult CreateCategory(CategoryBindindModel categoryBindindModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Not a valid model");
-
-            }
-
-            var existingCategory = _db.Categories.Where(a => a.Id == categoryBindindModel.Id)
-                                                    .FirstOrDefault<Category>();
-
-
-            if (existingCategory != null)
-            {
-                existingCategory.Name = categoryBindindModel.Name;
-                _db.SaveChanges();
-                return Json(categoryBindindModel);
-
-            }
-            else
-            {
-                _db.Categories.Add(new Category()
-                {
-                    Id = categoryBindindModel.Id,
-                    Name = categoryBindindModel.Name
-                });
-                return Json(categoryBindindModel);
-
-
-            }
-        }
+        
 
 
     }

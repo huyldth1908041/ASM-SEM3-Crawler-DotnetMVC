@@ -96,7 +96,7 @@ namespace CrawlerApi.Models
 
     public class CategoryBindindModel
     {
-        public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
     }
 }
