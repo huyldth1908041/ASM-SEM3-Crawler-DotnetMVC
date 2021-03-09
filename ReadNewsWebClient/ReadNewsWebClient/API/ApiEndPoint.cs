@@ -15,8 +15,8 @@ namespace ReadNewsWebClient.API
         public static string GetListCrawlerConfigPath = "/api/CrawlerConfig/GetListConfig";
         public static string GetListPendingArticlePath = "/api/ArticleManager/GetListPendingArticle";
         public static string GetListAllArticlePath = "/api/ArticleManager/GetListAllArticle";
-        public static string CreateConfigPath = "/api/ArticleManager/CreateConfig";
-        public static string GetListCategoryPath = "/api/ArticleManager/GetListCategory";
+        public static string CreateConfigPath = "/api/CrawlerConfig/CreateCrawlerConfig";
+        public static string GetListCategoryPath = "/api/Category/GetListCategory";
         public static string GenerateGetArticleByIdUrl(int id)
         {
             var getArticleByIdPath = "/api/ArticleManager/GetArticleById/";

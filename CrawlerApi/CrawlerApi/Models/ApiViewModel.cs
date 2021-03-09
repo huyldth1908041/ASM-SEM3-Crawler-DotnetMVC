@@ -14,4 +14,23 @@ namespace CrawlerApi.Models
         public string Address { get; set; }
         public IEnumerable<string> Roles { get; set; }
     }
+    public class CategoryViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+    public class CrawlerConfigViewModel 
+    {
+        public int Id { get; set; }
+        public string Route { get; set; }
+        public string Path { get; set; }
+        public string LinkSelector { get; set; }
+        public string TitleSelector { get; set; }
+        public string DescriptionSelector { get; set; }
+        public string ContentSelector { get; set; }
+        public string RemovalSelector { get; set; }
+
+        public int CategoryId { get; set; }
+    }
+
 }
