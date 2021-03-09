@@ -101,31 +101,5 @@ namespace CrawlerApi.Controllers
             return Json(bindingArticle);
         }
 
-        
-
-        public IHttpActionResult CreateConfig(CrawlerConfigDataBindingModel crawlerConfigDataBindingModel)
-        {
-            //to do check trung route+path
-            //List<CrawlerConfig> existedCrawlerConfigs = _db.CrawlerConfigs.Where(c => c.Route == crawlerConfigDataBindingModel.Route).
-            var newConfig = new CrawlerConfig() 
-            {
-                Route=crawlerConfigDataBindingModel.Route,
-                CategoryId = crawlerConfigDataBindingModel.CategoryId,
-                ContentSelector = crawlerConfigDataBindingModel.ContentSelector,
-                DescriptionSelector = crawlerConfigDataBindingModel.DescriptionSelector,
-                LinkSelector = crawlerConfigDataBindingModel.LinkSelector,
-                RemovalSelector = crawlerConfigDataBindingModel.RemovalSelector,
-                Path = crawlerConfigDataBindingModel.Path,
-                TitleSelector =crawlerConfigDataBindingModel.TitleSelector
-                    
-            };
-            _db.CrawlerConfigs.Add(newConfig);
-            _db.SaveChanges();
-            return Json(newConfig);
-        }
-
-        
-
-
     }
 }

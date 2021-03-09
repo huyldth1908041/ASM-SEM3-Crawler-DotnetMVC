@@ -19,4 +19,18 @@ namespace CrawlerApi.Models
         public int Id { get; set; }
         public string Name { get; set; }
     }
+    public class CrawlerConfigViewModel 
+    {
+        public int Id { get; set; }
+        public string Route { get; set; }
+        public string Path { get; set; }
+        public string LinkSelector { get; set; }
+        public string TitleSelector { get; set; }
+        public string DescriptionSelector { get; set; }
+        public string ContentSelector { get; set; }
+        public string RemovalSelector { get; set; }
+
+        public int CategoryId { get; set; }
+    }
+
 }

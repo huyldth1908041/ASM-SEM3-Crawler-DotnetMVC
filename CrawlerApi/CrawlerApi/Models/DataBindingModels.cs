@@ -64,7 +64,7 @@ namespace CrawlerApi.Models
 
     public class CrawlerConfigDataBindingModel
     {
-        public int Id { get; set; }
+
         public string Route { get; set; }
         public string Path { get; set; }
         public string LinkSelector { get; set; }
