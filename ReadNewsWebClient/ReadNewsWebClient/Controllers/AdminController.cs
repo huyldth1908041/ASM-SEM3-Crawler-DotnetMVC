@@ -26,14 +26,7 @@ namespace ReadNewsWebClient.Controllers
         {
 
             var listCategory = GetCategory();
-            if (listCategory != null || listCategory.Count() != 0)
-            {
-                ViewBag.ListCategory = listCategory;
-            }
-            else
-            {
-                ViewBag.ListCategory = new List<Category>();
-            }
+            ViewBag.ListCategory = listCategory;
             return View();
         }
 
@@ -44,7 +37,7 @@ namespace ReadNewsWebClient.Controllers
             var createConfig = ApiEndPoint.ApiDomain + ApiEndPoint.CreateConfigPath;
             try
             {
-                ViewBag.ListCategory = GetCategory();
+
                 using (HttpClient httpClient = new HttpClient())
                 {
 
@@ -62,7 +55,7 @@ namespace ReadNewsWebClient.Controllers
                     }
                     Debug.WriteLine("OK");
                     var jsonResult = getListResult.Content.ReadAsStringAsync().Result;
-                    var listConfigs = JsonConvert.DeserializeObject<List<CrawlerConfigsViewModel>>(jsonResult);
+                    var newConfig = JsonConvert.DeserializeObject<CrawlerConfigsViewModel>(jsonResult);
                     return RedirectToAction("ListResource");
                 }
             }
@@ -322,7 +315,7 @@ namespace ReadNewsWebClient.Controllers
 
                         //request failed
                         Debug.WriteLine("Null list cate");
-                        return null;
+
 
                     }
 
@@ -335,8 +328,8 @@ namespace ReadNewsWebClient.Controllers
             catch (Exception err)
             {
                 Debug.WriteLine(err.Message);
-
-                return null;
+                Debug.WriteLine("Can not connect to API");
+          
             }
             return list;
 

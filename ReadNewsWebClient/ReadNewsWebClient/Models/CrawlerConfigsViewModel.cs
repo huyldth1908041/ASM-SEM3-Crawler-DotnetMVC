@@ -8,6 +8,7 @@ namespace ReadNewsWebClient.Models
 {
     public class CrawlerConfigsViewModel
     {
+
         public string Path { get; set; }
         public string Route { get; set; }
         public string LinkSelector { get; set; }

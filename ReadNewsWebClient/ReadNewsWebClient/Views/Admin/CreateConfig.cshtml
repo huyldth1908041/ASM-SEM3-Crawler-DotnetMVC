@@ -53,7 +53,7 @@
                                         @*@Html.EditorFor(model => model.CategoryId, new { htmlAttributes = new { @class = "form-control" } })*@
                                         @Html.DropDownListFor(model => model.CategoryId, categorySelectList, htmlAttributes: new { @class = "form-control" })
                                         @*@Html.DropDownListFor(x => Model.CategoryId, new SelectList(Model.ListSelectCate, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "category" })*@
-                                        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                              
                                     </div>
                                 </div>
 
