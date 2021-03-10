@@ -1,10 +1,7 @@
-﻿@model List<ReadNewsWebClient.Models.Article>
+﻿@model ReadNewsWebClient.Models.ArticleIndexViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "News";
 
-
-    List<ReadNewsWebClient.Models.Category> categories = (List<ReadNewsWebClient.Models.Category>)ViewBag.ListCategory;
-    
 
 }
 
@@ -13,15 +10,15 @@
     <div class="row mx-0">
         <div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
             <div class="fh5co_suceefh5co_height">
-                <img src="@Model.First().ImgUrls.Split(',')[0]" alt="img" />
+                <img src="@Model.TopFivesLatest.First().ImgUrls.Split(',')[0]" alt="img" />
                 <div class="fh5co_suceefh5co_height_position_absolute"></div>
                 <div class="fh5co_suceefh5co_height_position_absolute_font">
                     <div class="">
                         <a href="#" class="color_fff">
-                            <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@Model.First().CreatedAt.ToString("MMM, dd, yyyy")
+                            <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@Model.TopFivesLatest.First().CreatedAt.ToString("MMM, dd, yyyy")
                         </a>
                     </div>
-                    <div class="">@Html.ActionLink(Model.First().Title, "Read", "Article", new { id = Model.First().Id }, new { @class = "fh5co_good_font" })</div>
+                    <div class="">@Html.ActionLink(Model.TopFivesLatest.First().Title, "Read", "Article", new { id = Model.TopFivesLatest.First().Id }, new { @class = "fh5co_good_font" })</div>
                 </div>
             </div>
         </div>
@@ -29,53 +26,53 @@
             <div class="row">
                 <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
                     <div class="fh5co_suceefh5co_height_2">
-                        <img src="@Model[1].ImgUrls.Split(',')[0]" alt="img" />
+                        <img src="@Model.TopFivesLatest[1].ImgUrls.Split(',')[0]" alt="img" />
                         <div class="fh5co_suceefh5co_height_position_absolute"></div>
                         <div class="fh5co_suceefh5co_height_position_absolute_font_2">
                             <div class="">
                                 <a href="#" class="color_fff">
-                                    <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@Model[1].CreatedAt.ToString("MMM, dd, yyyy")
-                                </a>
-                            </div> 
-                            <div class="">@Html.ActionLink(Model[1].Title, "Read", "Article", new { id = Model[1].Id }, new { @class = "fh5co_good_font_2 line-cutoff" })</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
-                    <div class="fh5co_suceefh5co_height_2">
-                        <img src="@Model[2].ImgUrls.Split(',')[0]" alt="img" />
-                        <div class="fh5co_suceefh5co_height_position_absolute"></div>
-                        <div class="fh5co_suceefh5co_height_position_absolute_font_2">
-                            <div class=""><a href="#" class="color_fff"> <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@Model[2].CreatedAt.ToString("MMM, dd, yyyy") </a></div>
-                            <div class="">@Html.ActionLink(Model[2].Title, "Read", "Article", new { id = Model[2].Id }, new { @class = "fh5co_good_font_2 line-cutoff" })</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
-                    <div class="fh5co_suceefh5co_height_2">
-                        <img src="@Model[3].ImgUrls.Split(',')[0]" alt="img" />
-                        <div class="fh5co_suceefh5co_height_position_absolute"></div>
-                        <div class="fh5co_suceefh5co_height_position_absolute_font_2">
-                            <div class="">
-                                <a href="#" class="color_fff">
-                                    <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@Model[3].CreatedAt.ToString("MMM, dd, yyyy")
+                                    <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@Model.TopFivesLatest[1].CreatedAt.ToString("MMM, dd, yyyy")
                                 </a>
                             </div>
-                            <div class="">@Html.ActionLink(Model[3].Title, "Read", "Article", new { id = Model[3].Id }, new { @class = "fh5co_good_font_2 line-cutoff" })</div>
+                            <div class="">@Html.ActionLink(Model.TopFivesLatest[1].Title, "Read", "Article", new { id = Model.TopFivesLatest[1].Id }, new { @class = "fh5co_good_font_2 line-cutoff" })</div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
                     <div class="fh5co_suceefh5co_height_2">
-                        <img src="@Model[4].ImgUrls.Split(',')[0]" alt="img" />
+                        <img src="@Model.TopFivesLatest[2].ImgUrls.Split(',')[0]" alt="img" />
+                        <div class="fh5co_suceefh5co_height_position_absolute"></div>
+                        <div class="fh5co_suceefh5co_height_position_absolute_font_2">
+                            <div class=""><a href="#" class="color_fff"> <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@Model.TopFivesLatest[2].CreatedAt.ToString("MMM, dd, yyyy") </a></div>
+                            <div class="">@Html.ActionLink(Model.TopFivesLatest[2].Title, "Read", "Article", new { id = Model.TopFivesLatest[2].Id }, new { @class = "fh5co_good_font_2 line-cutoff" })</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
+                    <div class="fh5co_suceefh5co_height_2">
+                        <img src="@Model.TopFivesLatest[3].ImgUrls.Split(',')[0]" alt="img" />
                         <div class="fh5co_suceefh5co_height_position_absolute"></div>
                         <div class="fh5co_suceefh5co_height_position_absolute_font_2">
                             <div class="">
                                 <a href="#" class="color_fff">
-                                    <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@Model[4].CreatedAt.ToString("MMM, dd, yyyy")
+                                    <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@Model.TopFivesLatest[3].CreatedAt.ToString("MMM, dd, yyyy")
                                 </a>
                             </div>
-                            <div class="">@Html.ActionLink(Model[4].Title, "Read", "Article", new { id = Model[4].Id }, new { @class = "fh5co_good_font_2 line-cutoff" })</div>
+                            <div class="">@Html.ActionLink(Model.TopFivesLatest[3].Title, "Read", "Article", new { id = Model.TopFivesLatest[3].Id }, new { @class = "fh5co_good_font_2 line-cutoff" })</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
+                    <div class="fh5co_suceefh5co_height_2">
+                        <img src="@Model.TopFivesLatest[4].ImgUrls.Split(',')[0]" alt="img" />
+                        <div class="fh5co_suceefh5co_height_position_absolute"></div>
+                        <div class="fh5co_suceefh5co_height_position_absolute_font_2">
+                            <div class="">
+                                <a href="#" class="color_fff">
+                                    <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@Model.TopFivesLatest[4].CreatedAt.ToString("MMM, dd, yyyy")
+                                </a>
+                            </div>
+                            <div class="">@Html.ActionLink(Model.TopFivesLatest[4].Title, "Read", "Article", new { id = Model.TopFivesLatest[4].Id }, new { @class = "fh5co_good_font_2 line-cutoff" })</div>
                         </div>
                     </div>
                 </div>
@@ -84,48 +81,19 @@
     </div>
 </div>
 <!--End app banner-->
-<!--trending-->
-<div class="container-fluid pt-3">
-    <div class="container animate-box" data-animate-effect="fadeIn">
-        <div>
-            <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Trending</div>
-        </div>
-        <div class="owl-carousel owl-theme js" id="slider1">
-            @foreach (var item in Model)
-            {
-                <div class="item px-2">
-                    <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img">
-                            <img src="@item.ImgUrls.Split(',')[0]" alt=""
-                                 class="fh5co_img_special_relative" />
-                        </div>
-                        <div class="fh5co_latest_trading_img_position_absolute"></div>
-                        <div class="fh5co_latest_trading_img_position_absolute_1">
-                            @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "text-white line-cutoff" })
-                            <div class="fh5co_latest_trading_date_and_name_color"> @item.CreatedAt.ToString("MMMM dd, yyyy")</div>
-                        </div>
-                    </div>
-                </div>
-            }
 
-
-
-        </div>
-    </div>
-</div>
-<!--end trending-->
 <!--News-->
 <div class="container-fluid pb-4 pt-5">
     <div class="container animate-box">
         <div>
-            <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">News</div>
+            <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Covid<iv>
         </div>
         <div class="owl-carousel owl-theme" id="slider2">
-            @foreach (var item in Model)
+            @foreach (var item in Model.TrendingAricles)
             {
                 <div class="item px-2">
                     <div class="fh5co_hover_news_img">
-                        <div class="fh5co_news_img"><img src="@item.ImgUrls.Split(',')[0]" alt="" /></div>
+                        <div class="fh5co_news_img"><img src="@item.GetImageUrl()" alt="" /></div>
                         <div>
                             @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "d-block fh5co_small_post_heading" })
                             <div class="c_g"><i class="fa fa-clock-o"></i> @item.CreatedAt.ToString("MMM dd, yyyy")</div>
@@ -146,24 +114,24 @@
                 <div>
                     <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">News</div>
                 </div>
-                @for(int i = 0; i < 6; i ++)
+                @foreach (var item in Model.AllArticles)
                 {
-                  
+
                     <div class="row pb-4">
                         <div class="col-md-5">
                             <div class="fh5co_hover_news_img">
-                                <div class="fh5co_news_img"><img src="@Model[i].ImgUrls.Split(',')[0]" alt="" /></div>
+                                <div class="fh5co_news_img"><img src="@item.GetImageUrl()" alt="" /></div>
                                 <div></div>
                             </div>
                         </div>
                         <div class="col-md-7 animate-box">
-                            @Html.ActionLink(Model[i].Title, "Read", "Article", new { id = Model[i].Id }, new { @class = "fh5co_magna py-2 font-auto" })
+                            @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "fh5co_magna py-2 font-auto" })
                             <a href="single.html" class="fh5co_mini_time py-3">
 
-                                @Model[i].CreatedAt.ToString("MMMM dd, yyyy")
+                                @item.CreatedAt.ToString("MMMM dd, yyyy")
                             </a>
                             <div class="fh5co_consectetur">
-                                @Model[i].Description
+                                @item.Description
                             </div>
                         </div>
                     </div>
@@ -177,7 +145,7 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="fh5co_tags_all">
-                    @foreach (var item in categories)
+                    @foreach (var item in Model.ListCategories)
                     {
                         <a href="#" class="fh5co_tagg">@item.Name</a>
                     }
@@ -186,16 +154,16 @@
                 <div>
                     <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Most Popular</div>
                 </div>
-                @for (int i = 0; i < 6; i++)
+                @foreach (var item in Model.TopFivesLatest)
                 {
-                    
+
                     <div class="row pb-3">
                         <div class="col-5 align-self-center">
-                            <img src="@Model[i].ImgUrls.Split(',')[0]" alt="img" class="fh5co_most_trading" />
+                            <img src="@item.ImgUrls.Split(',')[0]" alt="img" class="fh5co_most_trading" />
                         </div>
                         <div class="col-7 paddding">
-                            @Html.ActionLink(Model[i].Title, "Read", "Article", new { id = Model[i].Id }, new { @class = "most_fh5co_treding_font line-cutoff text-black" })
-                            <div class="most_fh5co_treding_font_123">@Model[i].CreatedAt.ToString("MMMM dd, yyyy")</div>
+                            @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "most_fh5co_treding_font line-cutoff text-black" })
+                            <div class="most_fh5co_treding_font_123">@item.CreatedAt.ToString("MMMM dd, yyyy")</div>
                         </div>
                     </div>
                 }
