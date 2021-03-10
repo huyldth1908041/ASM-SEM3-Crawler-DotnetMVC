@@ -16,15 +16,25 @@ namespace ReadNewsWebClient.Models
         public string ImgUrls { get; set; }
         public DateTime UpdatedAt { get; set; }
         public DateTime CreatedAt { get; set; }
-        public ArticleStatus Status { get; set; }
-        public enum ArticleStatus
-        {
-            PENDING = 0,
-            DELETED = -1,
-            ACTIVE = 1
-        }
+        public int Status { get; set; }
+
         //foreing key
         public int CategoryId { get; set; }
+
+        public string GetImageUrl()
+        {
+            string imgUrl = "";
+            if(this.ImgUrls == null || this.ImgUrls.Length == 0)
+            {
+                imgUrl = "http://www.intl-spectrum.com/articles/r75/ArticleDefault.jpg";
+            }
+            else
+            {
+                //assign to first img
+                imgUrl = this.ImgUrls.Split(',')[0];
+            }
+            return imgUrl;
+        }
 
     }
 }

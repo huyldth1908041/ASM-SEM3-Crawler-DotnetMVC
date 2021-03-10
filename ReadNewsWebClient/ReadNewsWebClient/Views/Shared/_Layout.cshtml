@@ -22,20 +22,24 @@
 </head>
 <body>
     <div class="container-fluid fh5co_header_bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 fh5co_mediya_center">
-                    <a href="#" class="color_fff fh5co_mediya_setting">
-                        <i class="fa fa-clock-o"></i>&nbsp;&nbsp;&nbsp;@DateTime.Now.ToString("dddd, dd MMMM, yyyy")
-                    </a>
-                    <div class="d-inline-block fh5co_trading_posotion_relative">
-                        <a href="#" class="treding_btn">Trending</a>
-                        <div class="fh5co_treding_position_absolute"></div>
-                    </div>
-                    <a href="#" class="color_fff fh5co_mediya_setting">Instagram’s big redesign goes live with black-and-white app</a>
-                </div>
+        @if (Session["username"] != null)
+        {
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    @Session["username"]
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Information", "Infor", "User")</li>
+                    <li>@Html.ActionLink("Saved Articles", "SavedArticles", "User")</li>
+                    <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                </ul>
             </div>
-        </div>
+        }
+        else
+        {
+            @Html.ActionLink("Login", "Login", "Account")
+        }
     </div>
     <div class="container-fluid">
         <div class="container">
@@ -75,7 +79,7 @@
                         <li class="nav-item ">
                             <a class="nav-link" href="blog.html">Blog <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item ">
+                        <li class="nav-item">
                             <a class="nav-link" href="single.html">Single <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item dropdown">
