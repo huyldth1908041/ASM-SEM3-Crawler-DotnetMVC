@@ -17,10 +17,13 @@ namespace ReadNewsWebClient.API
         public static string GetListAllArticlePath = "/api/ArticleManager/GetListAllArticle";
         public static string CreateConfigPath = "/api/ArticleManager/CreateConfig";
         public static string GetListCategoryPath = "/api/ArticleManager/GetListCategory";
+        public static string UpdateAnArticlePath = "/api/ArticleManager/UpdateArticle";
         public static string GenerateGetArticleByIdUrl(int id)
         {
             var getArticleByIdPath = "/api/ArticleManager/GetArticleById/";
             return ApiDomain + getArticleByIdPath + id;
         }
+
+       
     }
 }
