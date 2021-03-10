@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PagedList;
 using ReadNewsWebClient.API;
 using ReadNewsWebClient.Models;
 using System;
@@ -180,21 +181,24 @@ namespace ReadNewsWebClient.Controllers
 
         public ActionResult ListCategory()
         {
-            var list = new List<Category>()
-            {
-                new Category{
 
-                    Name= "doi-song",
-                    Id = 1
-                }
-            };
+            var list = GetCategory();
+
+            if (list.Count() == 0)
+            {
+                TempData["Status"] = "Can not connect to API";
+                return View();
+            }
+
             return View(list);
+
         }
 
         public ActionResult ListPendingArticle()
         {
             var listPendingAricle = new List<Article>();
             var getListPendingArticle = ApiEndPoint.ApiDomain + ApiEndPoint.GetListPendingArticlePath;
+
 
             try
             {
@@ -216,6 +220,8 @@ namespace ReadNewsWebClient.Controllers
                         listPendingAricle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
                         var orderByCreatedAt = from article in listPendingAricle orderby article.CreatedAt descending select article;
                         listPendingAricle = orderByCreatedAt.ToList();
+
+
                         return View(listPendingAricle);
                     }
                 }
@@ -322,13 +328,14 @@ namespace ReadNewsWebClient.Controllers
 
                         //request failed
                         Debug.WriteLine("Null list cate");
-                        return null;
+                        return list;
 
                     }
 
                     var jsonResult = getListResult.Content.ReadAsStringAsync().Result;
                     var listCate = JsonConvert.DeserializeObject<List<Category>>(jsonResult);
                     list = listCate;
+                    return list;
 
                 }
             }
@@ -336,9 +343,145 @@ namespace ReadNewsWebClient.Controllers
             {
                 Debug.WriteLine(err.Message);
 
-                return null;
+                return list;
             }
-            return list;
+
+
+        }
+
+
+        [HttpPost]
+        public ActionResult BrowserAnArticle(int id ,[Bind(Include = "Id,Title,Description,Content,Source,Link,ImgUrls,CategoryId")] Article article)
+        {
+
+
+            var browserArticle = ApiEndPoint.ApiDomain + ApiEndPoint.UpdateAnArticlePath;
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    article.Status = Article.ArticleStatus.ACTIVE;
+                    var jsonString = JsonConvert.SerializeObject(article);
+                    var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                    HttpResponseMessage result = httpClient.PutAsync(browserArticle, data).Result;
+                    if (!result.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        Debug.WriteLine("failed");
+                        return Redirect("/Admin/articleDetail/" + article.Id);
+                    }
+
+
+                    var jsonResult = result.Content.ReadAsStringAsync().Result;
+                    var articleResult = JsonConvert.DeserializeObject<Article>(jsonResult);
+                    TempData["Status"] = "Success :" + article.Id;
+
+                    return Redirect("/Admin/ListPendingArticle");
+
+
+                }
+            }
+            catch (Exception err)
+            {
+                TempData["Status"] = "Fail connect to api";
+
+                Debug.WriteLine(err.Message);
+                return Redirect("/Admin/articleDetail/" + article.Id);
+
+            }
+        }
+
+        public ActionResult EditArticle(int id)
+        {
+            var url = ApiEndPoint.GenerateGetArticleByIdUrl(id);
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+
+                    ViewBag.ListCategory = GetCategory();
+                    HttpResponseMessage runResult = httpClient.GetAsync(url).Result;
+                    if (!runResult.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        TempData["AritcleDetailStatus"] = "Get article detais infor failed, Id :  " + id;
+                        return Redirect("/Admin/ArticleDetail/" + id);
+                    }
+                    else
+                    {
+
+                        var jsonString = runResult.Content.ReadAsStringAsync().Result;
+                        var article = JsonConvert.DeserializeObject<Article>(jsonString);
+                        return View(article);
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                TempData["AritcleDetailStatus"] = $"{err.Message} at index: {id}";
+                return Redirect("/Admin/ArticleDetail/" + id);
+
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult EditArticle( [Bind(Include = "Id,Title,Description,Content,Source,Link,ImgUrls,CategoryId")] Article article)
+        {
+            if (ModelState.IsValid)
+            {
+                var editArticle = ApiEndPoint.ApiDomain + ApiEndPoint.UpdateAnArticlePath;
+                try
+                {
+                    using (HttpClient httpClient = new HttpClient())
+                    {
+                        ViewBag.ListCategory = GetCategory();
+                        var jsonString = JsonConvert.SerializeObject(article);
+                        var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                        Debug.WriteLine(data);
+                        HttpResponseMessage result = httpClient.PutAsync(editArticle, data).Result;
+                        //if (!result.IsSuccessStatusCode )
+                        //{
+                        //    TempData["Status"] = "Fail to save ";
+                        //    //request failed
+                        //    Debug.WriteLine("[failed]");
+                        //    return View(article);
+                        //}
+
+
+                        var jsonResult = result.Content.ReadAsStringAsync().Result;
+                        if (jsonResult == null)
+                        {
+                            Debug.WriteLine("[null response]");
+                            return View(article);
+                        }
+                        var articleResult = JsonConvert.DeserializeObject<Article>(jsonResult);
+                        TempData["Status"] = "[Success save:]" + article.Id;
+                        Debug.WriteLine("[success]");
+                        return Redirect("/Admin/ArticleDetail" + articleResult.Id);
+
+
+                    }
+                }
+                catch (Exception err)
+                {
+                    TempData["Status"] = "Fail connect to api";
+
+                    Debug.WriteLine(err.Message);
+                    Debug.WriteLine("[failed]");
+                    return View(article);
+
+                }
+            }
+            else
+            {
+                return View(article);
+
+            }
+
 
         }
     }
