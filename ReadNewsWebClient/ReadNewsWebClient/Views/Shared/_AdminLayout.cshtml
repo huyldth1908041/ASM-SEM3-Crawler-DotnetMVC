@@ -55,8 +55,8 @@ The above copyright notice and this permission notice shall be included in all c
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
-                    <li class="nav-item  ">
-                        <a class="nav-link" href="./dashboard.html">
+                    <li class="nav-item ">
+                        <a class="nav-link " href="/admin/ListAllArticle">
                             <i class="material-icons">dashboard</i>
                             <p>Dashboard</p>
                         </a>
@@ -67,14 +67,14 @@ The above copyright notice and this permission notice shall be included in all c
                             <p>User Profile</p>
                         </a>
                     </li>
-                    <li class="nav-item active ">
-                        <a class="nav-link" href="./tables.html">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/admin/ListPendingArticle">
                             <i class="material-icons">content_paste</i>
                             <p>Table List</p>
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="./typography.html">
+                        <a class="nav-link" href="/admin/ListCategory">
                             <i class="material-icons">library_books</i>
                             <p>Typography</p>
                         </a>
@@ -294,6 +294,10 @@ The above copyright notice and this permission notice shall be included in all c
     <!--  Google Maps Plugin    -->
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/js")
+    @RenderSection("scripts", required: false)
     <script>
         $(document).ready(function () {
             $().ready(function () {
@@ -307,7 +311,12 @@ The above copyright notice and this permission notice shall be included in all c
 
                 window_width = $(window).width();
 
-                fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+                fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.nav-item active a p').html();
+
+   
+
+
+
 
                 if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
                     if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
@@ -462,11 +471,38 @@ The above copyright notice and this permission notice shall be included in all c
                     }, 1000);
 
                 });
+
+                //$.each($('#nav').find('li'), function () {
+                //    $(this).toggleClass('nav-link active',
+                //        window.location.pathname.indexOf($(this).find('a').attr('href')) > -1);
+                //}); 
+
+                $('.sidebar .sidebar-wrapper .nav li').on('click', function () {
+                    $('.sidebar .sidebar-wrapper .nav').find('li.active').removeClass('active');
+                    $(this).parent('li').addClass('active');
+                });
+
+                /* Code for changing active  
+                link on clicking */
+                //var btns =
+                //    $("#navigation .navbar-nav .nav-link");
+                var btns =
+                    $('.sidebar .sidebar-wrapper .nav li.nav-item');
+
+                for (var i = 0; i < btns.length; i++) {
+                    btns[i].addEventListener("click",
+                        function () {
+                            var current = document
+                                .getElementsByClassName("nav-item ");
+
+                            current[0].className = current[0]
+                                .className.replace("nav-item ", "");
+
+                            this.className += " active";
+                        });
+                } 
+
             });
         });
     </script>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/js")
-    @RenderSection("scripts", required: false)
