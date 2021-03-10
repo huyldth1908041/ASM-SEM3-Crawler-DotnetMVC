@@ -101,6 +101,7 @@ namespace CrawlerApi.Controllers
             return Json(bindingArticle);
         }
 
+
         [HttpGet]
         public IHttpActionResult GetListCategory()
         {
@@ -204,6 +205,7 @@ namespace CrawlerApi.Controllers
 
 
         }
+
 
     }
 
