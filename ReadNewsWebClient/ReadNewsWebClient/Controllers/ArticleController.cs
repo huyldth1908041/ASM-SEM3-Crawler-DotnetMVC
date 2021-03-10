@@ -115,6 +115,9 @@ namespace ReadNewsWebClient.Controllers
             return View(returnList);
         }
 
+   
+
+
         public ActionResult Read(int id) 
         {
             //call api
@@ -175,7 +178,7 @@ namespace ReadNewsWebClient.Controllers
                         TempData["GetListPendingArticleStatus"] = "Get list pending article Sucess!";
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
                         var list = JsonConvert.DeserializeObject<List<Article>>(jsonString);
-                        return list;
+                        return list.ToList();
                     }
                 }
             }
