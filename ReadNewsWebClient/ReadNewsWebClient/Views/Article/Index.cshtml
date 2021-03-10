@@ -2,13 +2,15 @@
 @{
     ViewBag.Title = "Index";
 
-    List<ReadNewsWebClient.Models.Article> topFive = ViewBag.TopFive.ToList();
-    List<ReadNewsWebClient.Models.Category> categories = (List<ReadNewsWebClient.Models.Category>)ViewBag.ListCategory;
-    
+        List<ReadNewsWebClient.Models.Article> topFive = ViewBag.TopFive.ToList();
+        List<ReadNewsWebClient.Models.Category> categories = (List<ReadNewsWebClient.Models.Category>)ViewBag.ListCategory;
+
 
 }
-
-<!--app banner-->
+<div>
+    @Html.ActionLink(Model.First().Title, "Read", "Article", new { id = Model.First().Id }, new { @class = "fh5co_good_font" })
+</div>
+<!--<!--app banner-->
 <div class="container-fluid paddding mb-5">
     <div class="row mx-0">
         <div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
@@ -83,8 +85,8 @@
         </div>
     </div>
 </div>
-<!--End app banner-->
-<!--trending-->
+@*End app banner
+trending*@
 <div class="container-fluid pt-3">
     <div class="container animate-box" data-animate-effect="fadeIn">
         <div>
@@ -113,8 +115,8 @@
         </div>
     </div>
 </div>
-<!--end trending-->
-<!--News-->
+@*end trending
+News*@
 <div class="container-fluid pb-4 pt-5">
     <div class="container animate-box">
         <div>
@@ -137,8 +139,8 @@
         </div>
     </div>
 </div>
-<!--End news-->
-<!-- News 2 colums-->
+@*End news
+ News 2 colums*@
 <div class="container-fluid pb-4 pt-4 paddding">
     <div class="container paddding">
         <div class="row mx-0">
@@ -200,7 +202,7 @@
 
             </div>
         </div>
-        @*<div class="row mx-0 animate-box" data-animate-effect="fadeInUp">
+        <div class="row mx-0 animate-box" data-animate-effect="fadeInUp">
                 <div class="col-12 text-center pb-4 pt-4">
                     <a href="#" class="btn_mange_pagging"><i class="fa fa-long-arrow-left"></i>&nbsp;&nbsp; Previous</a>
                     <a href="#" class="btn_pagging">1</a>
@@ -209,7 +211,7 @@
                     <a href="#" class="btn_pagging">...</a>
                     <a href="#" class="btn_mange_pagging">Next <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp; </a>
                 </div>
-            </div>*@
+            </div>
     </div>
-</div>
-<!--End news 2 colums-->
+</div>-->
+@*End news 2 colums*@
