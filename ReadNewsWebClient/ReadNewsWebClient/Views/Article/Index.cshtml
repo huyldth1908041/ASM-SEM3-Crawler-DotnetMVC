@@ -10,7 +10,7 @@
     <div class="row mx-0">
         <div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
             <div class="fh5co_suceefh5co_height">
-                <img src="@Model.TopFivesLatest.First().ImgUrls.Split(',')[0]" alt="img" />
+                <img src="@Model.TopFivesLatest.First().GetImageUrl()" alt="img" />
                 <div class="fh5co_suceefh5co_height_position_absolute"></div>
                 <div class="fh5co_suceefh5co_height_position_absolute_font">
                     <div class="">
@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
                     <div class="fh5co_suceefh5co_height_2">
-                        <img src="@Model.TopFivesLatest[1].ImgUrls.Split(',')[0]" alt="img" />
+                        <img src="@Model.TopFivesLatest[1].GetImageUrl()" alt="img" />
                         <div class="fh5co_suceefh5co_height_position_absolute"></div>
                         <div class="fh5co_suceefh5co_height_position_absolute_font_2">
                             <div class="">
@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
                     <div class="fh5co_suceefh5co_height_2">
-                        <img src="@Model.TopFivesLatest[2].ImgUrls.Split(',')[0]" alt="img" />
+                        <img src="@Model.TopFivesLatest[2].GetImageUrl()" alt="img" />
                         <div class="fh5co_suceefh5co_height_position_absolute"></div>
                         <div class="fh5co_suceefh5co_height_position_absolute_font_2">
                             <div class=""><a href="#" class="color_fff"> <i class="fa fa-clock-o"></i>&nbsp;&nbsp;@Model.TopFivesLatest[2].CreatedAt.ToString("MMM, dd, yyyy") </a></div>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
                     <div class="fh5co_suceefh5co_height_2">
-                        <img src="@Model.TopFivesLatest[3].ImgUrls.Split(',')[0]" alt="img" />
+                        <img src="@Model.TopFivesLatest[3].GetImageUrl()" alt="img" />
                         <div class="fh5co_suceefh5co_height_position_absolute"></div>
                         <div class="fh5co_suceefh5co_height_position_absolute_font_2">
                             <div class="">
@@ -64,7 +64,7 @@
                 </div>
                 <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
                     <div class="fh5co_suceefh5co_height_2">
-                        <img src="@Model.TopFivesLatest[4].ImgUrls.Split(',')[0]" alt="img" />
+                        <img src="@Model.TopFivesLatest[4].GetImageUrl()" alt="img" />
                         <div class="fh5co_suceefh5co_height_position_absolute"></div>
                         <div class="fh5co_suceefh5co_height_position_absolute_font_2">
                             <div class="">
@@ -159,7 +159,7 @@
 
                     <div class="row pb-3">
                         <div class="col-5 align-self-center">
-                            <img src="@item.ImgUrls.Split(',')[0]" alt="img" class="fh5co_most_trading" />
+                            <img src="@item.GetImageUrl()" alt="img" class="fh5co_most_trading" />
                         </div>
                         <div class="col-7 paddding">
                             @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "most_fh5co_treding_font line-cutoff text-black" })

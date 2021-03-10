@@ -18,9 +18,9 @@ namespace ReadNewsWebClient.Controllers
 
         
         // GET: Article
-        public async System.Threading.Tasks.Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var listAllArticle = await GetListArticleAsync();
+            var listAllArticle =  GetListArticle();
             var topFiveLatest = (from a in listAllArticle orderby a.CreatedAt select a).Take(5).ToList();
             var listCategory = GetCategory();
             var trendingArticle = (from a in listAllArticle orderby a.CreatedAt select a).Take(5).ToList();
@@ -66,7 +66,7 @@ namespace ReadNewsWebClient.Controllers
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
                         var article = JsonConvert.DeserializeObject<Article>(jsonString);
                         ViewBag.listCategory = GetCategory();
-                        ViewBag.listArticle = GetListArticleAsync();
+                        ViewBag.listArticle = GetListArticle();
                         return View("Article", article);
                     }
                 }
@@ -83,7 +83,7 @@ namespace ReadNewsWebClient.Controllers
             //return View("Article", article);
         }
 
-        private async System.Threading.Tasks.Task<List<Article>> GetListArticleAsync()
+        private  List<Article> GetListArticle()
         {
             var getListAllArticle = ApiEndPoint.ApiDomain + ApiEndPoint.GetListAllArticlePath;
             var listArticle = new List<Article>();
@@ -93,7 +93,7 @@ namespace ReadNewsWebClient.Controllers
                 {
 
 
-                    HttpResponseMessage runResult = await httpClient.GetAsync(getListAllArticle);
+                    HttpResponseMessage runResult = httpClient.GetAsync(getListAllArticle).Result;
                     if (!runResult.IsSuccessStatusCode)
                     {
                         //request failed
@@ -103,7 +103,7 @@ namespace ReadNewsWebClient.Controllers
                     else
                     {
                         TempData["GetListPendingArticleStatus"] = "Get list pending article Sucess!";
-                        var jsonString = await runResult.Content.ReadAsStringAsync();
+                        var jsonString = runResult.Content.ReadAsStringAsync().Result;
                         listArticle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
                     
                     }
