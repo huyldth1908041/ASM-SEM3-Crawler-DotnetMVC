@@ -3,9 +3,13 @@
     ViewBag.Title = "News";
 
 
+        List<ReadNewsWebClient.Models.Article> topFive = ViewBag.TopFive.ToList();
+        List<ReadNewsWebClient.Models.Category> categories = (List<ReadNewsWebClient.Models.Category>)ViewBag.ListCategory;
+
+
 }
 
-<!--app banner-->
+<!--<!--app banner-->
 <div class="container-fluid paddding mb-5">
     <div class="row mx-0">
         <div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
@@ -80,9 +84,44 @@
         </div>
     </div>
 </div>
+
+@*End app banner
+trending*@
+<div class="container-fluid pt-3">
+    <div class="container animate-box" data-animate-effect="fadeIn">
+        <div>
+            <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Trending</div>
+        </div>
+        <div class="owl-carousel owl-theme js" id="slider1">
+            @foreach (var item in topFive)
+            {
+                <div class="item px-2">
+                    <div class="fh5co_latest_trading_img_position_relative">
+                        <div class="fh5co_latest_trading_img">
+                            <img src="@item.ImgUrls.Split(',')[0]" alt=""
+                                 class="fh5co_img_special_relative" />
+                        </div>
+                        <div class="fh5co_latest_trading_img_position_absolute"></div>
+                        <div class="fh5co_latest_trading_img_position_absolute_1">
+                            @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "text-white line-cutoff" })
+                            <div class="fh5co_latest_trading_date_and_name_color"> @item.CreatedAt.ToString("MMMM dd, yyyy")</div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+
+        </div>
+    </div>
+</div>
+@*end trending
+News*@
+
 <!--End app banner-->
 
 <!--News-->
+
 <div class="container-fluid pb-4 pt-5">
     <div class="container animate-box">
         <div>
@@ -105,8 +144,8 @@
         </div>
     </div>
 </div>
-<!--End news-->
-<!-- News 2 colums-->
+@*End news
+ News 2 colums*@
 <div class="container-fluid pb-4 pt-4 paddding">
     <div class="container paddding">
         <div class="row mx-0">
@@ -170,7 +209,7 @@
 
             </div>
         </div>
-        @*<div class="row mx-0 animate-box" data-animate-effect="fadeInUp">
+        <div class="row mx-0 animate-box" data-animate-effect="fadeInUp">
                 <div class="col-12 text-center pb-4 pt-4">
                     <a href="#" class="btn_mange_pagging"><i class="fa fa-long-arrow-left"></i>&nbsp;&nbsp; Previous</a>
                     <a href="#" class="btn_pagging">1</a>
@@ -179,7 +218,7 @@
                     <a href="#" class="btn_pagging">...</a>
                     <a href="#" class="btn_mange_pagging">Next <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp; </a>
                 </div>
-            </div>*@
+            </div>
     </div>
-</div>
-<!--End news 2 colums-->
+</div>-->
+@*End news 2 colums*@

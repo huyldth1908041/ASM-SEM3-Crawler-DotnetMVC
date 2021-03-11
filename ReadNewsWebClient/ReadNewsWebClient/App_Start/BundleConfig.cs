@@ -31,6 +31,7 @@ namespace ReadNewsWebClient
 
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
+                       
                        "~/Content/Js/core/jquery.min.js",
                        "~/Content/Js/core/popper.min.js",
                        "~/Content/Js/core/bootstrap-material-design.min.js",

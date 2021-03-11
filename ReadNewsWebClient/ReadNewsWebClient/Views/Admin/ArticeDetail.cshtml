@@ -8,93 +8,109 @@
 @Styles.Render("~/bundles/app_styles")
 <h2>ArticeDetail</h2>
 
-<div>
-    <h4>Article</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+            <div class="card-body">
+                <h4>Article</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Content)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Content)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Source)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Content)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Source)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Source)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Link)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Source)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Link)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Link)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ImgUrls)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Link)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ImgUrls)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ImgUrls)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.ImgUrls)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UpdatedAt)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.UpdatedAt)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CreatedAt)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CategoryId)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.CreatedAt)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CategoryId)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CategoryId)
+                    </dt>
 
-    </dl>
+                    <dd>
+                        @Html.DisplayFor(model => model.CategoryId)
+                    </dd>
+
+                </dl>
+            </div>
+            <p>
+                @Html.ActionLink("Edit", "EditArticle", "Admin", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                @if (Model.Status == ReadNewsWebClient.Models.Article.ArticleStatus.PENDING)
+                {
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#actice-article">Duyệt</button>
+                }
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preview-article">Preview</button>
+            </p>
+
+
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "EditArticle", "Admin", new { id = Model.Id }, new { @class = "btn btn-primary" })
-    @Html.ActionLink("Duyệt", "BrowseArticle", "Admin", new { id = Model.Id }, new { @class = "btn btn-primary" })
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preview-article">Preview</button>
-</p>
+
+
 <!-- Trigger the modal with a button -->
 <!-- Modal -->
 <div id="preview-article" class="modal fade" role="dialog" style="">
-    <div class="modal-dialog" ">
+    <div class="modal-dialog" >
 
         <!-- Modal content-->
         <div class="modal-content">
@@ -112,3 +128,64 @@
 
     </div>
 </div>
+
+
+<div id="actice-article" class="modal fade" role="dialog" style="">
+    @using (Html.BeginForm("BrowserAnArticle", "Admin",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">@Html.DisplayFor(model => model.Title)</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.Title)
+                @Html.HiddenFor(model => model.ImgUrls)
+                @Html.HiddenFor(model => model.Link)
+                @Html.HiddenFor(model => model.Source)
+                @Html.HiddenFor(model => model.CategoryId)
+                @Html.HiddenFor(model => model.Content)
+                @Html.HiddenFor(model => model.Description)
+                @Html.HiddenFor(model => model.CreatedAt)
+                <div class="modal-body">
+                    Active this article ?
+                </div>
+
+                <div class="modal-footer">
+                    <input type="submit" value="OK" class="btn btn-primary" />
+                    @*<input type="button" id="Save" value="Save Data" />*@
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    }
+
+
+
+</div>
+
+@*<script>
+
+    $(document).ready(function () {
+        $("#Save").click(function () {
+            $.ajax({
+                url: ,
+                type: 'PUT',
+                dataType: 'json',
+                data: { "": 'sourav' },
+                success: function (data, textStatus, xhr) {
+                    console.log(data);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error in Operation');
+                }
+            });
+        });
+    });
+</script>*@
+
