@@ -36,3 +36,8 @@
     font-size: 14px !important;
     margin-top: 10px;
 }
+
+.button-article {
+    display: flex;
+    justify-content: space-between;
+}
