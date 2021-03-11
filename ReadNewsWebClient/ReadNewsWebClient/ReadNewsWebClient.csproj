@@ -49,6 +49,9 @@
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -155,6 +158,7 @@
     <Content Include="Content\Css\media_query.css" />
     <Content Include="Content\Css\owl.carousel.css" />
     <Content Include="Content\Css\owl.theme.default.css" />
+    <Content Include="Content\Css\paged-list.css" />
     <Content Include="Content\Css\style_1.css" />
     <Content Include="Content\Js\bootstrap.js" />
     <Content Include="Content\Js\core\bootstrap-material-design.min.js" />

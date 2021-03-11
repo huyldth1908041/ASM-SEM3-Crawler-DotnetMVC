@@ -1,10 +1,14 @@
-﻿@model IEnumerable<ReadNewsWebClient.Models.Article>
-
+﻿@model PagedList.IPagedList<ReadNewsWebClient.Models.Article>
+@using PagedList.Mvc;
+@using PagedList;
 @{
     ViewBag.Title = "ListNewArticle";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+@section CustomeStyles {
+    <link href="@Url.Content("~/Content/Css/paged-list.css")" rel="stylesheet" />    
+}
 <h2>List Pending Article</h2>
 
 <div class="row">
@@ -32,16 +36,16 @@
                             <thead class=" text-primary">
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Id)
+                                        Id
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Title)
+                                        Tiêu đề
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Description)
+                                        Mô tả
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.CreatedAt)
+                                        Ngày tạo
                                     </th>
                                     <th></th>
                                     <th></th>
@@ -81,14 +85,14 @@
                                                 @Html.DisplayFor(modelItem => item.CategoryId)
                                             </td>*@
                                         <td>
-                                            @Html.ActionLink("Details", "ArticleDetail", "Admin", new { id = item.Id }, new { @class = "btn btn-primary" })
-                                       
+                                            @Html.ActionLink("Chi tiết", "ArticleDetail", "Admin", new { id = item.Id }, new { @class = "btn btn-primary" })
 
-                                   
+
+
 
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Edit", "EditArticle", new { id = item.Id }, new { @class = "btn btn-danger" })
+                                            @Html.ActionLink("Sửa", "EditArticle", new { id = item.Id }, new { @class = "btn btn-danger" })
                                         </td>
                                     </tr>
                                 }
@@ -105,6 +109,9 @@
         </div>
     </div>
 </div>
+<div class="page-separate">
+    <p class="page-separate-text">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</p>
 
-
+    @Html.PagedListPager(Model, page => Url.Action("ListPendingArticle", "Admin", new { page }))
+</div>
 

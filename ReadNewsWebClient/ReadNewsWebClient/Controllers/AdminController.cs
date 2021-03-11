@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-
+using PagedList;
 using ReadNewsWebClient.API;
 using ReadNewsWebClient.Models;
 using System;
@@ -187,12 +187,25 @@ namespace ReadNewsWebClient.Controllers
 
         }
 
-        public ActionResult ListPendingArticle()
+        public ActionResult ListPendingArticle(int? page)
         {
+
+            // 1. Tham số int? dùng để thể hiện null và kiểu int
+            // page có thể có giá trị là null và kiểu int.
+
+            // 2. Nếu page = null thì đặt lại là 1.
+            if (page == null) page = 1;
+
+
+            // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
+            int pageSize = 10;
+
+            // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
+            // nếu page = null thì lấy giá trị 1 cho biến pageNumber.
+            int pageNumber = (page ?? 1);
+
             var listPendingAricle = new List<Article>();
             var getListPendingArticle = ApiEndPoint.ApiDomain + ApiEndPoint.GetListPendingArticlePath;
-
-
             try
             {
                 using (HttpClient httpClient = new HttpClient())
@@ -205,7 +218,7 @@ namespace ReadNewsWebClient.Controllers
 
                         //request failed
                         TempData["GetListPendingArticleStatus"] = "Get list pending article Failed!";
-                        return View(listPendingAricle);
+
                     }
                     else
                     {
@@ -213,9 +226,7 @@ namespace ReadNewsWebClient.Controllers
                         listPendingAricle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
                         var orderByCreatedAt = from article in listPendingAricle orderby article.CreatedAt descending select article;
                         listPendingAricle = orderByCreatedAt.ToList();
-
-
-                        return View(listPendingAricle);
+                   
                     }
                 }
             }
@@ -223,9 +234,10 @@ namespace ReadNewsWebClient.Controllers
             {
                 Debug.WriteLine(err.Message);
                 TempData["GetListPendingArticleStatus"] = "Can not connect to API";
-                return View(listPendingAricle);
+              
             }
-
+            var pagedList = listPendingAricle.ToPagedList(pageNumber, pageSize);
+            return View(pagedList);
         }
 
         public ActionResult ArticleDetail(int id)
@@ -264,8 +276,22 @@ namespace ReadNewsWebClient.Controllers
 
         }
 
-        public ActionResult ListAllArticle()
+        public ActionResult ListAllArticle(int? page)
         {
+            // 1. Tham số int? dùng để thể hiện null và kiểu int
+            // page có thể có giá trị là null và kiểu int.
+
+            // 2. Nếu page = null thì đặt lại là 1.
+            if (page == null) page = 1;
+
+
+            // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
+            int pageSize = 10;
+
+            // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
+            // nếu page = null thì lấy giá trị 1 cho biến pageNumber.
+            int pageNumber = (page ?? 1);
+
             var getListAllArticle = ApiEndPoint.ApiDomain + ApiEndPoint.GetListAllArticlePath;
             var listAllArticle = new List<Article>();
             try
@@ -280,14 +306,14 @@ namespace ReadNewsWebClient.Controllers
 
                         //request failed
                         TempData["GetListAllArticleStatus"] = "Get list article Failed!";
-                        return View(listAllArticle);
+                        Debug.WriteLine("falied");
                     }
                     else
                     {
 
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
                         listAllArticle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
-                        return View(listAllArticle);
+                        
                     }
                 }
             }
@@ -295,9 +321,10 @@ namespace ReadNewsWebClient.Controllers
             {
                 Debug.WriteLine(err.Message);
                 TempData["GetListAllArticleStatus"] = "Can not connect to API";
-                return View(listAllArticle);
+                
             }
-
+            var pagedList = listAllArticle.ToPagedList(pageNumber,pageSize);
+            return View(pagedList);
         }
 
         public ActionResult CreateCategory()
