@@ -516,5 +516,51 @@ namespace ReadNewsWebClient.Controllers
 
 
         }
+
+        public ActionResult CreateArticle()
+        {
+            ViewBag.ListCategory = GetCategory();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult CreateArticle(ArticleDataBindingModel model)
+        {
+            ViewBag.ListCategory = GetCategory();
+            var createArticle = ApiEndPoint.ApiDomain + ApiEndPoint.CreateArticlePath;
+            try
+            {
+
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    model.Status = 1;
+                    var jsonString = JsonConvert.SerializeObject(model);
+                    var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                    HttpResponseMessage result = httpClient.PostAsync(createArticle, data).Result;
+                    if (!result.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        Debug.WriteLine("failed");
+
+                        return View(model);
+
+                    }
+                    var jsonResult = result.Content.ReadAsStringAsync().Result;
+                    var newConfig = JsonConvert.DeserializeObject<ArticleDataBindingModel>(jsonResult);
+                    Debug.WriteLine("OK");
+
+                    return RedirectToAction("ListPendingArticle");
+                }
+            }
+            catch (Exception err)
+            {
+
+                Debug.WriteLine(err.Message);
+                return View(model);
+            }
+        }
     }
 }
