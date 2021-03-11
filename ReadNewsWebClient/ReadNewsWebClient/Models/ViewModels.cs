@@ -6,6 +6,7 @@ using System.Web;
 
 namespace ReadNewsWebClient.Models
 {
+
     public class LoginViewModel
     {
         [Required]
@@ -48,5 +49,13 @@ namespace ReadNewsWebClient.Models
         public PagedList.IPagedList<Article> ListArticle { get; set; }
         public List<Category> ListCategory { get; set; }
         public List<Article> TopThreeLatest { get; set; }
+
+    }
+    public class ListByCategoryModel
+    {
+        public PagedList.IPagedList<Article> ListArticle { get; set; }
+        public List<Category> ListCategory { get; set; }
+        public List<Article> TopThreeLatest { get; set; }
+        public Category CurrentCategory { get; set; }
     }
 }

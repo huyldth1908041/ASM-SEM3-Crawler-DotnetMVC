@@ -28,12 +28,12 @@ namespace ReadNewsWebClient.Filters
             if (exsitedCookie != null && existedSession == null)
             {
                 Debug.WriteLine("INIT SESSION");
-                InitSesssion(filterContext);
+                InitAuthenSesssion(filterContext);
             }
-
+            InitCategorySession(filterContext); ;
         }
 
-        private void InitSesssion(ActionExecutingContext context)
+        private void InitAuthenSesssion(ActionExecutingContext context)
         {
             var existedToken = context.HttpContext.Request.Cookies["token"];
 
@@ -92,5 +92,49 @@ namespace ReadNewsWebClient.Filters
                 }
             }
         }
+        private void InitCategorySession(ActionExecutingContext context)
+        {
+            var listCate = GetCategory();
+            //create or update
+            context.HttpContext.Session["categories"] = listCate;
+
+        }
+
+        private List<Category> GetCategory()
+        {
+            var list = new List<Category>();
+            var getListCategory = ApiEndPoint.ApiDomain + ApiEndPoint.GetListCategoryPath;
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+
+
+                    HttpResponseMessage getListResult = httpClient.GetAsync(getListCategory).Result;
+                    if (!getListResult.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        Debug.WriteLine("Null list cate");
+
+
+                    }
+
+                    var jsonResult = getListResult.Content.ReadAsStringAsync().Result;
+                    var listCate = JsonConvert.DeserializeObject<List<Category>>(jsonResult);
+                    list = listCate;
+
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                Debug.WriteLine("Can not connect to API");
+
+            }
+            return list;
+
+        }
+
     }
 }

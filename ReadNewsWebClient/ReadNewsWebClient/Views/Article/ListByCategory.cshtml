@@ -1,0 +1,85 @@
+﻿@model ReadNewsWebClient.Models.ListByCategoryModel
+@using PagedList.Mvc;
+@using PagedList;
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+  
+}
+@section PageStyles {
+    <link href="@Url.Content("~/Content/Css/paged-list.css")" rel="stylesheet" />
+}
+
+<div class="container-fluid pb-4 pt-4 paddding">
+    <div class="container paddding">
+        <div class="row mx-0">
+            <div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
+                <div>
+                    <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Tin tức @Model.CurrentCategory.Name</div>
+                </div>
+                @foreach (var item in Model.ListArticle)
+                {
+                    <div class="row pb-4">
+                        <div class="col-md-5">
+                            <div class="fh5co_hover_news_img">
+                                <div class="fh5co_news_img"><img src="@item.GetImageUrl()" alt="" /></div>
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 animate-box">
+                            @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "fh5co_magna py-2" })
+
+                            <a href="#" class="fh5co_mini_time py-3">
+                                @item.CreatedAt.ToString("dddd dd MM, yyyy")
+
+                            </a>
+                            <div class="fh5co_consectetur">
+                                @item.Description
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+            <div class="col-md-3 animate-box" data-animate-effect="fadeInRight">
+                <div>
+                    <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Tags</div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="fh5co_tags_all">
+                    @foreach (var item in Model.ListCategory)
+                    {
+                        <a href="#" class="fh5co_tagg">@item.Name</a>
+                    }
+
+
+                </div>
+                <div>
+                    <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Most Popular</div>
+                </div>
+
+                @foreach (var item in Model.TopThreeLatest)
+                {
+                    <div class="row pb-3">
+                        <div class="col-5 align-self-center">
+                            <img src="@item.GetImageUrl()" alt="img" class="fh5co_most_trading" />
+                        </div>
+                        <div class="col-7 paddding">
+                            <div class="most_fh5co_treding_font"> @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id })</div>
+                            <div class="most_fh5co_treding_font_123"> April 18, 2016</div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="page-separate">
+            <p class="page-separate-text">Trang @(Model.ListArticle.PageCount < Model.ListArticle.PageNumber ? 0 : Model.ListArticle.PageNumber) / @Model.ListArticle.PageCount</p>
+
+            @Html.PagedListPager(Model.ListArticle, page => Url.Action("Category", "Article", new { page, id = Model.CurrentCategory.Id }))
+        </div>
+    </div>
+</div>
+
