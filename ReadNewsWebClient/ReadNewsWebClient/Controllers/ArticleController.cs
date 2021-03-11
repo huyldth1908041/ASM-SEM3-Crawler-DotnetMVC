@@ -21,6 +21,7 @@ namespace ReadNewsWebClient.Controllers
         public ActionResult Index()
         {
             var listAllArticle =  GetListArticle();
+            
             var topFiveLatest = (from a in listAllArticle orderby a.CreatedAt select a).Take(5).ToList();
             var listCategory = GetCategory();
             var trendingArticle = (from a in listAllArticle orderby a.CreatedAt select a).Take(5).ToList();
@@ -105,23 +106,20 @@ namespace ReadNewsWebClient.Controllers
                     }
                     else
                     {
-                        TempData["GetListPendingArticleStatus"] = "Get list pending article Sucess!";
+             
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
 
                         var list = JsonConvert.DeserializeObject<List<Article>>(jsonString);
-                        return list.ToList();
 
                         listArticle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
-                    
-
+                 
                     }
                 }
             }
             catch (Exception err)
             {
                 Debug.WriteLine(err.Message);
-                TempData["GetListPendingArticleStatus"] = "Can not connect to API";
-              
+         
             }
             return listArticle;
         }

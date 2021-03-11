@@ -18,7 +18,7 @@ namespace ReadNewsWebClient.Models
         public string ImgUrls { get; set; }
         public DateTime UpdatedAt { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int Status { get; set; }
+        public int Status { get; set; } // 0 pending || 1 active || -1 deleted
 
         //foreing key
         public int CategoryId { get; set; }

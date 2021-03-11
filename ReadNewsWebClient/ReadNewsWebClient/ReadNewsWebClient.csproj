@@ -49,9 +49,6 @@
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
-    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -142,6 +139,7 @@
     <Compile Include="Models\Article.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CrawlerConfigsViewModel.cs" />
+    <Compile Include="Models\DataBidingModels.cs" />
     <Compile Include="Models\TokenDataBindingModel.cs" />
     <Compile Include="Models\ViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -395,11 +393,10 @@
     <Content Include="Views\Admin\PopUpPreviewUrl.cshtml" />
     <Content Include="Views\Admin\CreateCategory.cshtml" />
     <Content Include="Views\Article\Article.cshtml" />
-    <Content Include="Views\Admin\ArticeDetail.cshtml" />
+    <Content Include="Views\Admin\ArticleDetail.cshtml" />
     <Content Include="Views\Admin\index.cshtml" />
     <Content Include="Views\Admin\EditArticle.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
