@@ -119,16 +119,40 @@ namespace CrawlerApi.Controllers
             {
                 return NotFound();
             }
+            if(articleDataBindingModel.Title != null)
+            {
+                article.Title = articleDataBindingModel.Title;
+            }
+            if(articleDataBindingModel.Description != null)
+            {
+                article.Description = articleDataBindingModel.Description;
+            }
 
-            article.Title = articleDataBindingModel.Title;
-            article.Description = articleDataBindingModel.Description;
-            article.Content = articleDataBindingModel.Content;
-            article.Source = articleDataBindingModel.Source;
-            article.Link = articleDataBindingModel.Link;
-            article.ImgUrls = articleDataBindingModel.ImgUrls;
+            if (articleDataBindingModel.Content != null)
+            {
+                article.Content = articleDataBindingModel.Content;
+            }
+
+            if (articleDataBindingModel.Source != null)
+            {
+                article.Source = articleDataBindingModel.Source;
+            }
+
+            if (articleDataBindingModel.Link != null)
+            {
+                article.Link = articleDataBindingModel.Link;
+            }
+            if (articleDataBindingModel.ImgUrls != null)
+            {
+                article.ImgUrls = articleDataBindingModel.ImgUrls;
+            }
+    
             article.UpdatedAt = DateTime.Now;
             article.Status = (Article.ArticleStatus)articleDataBindingModel.Status;
-            article.CategoryId = articleDataBindingModel.CategoryId;
+            if (articleDataBindingModel.CategoryId != 0)
+            {
+                article.CategoryId = articleDataBindingModel.CategoryId;
+            }
 
             var recordsChanged = _db.SaveChanges();
        
