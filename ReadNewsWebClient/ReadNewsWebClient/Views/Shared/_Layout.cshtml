@@ -6,6 +6,7 @@
     <title>24 News — Free Website Template, Free HTML5 Template by FreeHTML5.co</title>
     <link href="@Url.Content("~/Content/Css/media_query.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/Css/bootstrap.css")" rel="stylesheet" />
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     @Styles.Render("~/bundles/app_styles")
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -30,15 +31,16 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li>@Html.ActionLink("Information", "Infor", "User")</li>
-                    <li>@Html.ActionLink("Saved Articles", "SavedArticles", "User")</li>
-                    <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                    <li>@Html.ActionLink("Thông tin cá nhân", "Infor", "User")</li>
+                    <li>@Html.ActionLink("Lưu bài viết", "SavedArticles", "User")</li>
+                    <li>@Html.ActionLink("Đăng xuất", "Logout", "Account")</li>
                 </ul>
             </div>
         }
         else
         {
-            @Html.ActionLink("Login", "Login", "Account")
+            <i class="fas fa-user"></i>
+            @Html.ActionLink("Đăng nhập", "Login", "Account")
         }
     </div>
     <div class="container-fluid">
