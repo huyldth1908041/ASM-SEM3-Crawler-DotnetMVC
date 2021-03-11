@@ -1,17 +1,20 @@
-﻿@model IEnumerable<ReadNewsWebClient.Models.Article>
-
+﻿@model PagedList.IPagedList<ReadNewsWebClient.Models.Article>
+@using PagedList.Mvc;
+@using PagedList;
 @{
-    ViewBag.Title = "ListAllArticle";
+    ViewBag.Title = "ListNewArticle";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div>
-    @Html.ActionLink(Model.First().Title, "Read", "Article", new { id = Model.First().Id }, new { @class = "fh5co_good_font" })
-</div>
+@section CustomeStyles {
+    <link href="@Url.Content("~/Content/Css/paged-list.css")" rel="stylesheet" />
+}
+<h2>List Pending Article</h2>
+
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            
+
             <div class="card-header card-header-primary">
                 <h4 class="card-title "> ListAllArticle </h4>
                 <p class="card-category"> </p>
@@ -34,34 +37,21 @@
                             <thead class=" text-primary">
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Id)
+                                        Id
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Title)
+                                        Tiêu đề
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Description)
+                                       Mô tả
                                     </th>
 
-                                    @*<th>
-                                            @Html.DisplayNameFor(model => model.Source)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Link)
-                                        </th>*@
-                                    @*<th>
-                                            @Html.DisplayNameFor(model => model.ImgUrls)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.UpdatedAt)
-                                        </th>
-
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.CategoryId)
-                                        </th>*@
+                       
                                     <th>
-                                        @Html.DisplayNameFor(model => model.CreatedAt)
+                                        Ngày tạo
                                     </th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
 
                             </thead>
@@ -79,30 +69,16 @@
                                             @Html.DisplayFor(modelItem => item.Description)
                                         </td>
 
-                                        @*<td>
-                                                @Html.DisplayFor(modelItem => item.Source)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Link)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ImgUrls)
-                                            </td>*@
-                                        @*<td>
-                                                @Html.DisplayFor(modelItem => item.UpdatedAt)
-                                            </td>*@
+                                   
                                         <td>
                                             @Html.DisplayFor(modelItem => item.CreatedAt)
                                         </td>
-                                        @*<td>
-                                                @Html.DisplayFor(modelItem => item.CategoryId)
-                                            </td>*@
+                                       
                                         <td>
-                                            @Html.ActionLink("Details", "ArticeDetail", "Admin", new { id = item.Id }, new { @class = "btn btn-primary" })
-                                            @Html.ActionLink("Edit", "EditArticle", new { id = item.Id }) |
-
-                                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-
+                                            @Html.ActionLink("Chi tiết", "ArticleDetail", "Admin", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Sửa", "EditArticle", new { id = item.Id }, new { @class = "btn btn-danger" })
                                         </td>
                                     </tr>
                                 }
@@ -118,7 +94,11 @@
 
 
 </div>
+<div class="page-separate">
+    <p class="page-separate-text">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</p>
 
+    @Html.PagedListPager(Model, page => Url.Action("ListAllArticle", "Admin", new { page }))
+</div>
 
 
 
