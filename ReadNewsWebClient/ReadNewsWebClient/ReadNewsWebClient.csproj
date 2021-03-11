@@ -404,6 +404,7 @@
     <Content Include="Views\Admin\EditArticle.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Article\_pagedListArticle.cshtml" />
+    <Content Include="Views\Admin\CreateArticle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
