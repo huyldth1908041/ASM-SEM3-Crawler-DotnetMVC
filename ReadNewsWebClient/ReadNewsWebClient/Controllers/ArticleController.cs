@@ -53,9 +53,11 @@ namespace ReadNewsWebClient.Controllers
             return View(model);
         }
 
-        public ActionResult Read(int id) 
+        public ActionResult Read(int? id) 
         {
-         
+            var listCategory = GetCategory();
+            var listArticle = GetListArticle();
+            if (id == null) id = 1;
             //call api
             var url = ApiEndPoint.GenerateGetArticleByIdUrl(id);
             try
@@ -67,16 +69,22 @@ namespace ReadNewsWebClient.Controllers
                     {
                         //request failed
                         TempData["AritcleDetailStatus"] = "Get article detais infor failed at index: " + id;
-                        return RedirectToAction("ListPendingArticle");
+                        return RedirectToAction("Index");
                     }
                     else
                     {
                         //request success
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
                         var article = JsonConvert.DeserializeObject<Article>(jsonString);
-                        ViewBag.listCategory = GetCategory();
-                        ViewBag.listArticle = GetListArticle();
-                        return View("Article", article);
+                        var relatedArticle = listArticle.Where(a => a.CategoryId == article.CategoryId).Take(6).ToList();
+                        var viewModel = new ReadArticleViewModel()
+                        {
+                            CurrentArticle = article,
+                            CurrentCategory = listCategory.Where(c => c.Id == article.CategoryId).FirstOrDefault(),
+                            RelatedArticles = relatedArticle,
+                            TopFiveLatest = listArticle.Take(5).ToList()
+                        };
+                        return View("Article", viewModel);
                     }
                 }
             }

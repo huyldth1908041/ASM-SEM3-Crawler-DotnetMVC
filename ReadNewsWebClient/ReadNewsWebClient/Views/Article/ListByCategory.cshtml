@@ -3,7 +3,7 @@
 @using PagedList;
 
 @{
-    ViewBag.Title = "Search";
+    ViewBag.Title = "Tin " + Model.CurrentCategory.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
   
 }
@@ -51,7 +51,7 @@
                 <div class="fh5co_tags_all">
                     @foreach (var item in Model.ListCategory)
                     {
-                        <a href="#" class="fh5co_tagg">@item.Name</a>
+                        <a href="@Url.Action("Category", "Article", new { id = item.Id})" class="fh5co_tagg">@item.Name</a>
                     }
 
 

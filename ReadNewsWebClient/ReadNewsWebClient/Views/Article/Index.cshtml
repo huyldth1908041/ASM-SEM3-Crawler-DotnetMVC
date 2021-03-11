@@ -3,7 +3,7 @@
 @using PagedList;
 
 @{
-    ViewBag.Title = "News";
+    ViewBag.Title = "Trang chủ";
 }
 
 @section PageStyles {
@@ -159,7 +159,7 @@
                 <div class="fh5co_tags_all">
                     @foreach (var item in Model.ListCategories)
                     {
-                        <a href="#" class="fh5co_tagg">@item.Name</a>
+                        <a href="@Url.Action("Category", "Article", new { id = item.Id})" class="fh5co_tagg">@item.Name</a>
                     }
 
                 </div>

@@ -58,4 +58,12 @@ namespace ReadNewsWebClient.Models
         public List<Article> TopThreeLatest { get; set; }
         public Category CurrentCategory { get; set; }
     }
+    public class ReadArticleViewModel
+    {
+        public Article CurrentArticle { get; set; }
+        public Category CurrentCategory { get; set; }
+        public List<Article> TopFiveLatest { get; set; }
+        public List<Article> RelatedArticles { get; set; }
+
+    }
 }

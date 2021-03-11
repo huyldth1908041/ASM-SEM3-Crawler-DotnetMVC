@@ -3,9 +3,10 @@
 @using PagedList;
 
 @{
-    ViewBag.Title = "Search";
+
     Layout = "~/Views/Shared/_Layout.cshtml";
     string keyword = ViewData["Keyword"] as string;
+    ViewBag.Title = "Kết quả tìm kiếm cho " + keyword;
 }
 @section PageStyles {
     <link href="@Url.Content("~/Content/Css/paged-list.css")" rel="stylesheet" />
@@ -51,7 +52,7 @@
                 <div class="fh5co_tags_all">
                     @foreach (var item in Model.ListCategory)
                     {
-                        <a href="#" class="fh5co_tagg">@item.Name</a>
+                        <a href="@Url.Action("Category", "Article", new { id = item.Id})" class="fh5co_tagg">@item.Name</a>
                     }
 
 

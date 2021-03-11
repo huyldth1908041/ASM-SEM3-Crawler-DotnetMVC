@@ -1,8 +1,6 @@
-﻿@model ReadNewsWebClient.Models.Article
+﻿@model ReadNewsWebClient.Models.ReadArticleViewModel
 @{
-    ViewBag.Title = "ReadArticle";
-    var listCategory = (List<ReadNewsWebClient.Models.Category>)ViewBag.listCategory;
-    var listArticle = (List<ReadNewsWebClient.Models.Article>)ViewBag.listArticle;
+    ViewBag.Title = Model.CurrentArticle.Title;
 }
 @section PageStyles {
     <link href="@Url.Content("~/Content/Css/article.css")" rel="stylesheet" />
@@ -21,10 +19,10 @@
     <div class="container paddding">
         <div class="row mx-0">
             <div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
-                <h1 class="article-title">@Model.Title.Replace('.', ' ')</h1>
-                <p class="article-description">@Model.Description</p>
+                <h1 class="article-title">@Model.CurrentArticle.Title</h1>
+                <p class="article-description">@Model.CurrentArticle.Description</p>
                 <div class="article-container">
-                    @Html.Raw(Model.Content)
+                    @Html.Raw(Model.CurrentArticle.Content)
                 </div>
                 <div class="button-article">
                     <a href="#" class="save-articles btn btn-primary">Lưu</a>
@@ -58,45 +56,49 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="fh5co_tags_all">
-                    @foreach (var item in listCategory)
-                    {
-                        <a href="#" class="fh5co_tagg">@item.Name</a>
-                    }
+
+                    <a href="@Url.Action("Category", "Article", new { id = Model.CurrentCategory.Id})" class="fh5co_tagg">@Model.CurrentCategory.Name</a>
+
                 </div>
                 <div>
                     <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Tin Tiêu Điểm</div>
                 </div>
-                @for (int i = 0; i < 6; i++)
+                @foreach (var item in Model.TopFiveLatest)
                 {
                     <div class="row pb-3">
                         <div class="col-5 align-self-center">
-                            <img src="@listArticle[i].GetImageUrl()" alt="img" class="fh5co_most_trading" />
+                            <img src="@item.GetImageUrl()" alt="img" class="fh5co_most_trading" />
                         </div>
                         <div class="col-7 paddding">
-                            @Html.ActionLink(listArticle[i].Title, "Read", "Article", new { id = listArticle[i].Id }, new { @class = "most_fh5co_treding_font line-cutoff text-black" })
-                            <div class="most_fh5co_treding_font_123">@listArticle[i].CreatedAt.ToString("MMM dd, yyyy")</div>
+                            @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "most_fh5co_treding_font line-cutoff text-black" })
+                            <div class="most_fh5co_treding_font_123">@item.CreatedAt.ToString("MMM dd, yyyy")</div>
                         </div>
                     </div>
                 }
 
             </div>
+            <div id="fb-root"></div>
+            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v10.0&appId=722388281976030&autoLogAppEvents=1" nonce="uAfiIeCE"></script>
+            <div class="fb-comments" data-href="@Request.Url.AbsoluteUri" data-width="700" data-numposts="5" style="margin-top: 50px;"></div>
         </div>
     </div>
+
 </div>
+
 <div class="container-fluid pb-4 pt-5">
     <div class="container animate-box">
         <div>
-            <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Tin Nổi Bật</div>
+            <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Tin Liên Quan</div>
         </div>
         <div class="owl-carousel owl-theme" id="slider2">
-            @for (int i = 0; i < 6; i++)
+            @foreach (var item in Model.RelatedArticles)
             {
                 <div class="item px-2">
                     <div class="fh5co_hover_news_img">
-                        <div class="fh5co_news_img"><img src="@listArticle[i].GetImageUrl()" alt="img" /></div>
+                        <div class="fh5co_news_img"><img src="@item.GetImageUrl()" alt="img" /></div>
                         <div>
-                            @Html.ActionLink(listArticle[i].Title, "Read", "Article", new { id = listArticle[i].Id }, new { @class = "d-block fh5co_small_post_heading" })
-                            <div class="c_g"><i class="fa fa-clock-o"></i> @listArticle[i].CreatedAt.ToString("MMM dd, yyyy")</div>
+                            @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "d-block fh5co_small_post_heading" })
+                            <div class="c_g"><i class="fa fa-clock-o"></i> @item.CreatedAt.ToString("MMM dd, yyyy")</div>
                         </div>
                     </div>
                 </div>
@@ -104,6 +106,7 @@
         </div>
     </div>
 </div>
+
 @section scripts {
     <script src="@Url.Content("~/Content/Js/jquery.stellar.min.js")"></script>
 }
