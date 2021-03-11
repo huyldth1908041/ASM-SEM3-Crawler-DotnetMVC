@@ -12,7 +12,7 @@
 
     <style>
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Times New Roman';
         }
     </style>
 
@@ -48,16 +48,22 @@
                     <img src="images/logo.png" alt="img" class="fh5co_logo_width" />
                 </div>
                 <div class="col-12 col-md-9 align-self-center fh5co_mediya_right">
-                    <div class="text-center d-inline-block">
-                        <div class="fh5co_display_table">
-                            <div class="fh5co_verticle_middle">
-                                <input class="input-search" />
+                    @using (Html.BeginForm("Search", "Article", FormMethod.Get))
+                    {
+                        
+                        <div class="text-center d-inline-block">
+                            <div class="fh5co_display_table">
+                                <div class="fh5co_verticle_middle">
+                                    <input class="input-search" name="keyword" />
+                       
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-center d-inline-block">
-                        <a class="fh5co_display_table"><div class="fh5co_verticle_middle"><i class="fa fa-search"></i></div></a>
-                    </div>
+                        <div class="text-center d-inline-block">
+                      
+                            <button type="submit" class="fh5co_display_table"><div class="fh5co_verticle_middle"><i class="fa fa-search"></i></div></button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
