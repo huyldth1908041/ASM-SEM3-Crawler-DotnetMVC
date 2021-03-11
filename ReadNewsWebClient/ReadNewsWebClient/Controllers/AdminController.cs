@@ -366,7 +366,7 @@ namespace ReadNewsWebClient.Controllers
                         //request failed
                         Debug.WriteLine("failed");
                         TempData["UpdateArticleStatus"] = "Updated failed";
-                        return RedirectToAction("ArticeDetail", new { id = Id });
+                        return RedirectToAction("ArticleDetail", new { id = Id });
                     }
 
 
@@ -385,11 +385,11 @@ namespace ReadNewsWebClient.Controllers
                 TempData["UpdateArticleStatus"] = "Cannot connect to API";
 
                 Debug.WriteLine(err.Message);
-                return RedirectToAction("ArticeDetail", new { id = Id });
+                return RedirectToAction("ArticleDetail", new { id = Id });
 
             }
         }
-    
+
         [HttpGet]
         public ActionResult EditArticle(int id)
         {
@@ -406,7 +406,7 @@ namespace ReadNewsWebClient.Controllers
 
                         //request failed
                         TempData["AritcleDetailStatus"] = "Get article detais infor failed, Id :  " + id;
-                        return RedirectToAction("ArticeDetail", new { id = id });
+                        return RedirectToAction("ArticleDetail", new { id = id });
                     }
                     else
                     {
@@ -428,61 +428,66 @@ namespace ReadNewsWebClient.Controllers
 
         }
 
-        //[HttpPut]
-        //public ActionResult EditArticle([Bind(Include = "Id,Title,Description,Content,Source,Link,ImgUrls,CategoryId")] Article article)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var editArticle = ApiEndPoint.ApiDomain + ApiEndPoint.UpdateAnArticlePath;
-        //        try
-        //        {
-        //            using (HttpClient httpClient = new HttpClient())
-        //            {
-        //                ViewBag.ListCategory = GetCategory();
-        //                var jsonString = JsonConvert.SerializeObject(article);
-        //                var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
-        //                Debug.WriteLine(data);
-        //                HttpResponseMessage result = httpClient.PutAsync(editArticle, data).Result;
-        //                if (!result.IsSuccessStatusCode)
-        //                {
-        //                    TempData["Status"] = "Fail to save ";
-        //                    //request failed
-        //                    Debug.WriteLine("[failed]");
-        //                    return View(article);
-        //                }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult EditArticle(int Id, ArticleDataBindingModel model)
+        {
+          
+            ViewBag.ListCategory = GetCategory();
+            if (ModelState.IsValid)
+            {
+                var editArticle = ApiEndPoint.GenerateUpdateAricleUrl(Id);
+                try
+                {
+                    using (HttpClient httpClient = new HttpClient())
+                    {
+                     
+                        var jsonString = JsonConvert.SerializeObject(model);
+                        var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                        Debug.WriteLine(data);
+                        HttpResponseMessage result = httpClient.PutAsync(editArticle, data).Result;
+                        if (!result.IsSuccessStatusCode)
+                        {
+                            TempData["Status"] = "Fail to save ";
+                            //request failed
+                            Debug.WriteLine("[failed]");
+                            return View(model);
+                        }
 
 
-        //                var jsonResult = result.Content.ReadAsStringAsync().Result;
-        //                if (jsonResult == null)
-        //                {
-        //                    Debug.WriteLine("[null response]");
-        //                    return View(article);
-        //                }
-        //                var articleResult = JsonConvert.DeserializeObject<Article>(jsonResult);
-        //                TempData["Status"] = "[Success save:]" + article.Id;
-        //                Debug.WriteLine("[success]");
-        //                return Redirect("/Admin/ArticleDetail" + articleResult.Id);
+                        var jsonResult = result.Content.ReadAsStringAsync().Result;
+                        if (jsonResult == null)
+                        {
+                            Debug.WriteLine("[null response]");
+                          
+                            return View(model);
+                        }
+                        var articleResult = JsonConvert.DeserializeObject<Article>(jsonResult);
+                        TempData["Status"] = "[Success save:]" + articleResult.Id;
+                        Debug.WriteLine("[success]");
+                        return RedirectToAction("ArticleDetail", new { id = articleResult.Id});
 
 
-        //            }
-        //        }
-        //        catch (Exception err)
-        //        {
-        //            TempData["Status"] = "Fail connect to api";
+                    }
+                }
+                catch (Exception err)
+                {
+                    TempData["Status"] = "Fail connect to api";
 
-        //            Debug.WriteLine(err.Message);
-        //            Debug.WriteLine("[failed]");
-        //            return View(article);
+                    Debug.WriteLine(err.Message);
+                    Debug.WriteLine("[failed]");
+                    return View(model);
 
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return View(article);
+                }
+            }
+            else
+            {
+                return View(model);
 
-        //    }
+            }
 
 
-        //}
+        }
     }
 }

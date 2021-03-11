@@ -32,7 +32,7 @@
                     <hr />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.Id)
-
+                    @Html.HiddenFor(model => model.Status)
                     <div class="form-group">
                         @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
@@ -52,7 +52,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.TextAreaFor(model => model.Content, new { cols = 145, @rows = 10 })
+                            @Html.TextAreaFor(model => model.Content, new { cols = 145, rows = 20 })
                             @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -104,7 +104,7 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Save" class="btn btn-default" />
+                            <input type="submit" value="Save" class="btn btn-primary" />
                         </div>
                     </div>
                 </div>
