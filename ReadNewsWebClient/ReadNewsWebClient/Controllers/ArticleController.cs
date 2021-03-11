@@ -23,10 +23,10 @@ namespace ReadNewsWebClient.Controllers
         {
             var listAllArticle =  GetListArticle();
             
-            var topFiveLatest = (from a in listAllArticle orderby a.CreatedAt select a).Take(5).ToList();
+            var topFiveLatest = (from a in listAllArticle orderby a.CreatedAt descending select a).Take(5).ToList();
 
             var listCategory = GetCategory();
-            var trendingArticle = (from a in listAllArticle orderby a.CreatedAt select a).Take(5).ToList();
+            var trendingArticle = (from a in listAllArticle orderby a.CreatedAt descending select a).Take(5).ToList();
             //setting for paged list
             // 1. Tham số int? dùng để thể hiện null và kiểu int
             // page có thể có giá trị là null và kiểu int.
@@ -106,17 +106,19 @@ namespace ReadNewsWebClient.Controllers
                     {
                         //request failed
                         Debug.WriteLine("Get list category failed");
-                        
+
                     }
                     else
                     {
-             
+
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
 
                         var list = JsonConvert.DeserializeObject<List<Article>>(jsonString);
 
-                        listArticle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
-                 
+                        List<Article> listArticleRaw = JsonConvert.DeserializeObject<List<Article>>(jsonString);
+                        listArticle = listArticleRaw.Where(a => a.Status == 1).OrderByDescending(a => a.UpdatedAt).ToList();
+
+
                     }
                 }
             }
@@ -168,6 +170,74 @@ namespace ReadNewsWebClient.Controllers
             return list;
 
         }
-        
+        [HttpGet]
+        public ActionResult Search(string keyword, int? page)
+        {
+            var apiEndPoint = ApiEndPoint.GenerateSearchByKeywordUrl(keyword);
+            var listResult = new List<Article>();
+            //setting for paged list
+            // 1. Tham số int? dùng để thể hiện null và kiểu int
+            // page có thể có giá trị là null và kiểu int.
+
+            // 2. Nếu page = null thì đặt lại là 1.
+            if (page == null) page = 1;
+
+
+            // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
+            int pageSize = 6;
+
+            // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
+            // nếu page = null thì lấy giá trị 1 cho biến pageNumber.
+            int pageNumber = (page ?? 1);
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    HttpResponseMessage getListResult = httpClient.GetAsync(apiEndPoint).Result;
+                    if (!getListResult.IsSuccessStatusCode)
+                    {
+
+                        TempData["SearchStatus"] = "Not Found";
+                        //request failed
+                        Debug.WriteLine("No result found");
+
+
+                    }
+
+                    var jsonResult = getListResult.Content.ReadAsStringAsync().Result;
+                    var listArticle = JsonConvert.DeserializeObject<List<Article>>(jsonResult);
+                    listResult = listArticle;
+
+                }
+            }
+            catch (Exception err)
+            {
+                TempData["SearchStatus"] = "Can not connect to API";
+                Debug.WriteLine(err.Message);
+                Debug.WriteLine("Can not connect to API");
+
+            }
+            ViewData["Keyword"] = keyword;
+            IPagedList<Article> pagedList = null;
+            if (listResult == null)
+            {
+                var empty = new List<Article>();
+                pagedList =  empty.ToPagedList(pageNumber, pageSize);
+            }
+            pagedList = listResult.ToPagedList(pageNumber, pageSize);
+            //get list category
+            var listCategory = GetCategory();
+            //get top three latest news
+            var allArticle = GetListArticle();
+            var topthree = (from a in allArticle orderby a.CreatedAt select a).Take(3).ToList();
+            var viewModel = new SearchResultModel
+            {
+                ListArticle = pagedList,
+                ListCategory = listCategory,
+                TopThreeLatest = topthree
+            };
+            return View(viewModel);
+           
+        }
     }
 }

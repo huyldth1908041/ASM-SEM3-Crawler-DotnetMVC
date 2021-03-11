@@ -6,6 +6,9 @@ using System.Web;
 using System.Web.Http;
 using System.Net.Http;
 using System.Data.Entity;
+using System.Diagnostics;
+using System.Text;
+using System.Globalization;
 
 namespace CrawlerApi.Controllers
 {
@@ -102,11 +105,61 @@ namespace CrawlerApi.Controllers
         }
 
 
+        [HttpGet]
+        public IHttpActionResult SearchByKeyword(string keyword)
+        {
+            if (keyword == null)
+            {
+                return BadRequest();
+            }
+            //parse keyword
+            var decodedKeyword = HttpUtility.UrlDecode(keyword, Encoding.UTF8);
+            Debug.WriteLine(decodedKeyword);
+            var listArticle = _db.Articles.ToList();
+            var searchResult = listArticle.Where(a => CheckContainsIgnoreCase(a.Content, decodedKeyword) || CheckContainsIgnoreCase(a.Description, decodedKeyword) || CheckContainsIgnoreCase(a.Title, decodedKeyword)).ToList();
+            if (searchResult == null || searchResult.Count() == 0)
+            {
+                return NotFound();
+            }
+            //convert to view model
+            var listViewModel = new List<ArticleViewModel>();
+            foreach (var item in searchResult)
+            {
+                var viewModel = new ArticleViewModel()
+                {
+                    CategoryId = item.CategoryId,
+                    Content = item.Content,
+                    CreatedAt = item.CreatedAt,
+                    Description = item.Description,
+                    Id = item.Id,
+                    ImgUrls = item.ImgUrls,
+                    Link = item.Link,
+                    Source = item.Source,
+                    Status = (int) item.Status,
+                    Title = item.Title,
+                    UpdatedAt = item.UpdatedAt
+                };
+                listViewModel.Add(viewModel);
+            }
+            return Json(listViewModel);
 
-       
+        }
+        private static bool CheckContainsIgnoreCase(string rootString, string searchString)
+        {
+            var culture = CultureInfo.InvariantCulture;
+            if(culture.CompareInfo.IndexOf(rootString, searchString, CompareOptions.IgnoreCase) >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
         [HttpPut]
-        public IHttpActionResult UpdateArticle(int id ,ArticleDataBindingModel articleDataBindingModel)
+        public IHttpActionResult UpdateArticle(int id, ArticleDataBindingModel articleDataBindingModel)
         {
             if (!ModelState.IsValid)
             {
@@ -119,11 +172,11 @@ namespace CrawlerApi.Controllers
             {
                 return NotFound();
             }
-            if(articleDataBindingModel.Title != null)
+            if (articleDataBindingModel.Title != null)
             {
                 article.Title = articleDataBindingModel.Title;
             }
-            if(articleDataBindingModel.Description != null)
+            if (articleDataBindingModel.Description != null)
             {
                 article.Description = articleDataBindingModel.Description;
             }
@@ -146,7 +199,7 @@ namespace CrawlerApi.Controllers
             {
                 article.ImgUrls = articleDataBindingModel.ImgUrls;
             }
-    
+
             article.UpdatedAt = DateTime.Now;
             article.Status = (Article.ArticleStatus)articleDataBindingModel.Status;
             if (articleDataBindingModel.CategoryId != 0)
@@ -155,7 +208,7 @@ namespace CrawlerApi.Controllers
             }
 
             var recordsChanged = _db.SaveChanges();
-       
+
             //convert to view model
             var viewModel = new ArticleViewModel()
             {
@@ -174,8 +227,57 @@ namespace CrawlerApi.Controllers
             return Json(viewModel);
 
         }
-        
 
+        [HttpPost]
+        public IHttpActionResult CreateArticle(ArticleDataBindingModel articleDataBindingModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existedArticle = _db.Articles.Where(a => a.Link.Equals(articleDataBindingModel.Link)).FirstOrDefault();
+
+            if (existedArticle != null)
+            {
+
+                return Conflict();
+            }
+
+            var newArticle = new Article()
+            {
+                Title = articleDataBindingModel.Title,
+                Description = articleDataBindingModel.Description,
+                Content = articleDataBindingModel.Content,
+                Source = articleDataBindingModel.Source,
+                Link = articleDataBindingModel.Link,
+                ImgUrls = articleDataBindingModel.ImgUrls,
+                Status = (Article.ArticleStatus)articleDataBindingModel.Status,
+                CategoryId = articleDataBindingModel.CategoryId,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+
+            var article = _db.Articles.Add(newArticle);
+            _db.SaveChanges();
+
+            var viewModel = new ArticleViewModel()
+            {
+                Id = article.Id,
+                CategoryId = article.CategoryId,
+                Content = article.Content,
+                CreatedAt = article.CreatedAt,
+                Description = article.Description,
+                ImgUrls = article.ImgUrls,
+                Link = article.Link,
+                Source = article.Source,
+                Status = (int)article.Status,
+                Title = article.Title,
+                UpdatedAt = article.UpdatedAt
+                   
+            };
+            return Ok(viewModel);
+        }
 
     }
 

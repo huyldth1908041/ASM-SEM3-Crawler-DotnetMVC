@@ -13,7 +13,7 @@
 
     <style>
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Times New Roman';
         }
     </style>
 
@@ -53,16 +53,22 @@
                     <img src="~/Content/Image/NewsBee.png" alt="img" class="fh5co_logo_width" />
                 </div>
                 <div class="col-12 col-md-9 align-self-center fh5co_mediya_right">
-                    <div class="text-center d-inline-block">
-                        <div class="fh5co_display_table">
-                            <div class="fh5co_verticle_middle">
-                                <input class="input-search" />
+                    @using (Html.BeginForm("Search", "Article", FormMethod.Get))
+                    {
+                        
+                        <div class="text-center d-inline-block">
+                            <div class="fh5co_display_table">
+                                <div class="fh5co_verticle_middle">
+                                    <input class="input-search" name="keyword" />
+                       
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-center d-inline-block">
-                        <a class="fh5co_display_table"><div class="fh5co_verticle_middle"><i class="fa fa-search"></i></div></a>
-                    </div>
+                        <div class="text-center d-inline-block">
+                      
+                            <button type="submit" class="fh5co_display_table"><div class="fh5co_verticle_middle"><i class="fa fa-search"></i></div></button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -81,12 +87,16 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="blog.html">Blog <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="single.html">Single <span class="sr-only">(current)</span></a>
-                        </li>
+                        @foreach (var item in Model.ListCategories)
+                        {
+                           
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#" >@item.Name <span class="sr-only">(current)</span></a>
+                            </li>
+                        }
+
+
+                       
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">World <span class="sr-only">(current)</span></a>
@@ -154,25 +164,30 @@
                 <div class="col-12 col-md-3 col-lg-2 font-auto">
                     <div class="footer_main_title py-3">Danh Mục</div>
                     <ul class="footer_menu">
-                        <li><a href="#" class=""><i class="fa fa-angle-right"></i>&nbsp;&nbsp; Business</a></li>
-                        <li><a href="#" class=""><i class="fa fa-angle-right"></i>&nbsp;&nbsp; Entertainment</a></li>
-                        <li><a href="#" class=""><i class="fa fa-angle-right"></i>&nbsp;&nbsp; Environment</a></li>
-                        <li><a href="#" class=""><i class="fa fa-angle-right"></i>&nbsp;&nbsp; Health</a></li>
-                        <li><a href="#" class=""><i class="fa fa-angle-right"></i>&nbsp;&nbsp; Life style</a></li>
-                        <li><a href="#" class=""><i class="fa fa-angle-right"></i>&nbsp;&nbsp; Politics</a></li>
-                        <li><a href="#" class=""><i class="fa fa-angle-right"></i>&nbsp;&nbsp; Technology</a></li>
-                        <li><a href="#" class=""><i class="fa fa-angle-right"></i>&nbsp;&nbsp; World</a></li>
+                        @foreach (var item in Model.ListCategories)
+                        {
+
+
+                            <li><a href="#" class=""><i class="fa fa-angle-right"></i>&nbsp;&nbsp; @item.Name </a></li>
+                        }
+
                     </ul>
                 </div>
+
                 <div class="col-12 col-md-5 col-lg-3 position_footer_relative font-auto">
                     <div class="footer_main_title py-3">Được Xem Gần Đây</div>
+
+
+                    @*  @Html.ActionLink(Model.TopFivesLatest[1].Title, "Read", "Article", new { id = Model.TopFivesLatest[1].Id }, new { @class = "fh5co_good_font_2 line-cutoff" })*@
+                    
+
                     <div class="footer_makes_sub_font"> Dec 31, 2016</div>
                     <a href="#" class="footer_post pb-4"> Success is not a good teacher failure makes you humble </a>
                     <div class="footer_makes_sub_font"> Dec 31, 2016</div>
                     <a href="#" class="footer_post pb-4"> Success is not a good teacher failure makes you humble </a>
                     <div class="footer_makes_sub_font"> Dec 31, 2016</div>
                     <a href="#" class="footer_post pb-4"> Success is not a good teacher failure makes you humble </a>
-                    <div class="footer_position_absolute"><img src="images/footer_sub_tipik.png" alt="img" class="width_footer_sub_img" /></div>
+                    @*<div class="footer_position_absolute"><img src="images/footer_sub_tipik.png" alt="img" class="width_footer_sub_img" /></div>*@
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 font-auto">
                     <div class="footer_main_title py-3">Sửa Gần Nhất</div>
