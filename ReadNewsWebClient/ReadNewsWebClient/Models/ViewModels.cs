@@ -41,5 +41,12 @@ namespace ReadNewsWebClient.Models
             AllArticles = new List<Article>();
             TrendingAricles = new List<Article>();
         }
+
+    }
+    public class SearchResultModel
+    {
+        public PagedList.IPagedList<Article> ListArticle { get; set; }
+        public List<Category> ListCategory { get; set; }
+        public List<Article> TopThreeLatest { get; set; }
     }
 }

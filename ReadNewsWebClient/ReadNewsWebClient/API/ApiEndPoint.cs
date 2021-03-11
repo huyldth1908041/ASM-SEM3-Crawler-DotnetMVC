@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace ReadNewsWebClient.API
@@ -31,6 +32,18 @@ namespace ReadNewsWebClient.API
         {
             var updatePath = "/api/ArticleManager/UpdateArticle/";
             return ApiDomain + updatePath + id;
+        }
+
+        public static string GenerateSearchByKeywordUrl(string keyword)
+        {
+            var searchPath = "/api/ArticleManager/SearchByKeyword?keyword=";
+            var queryString = "";
+            if(keyword != null)
+            {
+               queryString = HttpUtility.ParseQueryString(keyword, Encoding.UTF8).ToString();
+            }
+     
+            return ApiDomain + searchPath + queryString;
         }
 
        
