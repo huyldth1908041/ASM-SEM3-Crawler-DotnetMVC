@@ -167,3 +167,10 @@
   z-index: 1;
   height: 100%;
   width: 100%; }
+
+.fh5co_padding_menu {
+    padding: 5px 0 !important;
+}
+.fh5co_logo_width {
+    width: 80px !important;
+}
