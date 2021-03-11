@@ -33,6 +33,9 @@ namespace ReadNewsWebClient.API
             return ApiDomain + updatePath + id;
         }
 
-       
+        public static string CreateArticlePath = "/api/ArticleManager/CreateArticle";
+
+
+
     }
 }
