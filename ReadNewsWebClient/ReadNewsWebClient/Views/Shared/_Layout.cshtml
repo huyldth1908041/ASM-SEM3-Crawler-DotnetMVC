@@ -87,16 +87,13 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
                         </li>
-                        @foreach (var item in Model.ListCategories)
-                        {
-                           
-                            <li class="nav-item ">
-                                <a class="nav-link" href="#" >@item.Name <span class="sr-only">(current)</span></a>
-                            </li>
-                        }
+                        <li class="nav-item ">
+                            <a class="nav-link" href="#">Hello <span class="sr-only">(current)</span></a>
+                        </li>
+                  
 
 
-                       
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">World <span class="sr-only">(current)</span></a>
@@ -164,12 +161,7 @@
                 <div class="col-12 col-md-3 col-lg-2 font-auto">
                     <div class="footer_main_title py-3">Danh Mục</div>
                     <ul class="footer_menu">
-                        @foreach (var item in Model.ListCategories)
-                        {
-
-
-                            <li><a href="#" class=""><i class="fa fa-angle-right"></i>&nbsp;&nbsp; @item.Name </a></li>
-                        }
+                        <li><a href="#" class=""><i class="fa fa-angle-right"></i>&nbsp;&nbsp; Category </a></li>
 
                     </ul>
                 </div>
