@@ -23,10 +23,10 @@ namespace ReadNewsWebClient.Controllers
         {
             var listAllArticle =  GetListArticle();
             
-            var topFiveLatest = (from a in listAllArticle orderby a.CreatedAt select a).Take(5).ToList();
+            var topFiveLatest = (from a in listAllArticle orderby a.CreatedAt descending select a).Take(5).ToList();
 
             var listCategory = GetCategory();
-            var trendingArticle = (from a in listAllArticle orderby a.CreatedAt select a).Take(5).ToList();
+            var trendingArticle = (from a in listAllArticle orderby a.CreatedAt descending select a).Take(5).ToList();
             //setting for paged list
             // 1. Tham số int? dùng để thể hiện null và kiểu int
             // page có thể có giá trị là null và kiểu int.
@@ -106,17 +106,19 @@ namespace ReadNewsWebClient.Controllers
                     {
                         //request failed
                         Debug.WriteLine("Get list category failed");
-                        
+
                     }
                     else
                     {
-             
+
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
 
                         var list = JsonConvert.DeserializeObject<List<Article>>(jsonString);
 
-                        listArticle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
-                 
+                        List<Article> listArticleRaw = JsonConvert.DeserializeObject<List<Article>>(jsonString);
+                        listArticle = listArticleRaw.Where(a => a.Status == 1).OrderByDescending(a => a.UpdatedAt).ToList();
+
+
                     }
                 }
             }

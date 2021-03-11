@@ -34,6 +34,12 @@ namespace ReadNewsWebClient.API
             return ApiDomain + updatePath + id;
         }
 
+
+        public static string CreateArticlePath = "/api/ArticleManager/CreateArticle";
+
+
+
+
         public static string GenerateSearchByKeywordUrl(string keyword)
         {
             var searchPath = "/api/ArticleManager/SearchByKeyword?keyword=";
@@ -45,7 +51,5 @@ namespace ReadNewsWebClient.API
      
             return ApiDomain + searchPath + queryString;
         }
-
-       
     }
 }
