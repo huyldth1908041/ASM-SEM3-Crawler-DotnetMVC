@@ -103,10 +103,10 @@ namespace CrawlerApi.Controllers
 
 
 
-       
+
 
         [HttpPut]
-        public IHttpActionResult UpdateArticle(int id ,ArticleDataBindingModel articleDataBindingModel)
+        public IHttpActionResult UpdateArticle(int id, ArticleDataBindingModel articleDataBindingModel)
         {
             if (!ModelState.IsValid)
             {
@@ -119,11 +119,11 @@ namespace CrawlerApi.Controllers
             {
                 return NotFound();
             }
-            if(articleDataBindingModel.Title != null)
+            if (articleDataBindingModel.Title != null)
             {
                 article.Title = articleDataBindingModel.Title;
             }
-            if(articleDataBindingModel.Description != null)
+            if (articleDataBindingModel.Description != null)
             {
                 article.Description = articleDataBindingModel.Description;
             }
@@ -146,7 +146,7 @@ namespace CrawlerApi.Controllers
             {
                 article.ImgUrls = articleDataBindingModel.ImgUrls;
             }
-    
+
             article.UpdatedAt = DateTime.Now;
             article.Status = (Article.ArticleStatus)articleDataBindingModel.Status;
             if (articleDataBindingModel.CategoryId != 0)
@@ -155,7 +155,7 @@ namespace CrawlerApi.Controllers
             }
 
             var recordsChanged = _db.SaveChanges();
-       
+
             //convert to view model
             var viewModel = new ArticleViewModel()
             {
@@ -174,8 +174,58 @@ namespace CrawlerApi.Controllers
             return Json(viewModel);
 
         }
-        
+        [HttpPost]
+        public IHttpActionResult CreateArticle(ArticleDataBindingModel articleDataBindingModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
+            var existedArticle = _db.Articles.Where(a => a.Link.Equals(articleDataBindingModel.Link)).FirstOrDefault();
+
+            if (existedArticle != null)
+            {
+
+                return Conflict();
+            }
+
+            var newArticle = new Article()
+            {
+                Title = articleDataBindingModel.Title,
+                Description = articleDataBindingModel.Description,
+                Content = articleDataBindingModel.Content,
+                Source = articleDataBindingModel.Source,
+                Link = articleDataBindingModel.Link,
+                ImgUrls = articleDataBindingModel.ImgUrls,
+                Status = (Article.ArticleStatus)articleDataBindingModel.Status,
+                CategoryId = articleDataBindingModel.CategoryId,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+
+
+
+            var article = _db.Articles.Add(newArticle);
+            _db.SaveChanges();
+
+            var viewModel = new ArticleViewModel()
+            {
+                Id = article.Id,
+                CategoryId = article.CategoryId,
+                Content = article.Content,
+                CreatedAt = article.CreatedAt,
+                Description = article.Description,
+                ImgUrls = article.ImgUrls,
+                Link = article.Link,
+                Source = article.Source,
+                Status = (int)article.Status,
+                Title = article.Title,
+                UpdatedAt = article.UpdatedAt
+                   
+            };
+            return Ok(viewModel);
+        }
 
     }
 
