@@ -6,6 +6,9 @@ using System.Web;
 using System.Web.Http;
 using System.Net.Http;
 using System.Data.Entity;
+using System.Diagnostics;
+using System.Text;
+using System.Globalization;
 
 namespace CrawlerApi.Controllers
 {
@@ -102,7 +105,57 @@ namespace CrawlerApi.Controllers
         }
 
 
+        [HttpGet]
+        public IHttpActionResult SearchByKeyword(string keyword)
+        {
+            if (keyword == null)
+            {
+                return BadRequest();
+            }
+            //parse keyword
+            var decodedKeyword = HttpUtility.UrlDecode(keyword, Encoding.UTF8);
+            Debug.WriteLine(decodedKeyword);
+            var listArticle = _db.Articles.ToList();
+            var searchResult = listArticle.Where(a => CheckContainsIgnoreCase(a.Content, decodedKeyword) || CheckContainsIgnoreCase(a.Description, decodedKeyword) || CheckContainsIgnoreCase(a.Title, decodedKeyword)).ToList();
+            if (searchResult == null || searchResult.Count() == 0)
+            {
+                return NotFound();
+            }
+            //convert to view model
+            var listViewModel = new List<ArticleViewModel>();
+            foreach (var item in searchResult)
+            {
+                var viewModel = new ArticleViewModel()
+                {
+                    CategoryId = item.CategoryId,
+                    Content = item.Content,
+                    CreatedAt = item.CreatedAt,
+                    Description = item.Description,
+                    Id = item.Id,
+                    ImgUrls = item.ImgUrls,
+                    Link = item.Link,
+                    Source = item.Source,
+                    Status = (int) item.Status,
+                    Title = item.Title,
+                    UpdatedAt = item.UpdatedAt
+                };
+                listViewModel.Add(viewModel);
+            }
+            return Json(listViewModel);
 
+        }
+        private static bool CheckContainsIgnoreCase(string rootString, string searchString)
+        {
+            var culture = CultureInfo.InvariantCulture;
+            if(culture.CompareInfo.IndexOf(rootString, searchString, CompareOptions.IgnoreCase) >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
 
         [HttpPut]
@@ -174,6 +227,7 @@ namespace CrawlerApi.Controllers
             return Json(viewModel);
 
         }
+
         [HttpPost]
         public IHttpActionResult CreateArticle(ArticleDataBindingModel articleDataBindingModel)
         {
@@ -203,8 +257,6 @@ namespace CrawlerApi.Controllers
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             };
-
-
 
             var article = _db.Articles.Add(newArticle);
             _db.SaveChanges();
