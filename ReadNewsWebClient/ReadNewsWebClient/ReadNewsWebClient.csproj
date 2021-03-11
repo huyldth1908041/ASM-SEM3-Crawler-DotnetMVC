@@ -160,6 +160,7 @@
     <Content Include="Content\Css\owl.theme.default.css" />
     <Content Include="Content\Css\paged-list.css" />
     <Content Include="Content\Css\style_1.css" />
+    <Content Include="Content\Image\NewsBee.png" />
     <Content Include="Content\Js\bootstrap.js" />
     <Content Include="Content\Js\core\bootstrap-material-design.min.js" />
     <Content Include="Content\Js\core\jquery.min.js" />
