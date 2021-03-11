@@ -1,11 +1,13 @@
 ﻿@model ReadNewsWebClient.Models.ArticleIndexViewModel
+@using PagedList.Mvc;
+@using PagedList;
 @{
     ViewBag.Title = "News";
-
-
 }
-
-<!--app banner-->
+@section PageStyles {
+    <link href="@Url.Content("~/Content/Css/paged-list.css")" rel="stylesheet" />    
+}
+<!--<!--app banner-->
 <div class="container-fluid paddding mb-5">
     <div class="row mx-0">
         <div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
@@ -80,33 +82,41 @@
         </div>
     </div>
 </div>
-<!--End app banner-->
 
+@*End app banner
+
+    News*@
+
+<!--End app banner-->
 <!--News-->
+
 <div class="container-fluid pb-4 pt-5">
     <div class="container animate-box">
         <div>
-            <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Covid<iv>
-        </div>
-        <div class="owl-carousel owl-theme" id="slider2">
-            @foreach (var item in Model.TrendingAricles)
-            {
-                <div class="item px-2">
-                    <div class="fh5co_hover_news_img">
-                        <div class="fh5co_news_img"><img src="@item.GetImageUrl()" alt="" /></div>
-                        <div>
-                            @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "d-block fh5co_small_post_heading" })
-                            <div class="c_g"><i class="fa fa-clock-o"></i> @item.CreatedAt.ToString("MMM dd, yyyy")</div>
+            <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">
+                Covid<iv>
+            </div>
+            <div class="owl-carousel owl-theme" id="slider2">
+                @foreach (var item in Model.TrendingAricles)
+                {
+                    <div class="item px-2">
+                        <div class="fh5co_hover_news_img">
+                            <div class="fh5co_news_img"><img src="@item.GetImageUrl()" alt="" /></div>
+                            <div>
+                                @Html.ActionLink(item.Title, "Read", "Article", new { id = item.Id }, new { @class = "d-block fh5co_small_post_heading" })
+                                <div class="c_g"><i class="fa fa-clock-o"></i> @item.CreatedAt.ToString("MMM dd, yyyy")</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
 
+            </div>
         </div>
     </div>
 </div>
-<!--End news-->
-<!-- News 2 colums-->
+
+
+
 <div class="container-fluid pb-4 pt-4 paddding">
     <div class="container paddding">
         <div class="row mx-0">
@@ -114,7 +124,7 @@
                 <div>
                     <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Tin Mới Nhất </div>
                 </div>
-                @foreach (var item in Model.AllArticles)
+                @foreach (var item in Model.PagedListArticle)
                 {
 
                     <div class="row pb-4">
@@ -170,16 +180,15 @@
 
             </div>
         </div>
-        @*<div class="row mx-0 animate-box" data-animate-effect="fadeInUp">
-                <div class="col-12 text-center pb-4 pt-4">
-                    <a href="#" class="btn_mange_pagging"><i class="fa fa-long-arrow-left"></i>&nbsp;&nbsp; Previous</a>
-                    <a href="#" class="btn_pagging">1</a>
-                    <a href="#" class="btn_pagging">2</a>
-                    <a href="#" class="btn_pagging">3</a>
-                    <a href="#" class="btn_pagging">...</a>
-                    <a href="#" class="btn_mange_pagging">Next <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp; </a>
-                </div>
-            </div>*@
+    
+
+        <div class="page-separate">
+            <p class="page-separate-text">Trang @(Model.PagedListArticle.PageCount < Model.PagedListArticle.PageNumber ? 0 : Model.PagedListArticle.PageNumber) / @Model.PagedListArticle.PageCount</p>
+
+            @Html.PagedListPager(Model.PagedListArticle, page => Url.Action("Index", "Article", new { page }))
+        </div>
+
+
     </div>
 </div>
-<!--End news 2 colums-->
+

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PagedList;
 using ReadNewsWebClient.API;
 using ReadNewsWebClient.Filters;
 using ReadNewsWebClient.Models;
@@ -18,32 +19,42 @@ namespace ReadNewsWebClient.Controllers
 
         
         // GET: Article
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             var listAllArticle =  GetListArticle();
+            
             var topFiveLatest = (from a in listAllArticle orderby a.CreatedAt select a).Take(5).ToList();
+
             var listCategory = GetCategory();
             var trendingArticle = (from a in listAllArticle orderby a.CreatedAt select a).Take(5).ToList();
+            //setting for paged list
+            // 1. Tham số int? dùng để thể hiện null và kiểu int
+            // page có thể có giá trị là null và kiểu int.
+
+            // 2. Nếu page = null thì đặt lại là 1.
+            if (page == null) page = 1;
+
+
+            // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
+            int pageSize = 6;
+
+            // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
+            // nếu page = null thì lấy giá trị 1 cho biến pageNumber.
+            int pageNumber = (page ?? 1);
+            var pagedList = listAllArticle.ToPagedList<Article>(pageNumber, pageSize);
             ArticleIndexViewModel model = new ArticleIndexViewModel()
             {
                 AllArticles = listAllArticle,
                 ListCategories = listCategory,
                 TopFivesLatest = topFiveLatest,
-                TrendingAricles = trendingArticle
+                TrendingAricles = trendingArticle,
+                PagedListArticle = pagedList
             };
-            //foreach(var item in model.AllArticles.ToList())
-            //{
-            //    if(item == null)
-            //    {
-            //        Debug.WriteLine("null");
-            //    }
-            //    else
-            //    {
-            //        Debug.WriteLine(item.Title);
-            //    }
-            //}
             return View(model);
         }
+
+   
+
 
         public ActionResult Read(int id) 
         {
@@ -77,10 +88,7 @@ namespace ReadNewsWebClient.Controllers
                 TempData["AritcleDetailStatus"] = $"{err.Message} at index: {id}";
                 return RedirectToAction("Index");
             }
-            //var article = _articles[id];
-            //ViewBag.listCategory = _categories;
-            //ViewBag.listArticle = _articles;
-            //return View("Article", article);
+    
         }
 
         private  List<Article> GetListArticle()
@@ -102,18 +110,20 @@ namespace ReadNewsWebClient.Controllers
                     }
                     else
                     {
-                        TempData["GetListPendingArticleStatus"] = "Get list pending article Sucess!";
+             
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
+
+                        var list = JsonConvert.DeserializeObject<List<Article>>(jsonString);
+
                         listArticle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
-                    
+                 
                     }
                 }
             }
             catch (Exception err)
             {
                 Debug.WriteLine(err.Message);
-                TempData["GetListPendingArticleStatus"] = "Can not connect to API";
-              
+         
             }
             return listArticle;
         }
@@ -158,5 +168,6 @@ namespace ReadNewsWebClient.Controllers
             return list;
 
         }
+        
     }
 }

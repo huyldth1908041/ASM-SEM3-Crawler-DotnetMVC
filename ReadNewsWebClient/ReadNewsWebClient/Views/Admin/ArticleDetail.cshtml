@@ -1,0 +1,192 @@
+﻿@model ReadNewsWebClient.Models.Article
+
+@{
+    ViewBag.Title = "ArticeDetail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@Styles.Render("~/bundles/app_styles")
+<h2>Thông tin bài báo</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+
+            <div class="card-body">
+                <h4>@Model.Title</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Content)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Content)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Source)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Source)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Link)
+                    </dt>
+
+                    <dd>
+                       <a href="@Model.Link" target="_blank"> @Html.DisplayFor(model => model.Link)</a>
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ImgUrls)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ImgUrls)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UpdatedAt)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.UpdatedAt)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CreatedAt)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CreatedAt)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CategoryId)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CategoryId)
+                    </dd>
+
+                </dl>
+            </div>
+            <p>
+                @Html.ActionLink("Sửa", "EditArticle", "Admin", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                @if (Model.Status == 0)
+                {
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#browse-article">Duyệt</button>
+                }
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preview-article">Xem trước</button>
+            </p>
+
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Trigger the modal with a button -->
+<!-- Modal -->
+<div id="preview-article" class="modal fade" role="dialog" style="">
+    <div class="modal-dialog" >
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@Html.DisplayFor(model => model.Title)</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                @Html.Raw(Model.Content)
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="browse-article" class="modal fade" role="dialog" style="">
+    @using (Html.BeginForm("BrowserAnArticle", "Admin",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">@Html.DisplayFor(model => model.Title)</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.Title)
+                @Html.HiddenFor(model => model.ImgUrls)
+                @Html.HiddenFor(model => model.Link)
+                @Html.HiddenFor(model => model.Source)
+                @Html.HiddenFor(model => model.CategoryId)
+                @Html.HiddenFor(model => model.Content)
+                @Html.HiddenFor(model => model.Description)
+                @Html.HiddenFor(model => model.Status)
+
+                <div class="modal-body">
+                    Bạn có chắc muốn duyệt tin này ?
+                </div>
+
+                <div class="modal-footer">
+                    <input type="submit" value="Duyệt" class="btn btn-primary" />
+                    @*<input type="button" id="Save" value="Save Data" />*@
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+
+        </div>
+    }
+
+
+
+</div>
+
+@*<script>
+
+    $(document).ready(function () {
+        $("#Save").click(function () {
+            $.ajax({
+                url: ,
+                type: 'PUT',
+                dataType: 'json',
+                data: { "": 'sourav' },
+                success: function (data, textStatus, xhr) {
+                    console.log(data);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error in Operation');
+                }
+            });
+        });
+    });
+</script>*@
+

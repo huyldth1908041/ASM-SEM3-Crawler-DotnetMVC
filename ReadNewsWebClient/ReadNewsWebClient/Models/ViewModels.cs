@@ -31,7 +31,7 @@ namespace ReadNewsWebClient.Models
         public List<Article> TopFivesLatest { get; set; }
         public List<Category> ListCategories { get; set; }
         public List<Article> AllArticles { get; set; }
-
+        public PagedList.IPagedList<Article> PagedListArticle { get; set; }
         public List<Article> TrendingAricles { get; set; }
 
         public ArticleIndexViewModel()

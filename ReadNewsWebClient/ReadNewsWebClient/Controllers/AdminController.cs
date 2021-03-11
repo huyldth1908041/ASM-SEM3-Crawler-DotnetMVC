@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PagedList;
 using ReadNewsWebClient.API;
 using ReadNewsWebClient.Models;
 using System;
@@ -31,7 +32,7 @@ namespace ReadNewsWebClient.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateConfig([Bind(Include = "Path,Route,LinkSelector,ContentSelector,TitleSelector,DescriptionSelector,RemovalSelector,CategoryId")] CrawlerConfigsViewModel crawlerConfigsViewModel)
+        public ActionResult CreateConfig(CrawlerConfigsViewModel crawlerConfigsViewModel)
         {
 
             var createConfig = ApiEndPoint.ApiDomain + ApiEndPoint.CreateConfigPath;
@@ -173,22 +174,38 @@ namespace ReadNewsWebClient.Controllers
 
         public ActionResult ListCategory()
         {
-            var list = new List<Category>()
-            {
-                new Category{
 
-                    Name= "doi-song",
-                    Id = 1
-                }
-            };
+            var list = GetCategory();
+
+            if (list.Count() == 0)
+            {
+                TempData["Status"] = "Can not connect to API";
+                return View();
+            }
+
             return View(list);
+
         }
 
-        public ActionResult ListPendingArticle()
+        public ActionResult ListPendingArticle(int? page)
         {
+
+            // 1. Tham số int? dùng để thể hiện null và kiểu int
+            // page có thể có giá trị là null và kiểu int.
+
+            // 2. Nếu page = null thì đặt lại là 1.
+            if (page == null) page = 1;
+
+
+            // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
+            int pageSize = 10;
+
+            // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
+            // nếu page = null thì lấy giá trị 1 cho biến pageNumber.
+            int pageNumber = (page ?? 1);
+
             var listPendingAricle = new List<Article>();
             var getListPendingArticle = ApiEndPoint.ApiDomain + ApiEndPoint.GetListPendingArticlePath;
-
             try
             {
                 using (HttpClient httpClient = new HttpClient())
@@ -201,7 +218,7 @@ namespace ReadNewsWebClient.Controllers
 
                         //request failed
                         TempData["GetListPendingArticleStatus"] = "Get list pending article Failed!";
-                        return View(listPendingAricle);
+
                     }
                     else
                     {
@@ -209,7 +226,7 @@ namespace ReadNewsWebClient.Controllers
                         listPendingAricle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
                         var orderByCreatedAt = from article in listPendingAricle orderby article.CreatedAt descending select article;
                         listPendingAricle = orderByCreatedAt.ToList();
-                        return View(listPendingAricle);
+                   
                     }
                 }
             }
@@ -217,12 +234,13 @@ namespace ReadNewsWebClient.Controllers
             {
                 Debug.WriteLine(err.Message);
                 TempData["GetListPendingArticleStatus"] = "Can not connect to API";
-                return View(listPendingAricle);
+              
             }
-
+            var pagedList = listPendingAricle.ToPagedList(pageNumber, pageSize);
+            return View(pagedList);
         }
 
-        public ActionResult ArticeDetail(int id)
+        public ActionResult ArticleDetail(int id)
         {
             //call api
             var url = ApiEndPoint.GenerateGetArticleByIdUrl(id);
@@ -258,8 +276,22 @@ namespace ReadNewsWebClient.Controllers
 
         }
 
-        public ActionResult ListAllArticle()
+        public ActionResult ListAllArticle(int? page)
         {
+            // 1. Tham số int? dùng để thể hiện null và kiểu int
+            // page có thể có giá trị là null và kiểu int.
+
+            // 2. Nếu page = null thì đặt lại là 1.
+            if (page == null) page = 1;
+
+
+            // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
+            int pageSize = 10;
+
+            // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
+            // nếu page = null thì lấy giá trị 1 cho biến pageNumber.
+            int pageNumber = (page ?? 1);
+
             var getListAllArticle = ApiEndPoint.ApiDomain + ApiEndPoint.GetListAllArticlePath;
             var listAllArticle = new List<Article>();
             try
@@ -274,14 +306,14 @@ namespace ReadNewsWebClient.Controllers
 
                         //request failed
                         TempData["GetListAllArticleStatus"] = "Get list article Failed!";
-                        return View(listAllArticle);
+                        Debug.WriteLine("falied");
                     }
                     else
                     {
 
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
                         listAllArticle = JsonConvert.DeserializeObject<List<Article>>(jsonString);
-                        return View(listAllArticle);
+                        
                     }
                 }
             }
@@ -289,9 +321,10 @@ namespace ReadNewsWebClient.Controllers
             {
                 Debug.WriteLine(err.Message);
                 TempData["GetListAllArticleStatus"] = "Can not connect to API";
-                return View(listAllArticle);
+                
             }
-
+            var pagedList = listAllArticle.ToPagedList(pageNumber,pageSize);
+            return View(pagedList);
         }
 
         public ActionResult CreateCategory()
@@ -316,22 +349,171 @@ namespace ReadNewsWebClient.Controllers
                         //request failed
                         Debug.WriteLine("Null list cate");
 
+                        return list;
+
 
                     }
 
                     var jsonResult = getListResult.Content.ReadAsStringAsync().Result;
                     var listCate = JsonConvert.DeserializeObject<List<Category>>(jsonResult);
                     list = listCate;
+                    return list;
 
                 }
             }
             catch (Exception err)
             {
                 Debug.WriteLine(err.Message);
-                Debug.WriteLine("Can not connect to API");
-          
+
+                return list;
             }
-            return list;
+
+
+        }
+
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult BrowserAnArticle(int Id, ArticleDataBindingModel article)
+        {
+
+
+            var updateArticleApiUrl = ApiEndPoint.GenerateUpdateAricleUrl(Id);
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    article.Status = 1;
+                    var jsonString = JsonConvert.SerializeObject(article);
+                    var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                    HttpResponseMessage result = httpClient.PutAsync(updateArticleApiUrl, data).Result;
+                    if (!result.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        Debug.WriteLine("failed");
+                        TempData["UpdateArticleStatus"] = "Updated failed";
+                        return RedirectToAction("ArticleDetail", new { id = Id });
+                    }
+
+
+                    var jsonResult = result.Content.ReadAsStringAsync().Result;
+                    var articleResult = JsonConvert.DeserializeObject<Article>(jsonResult);
+                    TempData["UpdateArticleStatus"] = "Updated failed";
+
+
+                    return RedirectToAction("ListPendingArticle");
+
+
+                }
+            }
+            catch (Exception err)
+            {
+                TempData["UpdateArticleStatus"] = "Cannot connect to API";
+
+                Debug.WriteLine(err.Message);
+                return RedirectToAction("ArticleDetail", new { id = Id });
+
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditArticle(int id)
+        {
+            var url = ApiEndPoint.GenerateGetArticleByIdUrl(id);
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+
+                    ViewBag.ListCategory = GetCategory();
+                    HttpResponseMessage runResult = httpClient.GetAsync(url).Result;
+                    if (!runResult.IsSuccessStatusCode)
+                    {
+
+                        //request failed
+                        TempData["AritcleDetailStatus"] = "Get article detais infor failed, Id :  " + id;
+                        return RedirectToAction("ArticleDetail", new { id = id });
+                    }
+                    else
+                    {
+
+                        var jsonString = runResult.Content.ReadAsStringAsync().Result;
+                        var article = JsonConvert.DeserializeObject<Article>(jsonString);
+                        return View(article);
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                Debug.WriteLine("Can not connect to API");
+                TempData["AritcleDetailStatus"] = $"{err.Message} at index: {id}";
+                return RedirectToAction("ArticeDetail", new { id = id });
+
+            }
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult EditArticle(int Id, ArticleDataBindingModel model)
+        {
+          
+            ViewBag.ListCategory = GetCategory();
+            if (ModelState.IsValid)
+            {
+                var editArticle = ApiEndPoint.GenerateUpdateAricleUrl(Id);
+                try
+                {
+                    using (HttpClient httpClient = new HttpClient())
+                    {
+                     
+                        var jsonString = JsonConvert.SerializeObject(model);
+                        var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                        Debug.WriteLine(data);
+                        HttpResponseMessage result = httpClient.PutAsync(editArticle, data).Result;
+                        if (!result.IsSuccessStatusCode)
+                        {
+                            TempData["Status"] = "Fail to save ";
+                            //request failed
+                            Debug.WriteLine("[failed]");
+                            return View(model);
+                        }
+
+
+                        var jsonResult = result.Content.ReadAsStringAsync().Result;
+                        if (jsonResult == null)
+                        {
+                            Debug.WriteLine("[null response]");
+                          
+                            return View(model);
+                        }
+                        var articleResult = JsonConvert.DeserializeObject<Article>(jsonResult);
+                        TempData["Status"] = "[Success save:]" + articleResult.Id;
+                        Debug.WriteLine("[success]");
+                        return RedirectToAction("ArticleDetail", new { id = articleResult.Id});
+
+
+                    }
+                }
+                catch (Exception err)
+                {
+                    TempData["Status"] = "Fail connect to api";
+
+                    Debug.WriteLine(err.Message);
+                    Debug.WriteLine("[failed]");
+                    return View(model);
+
+                }
+            }
+            else
+            {
+                return View(model);
+
+            }
+
 
         }
     }
