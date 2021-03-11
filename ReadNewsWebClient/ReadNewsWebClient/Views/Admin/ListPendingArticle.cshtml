@@ -40,26 +40,11 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.Description)
                                     </th>
-
-                                    @*<th>
-                                            @Html.DisplayNameFor(model => model.Source)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Link)
-                                        </th>*@
-                                    @*<th>
-                                            @Html.DisplayNameFor(model => model.ImgUrls)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.UpdatedAt)
-                                        </th>
-
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.CategoryId)
-                                        </th>*@
                                     <th>
                                         @Html.DisplayNameFor(model => model.CreatedAt)
                                     </th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
 
                             </thead>
@@ -96,11 +81,14 @@
                                                 @Html.DisplayFor(modelItem => item.CategoryId)
                                             </td>*@
                                         <td>
-                                            @Html.ActionLink("Details", "ArticeDetail", "Admin", new { id = item.Id }, new { @class = "btn btn-primary" })
-                                            @Html.ActionLink("Edit", "EditArticle", new { id = item.Id }) |
+                                            @Html.ActionLink("Details", "ArticleDetail", "Admin", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                       
 
-                                            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                                   
 
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "EditArticle", new { id = item.Id }, new { @class = "btn btn-danger" })
                                         </td>
                                     </tr>
                                 }

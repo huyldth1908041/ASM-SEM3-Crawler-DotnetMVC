@@ -92,10 +92,10 @@
             </div>
             <p>
                 @Html.ActionLink("Edit", "EditArticle", "Admin", new { id = Model.Id }, new { @class = "btn btn-primary" })
-                @if (Model.Status == ReadNewsWebClient.Models.Article.ArticleStatus.PENDING)
+                @if (Model.Status == 0)
                 {
 
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#actice-article">Duyệt</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#browse-article">Duyệt</button>
                 }
 
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preview-article">Preview</button>
@@ -130,7 +130,7 @@
 </div>
 
 
-<div id="actice-article" class="modal fade" role="dialog" style="">
+<div id="browse-article" class="modal fade" role="dialog" style="">
     @using (Html.BeginForm("BrowserAnArticle", "Admin",FormMethod.Post))
     {
         @Html.AntiForgeryToken()
@@ -150,15 +150,16 @@
                 @Html.HiddenFor(model => model.CategoryId)
                 @Html.HiddenFor(model => model.Content)
                 @Html.HiddenFor(model => model.Description)
-                @Html.HiddenFor(model => model.CreatedAt)
+                @Html.HiddenFor(model => model.Status)
+
                 <div class="modal-body">
-                    Active this article ?
+                    Bạn có chắc muốn duyệt tin này ?
                 </div>
 
                 <div class="modal-footer">
-                    <input type="submit" value="OK" class="btn btn-primary" />
+                    <input type="submit" value="Duyệt" class="btn btn-primary" />
                     @*<input type="button" id="Save" value="Save Data" />*@
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
 
