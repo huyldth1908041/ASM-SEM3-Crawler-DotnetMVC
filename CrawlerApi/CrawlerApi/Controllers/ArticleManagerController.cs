@@ -23,10 +23,10 @@ namespace CrawlerApi.Controllers
         {
             List<Article> listPendingArticle = _db.Articles.Where(a => a.Status == 0).ToList();
 
-            List<ArticleDataBindingModel> listArticleDataBindingModel = new List<ArticleDataBindingModel>();
+            List<ArticleViewModel> listArticleDataBindingModel = new List<ArticleViewModel>();
             foreach (var item in listPendingArticle)
             {
-                var bindingModel = new ArticleDataBindingModel()
+                var bindingModel = new ArticleViewModel()
                 {
                     Id = item.Id,
                     CategoryId = item.CategoryId,
@@ -52,10 +52,10 @@ namespace CrawlerApi.Controllers
         public IHttpActionResult GetListAllArticle()
         {
             List<Article> listAllArticle = _db.Articles.ToList();
-            List<ArticleDataBindingModel> listArticleDataBindingModel = new List<ArticleDataBindingModel>();
+            List<ArticleViewModel> listArticleDataBindingModel = new List<ArticleViewModel>();
             foreach (var item in listAllArticle)
             {
-                var bindingModel = new ArticleDataBindingModel()
+                var bindingModel = new ArticleViewModel()
                 {
                     Id = item.Id,
                     CategoryId = item.CategoryId,
@@ -84,7 +84,7 @@ namespace CrawlerApi.Controllers
             {
                 return BadRequest();
             }
-            var bindingArticle = new ArticleDataBindingModel()
+            var bindingArticle = new ArticleViewModel()
             {
                 CategoryId = inDbArticle.CategoryId,
                 Content = inDbArticle.Content,
@@ -102,76 +102,8 @@ namespace CrawlerApi.Controllers
         }
 
 
-        [HttpGet]
-        public IHttpActionResult GetListCategory()
-        {
-            List<Category> listCate = _db.Categories.ToList();
-            List<CategoryBindindModel> listCategoryBindindModels = new List<CategoryBindindModel>();
-            foreach (var item in listCate)
-            {
-                listCategoryBindindModels.Add(new CategoryBindindModel()
-                {
-                    Id = item.Id,
-                    Name = item.Name
-                });
-            }
-            return Json(listCategoryBindindModels);
-        }
 
-        [HttpPost]
-        public IHttpActionResult CreateConfig(CrawlerConfigDataBindingModel crawlerConfigDataBindingModel)
-        {
-            //to do check trung route+path
-            //List<CrawlerConfig> existedCrawlerConfigs = _db.CrawlerConfigs.Where(c => c.Route == crawlerConfigDataBindingModel.Route).
-            var newConfig = new CrawlerConfig()
-            {
-                Route = crawlerConfigDataBindingModel.Route,
-                CategoryId = crawlerConfigDataBindingModel.CategoryId,
-                ContentSelector = crawlerConfigDataBindingModel.ContentSelector,
-                DescriptionSelector = crawlerConfigDataBindingModel.DescriptionSelector,
-                LinkSelector = crawlerConfigDataBindingModel.LinkSelector,
-                RemovalSelector = crawlerConfigDataBindingModel.RemovalSelector,
-                Path = crawlerConfigDataBindingModel.Path,
-                TitleSelector = crawlerConfigDataBindingModel.TitleSelector
-
-            };
-            _db.CrawlerConfigs.Add(newConfig);
-            _db.SaveChanges();
-            return Json(newConfig);
-        }
-        [HttpPost]
-        //Create or update an category
-        public IHttpActionResult CreateCategory(CategoryBindindModel categoryBindindModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Not a valid model");
-
-            }
-
-            var existingCategory = _db.Categories.Where(a => a.Id == categoryBindindModel.Id)
-                                                    .FirstOrDefault<Category>();
-
-
-            if (existingCategory != null)
-            {
-                existingCategory.Name = categoryBindindModel.Name;
-                _db.SaveChanges();
-                return Json(categoryBindindModel);
-
-            }
-            else
-            {
-                _db.Categories.Add(new Category()
-                {
-                    Id = categoryBindindModel.Id,
-                    Name = categoryBindindModel.Name
-                });
-                return Json(categoryBindindModel);
-
-
-            }
-        }
+       
 
         [HttpPut]
         public IHttpActionResult UpdateArticle(int id ,ArticleDataBindingModel articleDataBindingModel)
@@ -181,7 +113,7 @@ namespace CrawlerApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var article = _db.Articles.Find(articleDataBindingModel.Id);
+            var article = _db.Articles.Find(id);
 
             if (article == null)
             {
@@ -197,14 +129,28 @@ namespace CrawlerApi.Controllers
             article.UpdatedAt = DateTime.Now;
             article.Status = (Article.ArticleStatus)articleDataBindingModel.Status;
             article.CategoryId = articleDataBindingModel.CategoryId;
-            //_db.Entry(article).State = EntityState.Modified;
-            _db.SaveChanges();
-            return Json(article);
 
-
-
+            var recordsChanged = _db.SaveChanges();
+       
+            //convert to view model
+            var viewModel = new ArticleViewModel()
+            {
+                Id = article.Id,
+                CategoryId = article.CategoryId,
+                Content = article.Content,
+                CreatedAt = article.CreatedAt,
+                Description = article.Description,
+                ImgUrls = article.ImgUrls,
+                Link = article.Link,
+                Source = article.Source,
+                Status = (int)article.Status,
+                Title = article.Title,
+                UpdatedAt = article.UpdatedAt
+            };
+            return Json(viewModel);
 
         }
+        
 
 
     }
