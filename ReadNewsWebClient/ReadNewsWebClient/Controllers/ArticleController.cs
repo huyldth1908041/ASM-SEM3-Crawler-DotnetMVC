@@ -53,11 +53,11 @@ namespace ReadNewsWebClient.Controllers
             return View(model);
         }
 
-   
-
-
-        public ActionResult Read(int id) 
+        public ActionResult Read(int? id) 
         {
+            var listCategory = GetCategory();
+            var listArticle = GetListArticle();
+            if (id == null) id = 1;
             //call api
             var url = ApiEndPoint.GenerateGetArticleByIdUrl(id);
             try
@@ -69,16 +69,22 @@ namespace ReadNewsWebClient.Controllers
                     {
                         //request failed
                         TempData["AritcleDetailStatus"] = "Get article detais infor failed at index: " + id;
-                        return RedirectToAction("ListPendingArticle");
+                        return RedirectToAction("Index");
                     }
                     else
                     {
                         //request success
                         var jsonString = runResult.Content.ReadAsStringAsync().Result;
                         var article = JsonConvert.DeserializeObject<Article>(jsonString);
-                        ViewBag.listCategory = GetCategory();
-                        ViewBag.listArticle = GetListArticle();
-                        return View("Article", article);
+                        var relatedArticle = listArticle.Where(a => a.CategoryId == article.CategoryId).Take(6).ToList();
+                        var viewModel = new ReadArticleViewModel()
+                        {
+                            CurrentArticle = article,
+                            CurrentCategory = listCategory.Where(c => c.Id == article.CategoryId).FirstOrDefault(),
+                            RelatedArticles = relatedArticle,
+                            TopFiveLatest = listArticle.Take(5).ToList()
+                        };
+                        return View("Article", viewModel);
                     }
                 }
             }
@@ -117,8 +123,6 @@ namespace ReadNewsWebClient.Controllers
 
                         List<Article> listArticleRaw = JsonConvert.DeserializeObject<List<Article>>(jsonString);
                         listArticle = listArticleRaw.Where(a => a.Status == 1).OrderByDescending(a => a.UpdatedAt).ToList();
-
-
                     }
                 }
             }
@@ -238,6 +242,40 @@ namespace ReadNewsWebClient.Controllers
             };
             return View(viewModel);
            
+        }
+        public ActionResult Category(int? id, int? page)
+        {
+            //setting for paged list
+            // 1. Tham số int? dùng để thể hiện null và kiểu int
+            // page có thể có giá trị là null và kiểu int.
+
+            // 2. Nếu page = null thì đặt lại là 1.
+            if (page == null) page = 1;
+            if (id == null) id = 1;
+
+            // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
+            int pageSize = 6;
+
+            // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
+            // nếu page = null thì lấy giá trị 1 cho biến pageNumber.
+            int pageNumber = (page ?? 1);
+
+            var listAllRaw = GetListArticle();
+            var listByCategory = listAllRaw.Where(a => a.CategoryId == id && a.Status == 1).OrderByDescending(a => a.CreatedAt).ToList();
+            var pagedList = listByCategory.ToPagedList(pageNumber, pageSize);
+            //get list category
+            var listCategory = GetCategory();
+            //get top three latest news
+       
+            var topthree = (from a in listAllRaw orderby a.CreatedAt select a).Take(3).ToList();
+            var viewModel = new ListByCategoryModel
+            {
+                ListArticle = pagedList,
+                ListCategory = listCategory,
+                TopThreeLatest = topthree,
+                CurrentCategory = listCategory.Find(x => x.Id == id)
+            };
+            return View("ListByCategory", viewModel);
         }
     }
 }
