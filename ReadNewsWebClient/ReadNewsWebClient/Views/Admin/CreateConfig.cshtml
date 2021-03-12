@@ -1,13 +1,13 @@
 ﻿@model ReadNewsWebClient.Models.CrawlerConfigsViewModel
 
 @{
-    ViewBag.Title = "CreateConfig";
+    ViewBag.Title = "Thêm nguồn tin mới";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     var listCategory = (List<ReadNewsWebClient.Models.Category>)ViewBag.ListCategory;
     var categorySelectList = new SelectList(listCategory, "Id", "Name", 1);
 }
 
-<h2>CreateConfig</h2>
+<h2>Thêm nguồn tin mới</h2>
 
 
 <div class="content">
@@ -173,7 +173,7 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-default" />
+                            <input type="submit" value="Tạo mới" class="btn btn-default" />
                         </div>
                     </div>
                 }
@@ -185,7 +185,7 @@
 </div>
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Đến danh sách", "ListResource", "Admin", new { @class ="btn btn-info"})
 </div>
 
 @section AdminScripts {

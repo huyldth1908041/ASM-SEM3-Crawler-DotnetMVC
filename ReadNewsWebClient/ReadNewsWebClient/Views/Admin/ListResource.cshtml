@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>ListResource</h2>
+<h2>Danh Sách nguồn tin</h2>
 
 <p>
-    @Html.ActionLink("Create New", "CreateConfig")
+    @Html.ActionLink("Tạo mới", "CreateConfig","Admin", new { @class = "btn btn-primary" })
     @Html.ActionLink("Run Url crawler", "RunUrlCrawler","Admin", new {@class = "btn btn-danger" })
     @Html.ActionLink("Run Content crawler", "RunContentCrawler","Admin", new {@class = "btn btn-danger" })
 </p>

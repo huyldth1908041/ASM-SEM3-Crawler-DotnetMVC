@@ -2,20 +2,20 @@
 @using PagedList.Mvc;
 @using PagedList;
 @{
-    ViewBag.Title = "ListNewArticle";
+    ViewBag.Title = "Quản lý tin";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 @section CustomeStyles {
     <link href="@Url.Content("~/Content/Css/paged-list.css")" rel="stylesheet" />    
 }
-<h2>List Pending Article</h2>
+<h2>Danh sách tin chờ duyệt</h2>
 
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header card-header-primary">
-                <h4 class="card-title "> ListNewArticle </h4>
+                <h4 class="card-title "> Tin chờ duyệt </h4>
                 <p class="card-category"> </p>
                 <p>List contains: @Model.Count() items</p>
 
@@ -84,13 +84,11 @@
                                         @*<td>
                                                 @Html.DisplayFor(modelItem => item.CategoryId)
                                             </td>*@
-                                        <td>
-                                            @Html.ActionLink("Chi tiết", "ArticleDetail", "Admin", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                    <td>
+                              
+                                        @Html.ActionLink("Chi tiết", "ArticleDetail", "Admin", new { id = item.Id }, new { @class = "btn btn-primary" })
 
-
-
-
-                                        </td>
+                                    </td>
                                         <td>
                                             @Html.ActionLink("Sửa", "EditArticle", new { id = item.Id }, new { @class = "btn btn-danger" })
                                         </td>
