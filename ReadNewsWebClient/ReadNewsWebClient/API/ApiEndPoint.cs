@@ -8,7 +8,7 @@ namespace ReadNewsWebClient.API
 {
     public class ApiEndPoint
     {
-        public static string ApiDomain = "https://localhost:44394";
+        public static string ApiDomain = "https://newsbeeapi.azurewebsites.net";
         public static string LoginPath = "/oauth/token";
         public static string GetUserInfoPath = "/api/Account/GetUserInfo";
         public static string RunUrlCrawlerPath = "/api/Bot/RunUrlCrawlerBot";
