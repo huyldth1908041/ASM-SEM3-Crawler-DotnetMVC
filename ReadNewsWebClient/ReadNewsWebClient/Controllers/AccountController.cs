@@ -13,6 +13,11 @@ namespace ReadNewsWebClient.Controllers
 {
     public class AccountController : Controller
     {
+        public ActionResult Register()
+        {
+            return View();
+        }
+
         // GET: Account
         public ActionResult Login()
         {
