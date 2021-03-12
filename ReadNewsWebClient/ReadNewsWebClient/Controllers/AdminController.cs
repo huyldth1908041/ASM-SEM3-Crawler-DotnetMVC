@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PagedList;
 using ReadNewsWebClient.API;
+using ReadNewsWebClient.Filters;
 using ReadNewsWebClient.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,9 @@ using System.Web.Script.Serialization;
 
 namespace ReadNewsWebClient.Controllers
 {
+    [AdminFilter]
+    [InitSessionFilter]
+    
     public class AdminController : Controller
     {
         // GET: Admin
