@@ -562,5 +562,11 @@ namespace ReadNewsWebClient.Controllers
                 return View(model);
             }
         }
+        [ChildActionOnly]
+        [HttpPost]
+        public ActionResult PreviewUrl()
+        {
+            return PartialView("_PreviewUrl");
+        }
     }
 }

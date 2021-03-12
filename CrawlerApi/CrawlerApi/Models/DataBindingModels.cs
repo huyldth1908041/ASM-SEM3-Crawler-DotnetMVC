@@ -99,4 +99,27 @@ namespace CrawlerApi.Models
         [Required]
         public string Name { get; set; }
     }
+    public class PreviewUrlCrawlerBindingModel
+    {
+        [Required]
+        public string Route { get; set; }
+        [Required]
+        public string Path { get; set; }
+        [Required]
+        public string LinkSelector { get; set; }
+    }
+
+    public class PreviewArticleBindingModel
+    {
+        [Required]
+        public string Link { get; set; }
+        [Required]
+        public string TitleSelector { get; set; }
+        [Required]
+        public string DescriptionSelector { get; set; }
+        [Required]
+        public string ContentSelector { get; set; }
+     
+        public string RemovalSelector { get; set; }
+    }
 }
