@@ -408,6 +408,7 @@
     <Content Include="Views\Admin\CreateArticle.cshtml" />
     <Content Include="Views\Article\Search.cshtml" />
     <Content Include="Views\Article\ListByCategory.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
