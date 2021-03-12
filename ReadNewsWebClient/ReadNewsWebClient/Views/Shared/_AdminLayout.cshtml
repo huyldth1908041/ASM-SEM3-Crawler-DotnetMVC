@@ -24,9 +24,8 @@ The above copyright notice and this permission notice shall be included in all c
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>
-        Material Dashboard by Creative Tim
-    </title>
+    <title>@ViewBag.Title | NewsBee</title>
+    <link rel="icon" type="image/png" href="@Url.Content("~/Content/Image/NewsBee.png")" />
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -50,65 +49,37 @@ The above copyright notice and this permission notice shall be included in all c
             -->
             <div class="logo">
                 <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-                    Creative Tim
+                    <img src="@Url.Content("~/Content/Image/NewsBee.png")" alt="logo" style="width: 100px;"/>
                 </a>
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li class="nav-item ">
-                        <a class="nav-link " href="/admin/ListAllArticle">
+                        <a class="nav-link " href="@Url.Action("ListPendingArticle", "Admin")">
                             <i class="material-icons">dashboard</i>
-                            <p>Dashboard</p>
+                            <p>Quản lý tin tức</p>
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="./user.html">
-                            <i class="material-icons">person</i>
-                            <p>User Profile</p>
+                        <a class="nav-link" href="@Url.Action("ListResource", "Admin")">
+                            <i class="material-icons">dashboard</i>
+                            <p>Quản lý nguồn tin</p>
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="/admin/ListPendingArticle">
+                        <a class="nav-link" href="@Url.Action("CreateConfig", "Admin")">
+                            <i class="material-icons">dashboard</i>
+                            <p>Thêm nguồn tin mới</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="@Url.Action("CreateArticle", "Admin")">
                             <i class="material-icons">content_paste</i>
-                            <p>Table List</p>
+                            <p>Thêm tin thủ công</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="/admin/ListCategory">
-                            <i class="material-icons">library_books</i>
-                            <p>Typography</p>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./icons.html">
-                            <i class="material-icons">bubble_chart</i>
-                            <p>Icons</p>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./map.html">
-                            <i class="material-icons">location_ons</i>
-                            <p>Maps</p>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./notifications.html">
-                            <i class="material-icons">notifications</i>
-                            <p>Notifications</p>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./rtl.html">
-                            <i class="material-icons">language</i>
-                            <p>RTL Support</p>
-                        </a>
-                    </li>
-                    <li class="nav-item active-pro ">
-                        <a class="nav-link" href="./upgrade.html">
-                            <i class="material-icons">unarchive</i>
-                            <p>Upgrade to PRO</p>
-                        </a>
-                    </li>
+            
+               
                 </ul>
             </div>
         </div>
@@ -509,7 +480,7 @@ The above copyright notice and this permission notice shall be included in all c
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/js")
-    @*@RenderSection("scripts", required: false)*@
+    @RenderSection("AdminScripts", required: false)
 
 </body>
 </html>

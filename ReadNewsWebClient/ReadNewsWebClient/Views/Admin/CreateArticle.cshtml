@@ -7,13 +7,13 @@
     var categorySelectList = new SelectList(listCategory, "Id", "Name", 1);
 }
 
-<h2>CreateArticle</h2>
+<h2>Thêm tin thủ công</h2>
 
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header card-header-primary">
-                <h4 class="card-title "> Create article</h4>
+                <h4 class="card-title ">Tin bạn muốn thêm</h4>
                 <p class="card-category"> </p>
 
 
@@ -99,14 +99,14 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-default" />
+                                <input type="submit" value="Tạo" class="btn btn-default" />
                             </div>
                         </div>
                     </div>
                 }
 
                 <div>
-                    @Html.ActionLink("Back to List", "ListPendingArticle")
+                    @Html.ActionLink("Đến danh sách", "ListPendingArticle", "Admin", new { @class = "btn btn-primary"})
                 </div>
 
                 @section Scripts {

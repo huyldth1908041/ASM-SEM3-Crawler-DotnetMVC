@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Text;
 using System.Globalization;
+using CrawlerApi.Helpers;
 
 namespace CrawlerApi.Controllers
 {
@@ -116,7 +117,7 @@ namespace CrawlerApi.Controllers
             var decodedKeyword = HttpUtility.UrlDecode(keyword, Encoding.UTF8);
             Debug.WriteLine(decodedKeyword);
             var listArticle = _db.Articles.ToList();
-            var searchResult = listArticle.Where(a => CheckContainsIgnoreCase(a.Content, decodedKeyword) || CheckContainsIgnoreCase(a.Description, decodedKeyword) || CheckContainsIgnoreCase(a.Title, decodedKeyword)).ToList();
+            var searchResult = listArticle.Where(a => StringCompareHelper.CheckContainsIgnoreCase(a.Content, decodedKeyword) || StringCompareHelper.CheckContainsIgnoreCase(a.Description, decodedKeyword) || StringCompareHelper.CheckContainsIgnoreCase(a.Title, decodedKeyword)).ToList();
             if (searchResult == null || searchResult.Count() == 0)
             {
                 return NotFound();
@@ -144,18 +145,7 @@ namespace CrawlerApi.Controllers
             return Json(listViewModel);
 
         }
-        private static bool CheckContainsIgnoreCase(string rootString, string searchString)
-        {
-            var culture = CultureInfo.InvariantCulture;
-            if(culture.CompareInfo.IndexOf(rootString, searchString, CompareOptions.IgnoreCase) >= 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+
 
 
         [HttpPut]

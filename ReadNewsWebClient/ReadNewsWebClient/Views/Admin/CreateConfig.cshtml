@@ -1,13 +1,13 @@
 ﻿@model ReadNewsWebClient.Models.CrawlerConfigsViewModel
 
 @{
-    ViewBag.Title = "CreateConfig";
+    ViewBag.Title = "Thêm nguồn tin mới";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     var listCategory = (List<ReadNewsWebClient.Models.Category>)ViewBag.ListCategory;
     var categorySelectList = new SelectList(listCategory, "Id", "Name", 1);
 }
 
-<h2>CreateConfig</h2>
+<h2>Thêm nguồn tin mới</h2>
 
 
 <div class="content">
@@ -22,12 +22,12 @@
 
                     <div class="card">
                         <div class="card-header card-header-primary">
-                            <h4 class="card-title">Create new config</h4>
-                            <p class="card-category">Enter source</p>
+                            <h4 class="card-title">Create Source Config</h4>
+                            <p class="card-category">Enter source Selector</p>
                         </div>
                         <div class="card-body">
                             <div class="form-horizontal">
-                                @*<h4>CrawlerConfigsViewModel</h4>*@
+
                                 <hr />
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -48,57 +48,40 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "bmd-label-floating col-md-3 " })
+                                    @Html.LabelFor(model => model.LinkSelector, htmlAttributes: new { @class = "bmd-label-floating col-md-3 " })
                                     <div class="col-md-10">
-                                        @*@Html.EditorFor(model => model.CategoryId, new { htmlAttributes = new { @class = "form-control" } })*@
-                                        @Html.DropDownListFor(model => model.CategoryId, categorySelectList, htmlAttributes: new { @class = "form-control" })
-                                        @*@Html.DropDownListFor(x => Model.CategoryId, new SelectList(Model.ListSelectCate, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "category" })*@
-                              
+                                        @Html.EditorFor(model => model.LinkSelector, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.LinkSelector, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+
 
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
-                                        <a class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Preview</a>
-                                        @*<a class="btn-primary" id="previewUrl" value ="{}"> preview</a>*@
-                                        @Html.ActionLink("Preview", "PopUpPreviewUrl ", new { @class = "btn btn-primary", data_toggle = "modal", data_target = "#myModal" })
+                                        <button type="button" id="preview-url-btn" class="btn btn-primary">Preview List Url</button>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
                     //url preview modal
 
-                    <div id="myModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
+                    <div id="previewUrl" class="modal fade" role="dialog" >
+                        <div class="modal-dialog" >
 
                             <!-- Modal content-->
-                            <div class="modal-content">
+                            <div class="modal-content" style="width: 700px;">
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Modal Header</h4>
+                                    <h4 class="modal-title">Url preview</h4>
 
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                    <div id="myModalContent">
+                                    <div id="preview-url-content">
 
                                     </div>
-                                    <table class="table">
-                                        <tr>
-                                            <th>
-                                                Id
-                                            </th>
-                                            <th>
-                                                Url
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>https://vnexpress.net/sai-gon-nang-nong-38-do-c-4245110.html</td>
-                                        </tr>
-                                    </table>"
+                                    
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -110,17 +93,16 @@
 
                     <div class="card">
                         <div class="card-header card-header-primary">
-                            <h4 class="card-title">Create new config</h4>
-                            <p class="card-category">Enter source</p>
+                            <h4 class="card-title">Create new detail config</h4>
+                            <p class="card-category">Enter detail selector</p>
                         </div>
                         <div class="card-body">
                             <div class="form-horizontal">
-
+                                <input type="hidden" id="hidden-article-link"  value="">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.LinkSelector, htmlAttributes: new { @class = "bmd-label-floating col-md-3 " })
+                                    @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "bmd-label-floating col-md-3 " })
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.LinkSelector, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.LinkSelector, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.CategoryId, categorySelectList, htmlAttributes: new { @class = "form-control" })
                                     </div>
                                 </div>
 
@@ -158,8 +140,7 @@
 
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
-                                        <a class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal1">Preview</a>
-                                        @Html.ActionLink("Preview", "PopUpPreviewUrl ", new { @class = "btn btn-primary", data_toggle = "modal", data_target = "#myModal" })
+                                        <button class="btn btn-info" id="preview-article-btn" type="button">Preview Ariticle</button>
                                     </div>
                                 </div>
 
@@ -169,18 +150,18 @@
 
                     //article preview modal
 
-                    <div id="myModal1" class="modal fade" role="dialog">
+                    <div id="article-preview" class="modal fade" role="dialog">
                         <div class="modal-dialog">
 
                             <!-- Modal content-->
-                            <div class="modal-content">
+                            <div class="modal-content" style="width: 800px;">
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Modal Header</h4>
+                                    <h4 class="modal-title">Preview Aricle</h4>
 
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Article content</p>
+                                    <div id="article-preview-content"></div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -192,7 +173,7 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-default" />
+                            <input type="submit" value="Tạo mới" class="btn btn-default" />
                         </div>
                     </div>
                 }
@@ -204,9 +185,121 @@
 </div>
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Đến danh sách", "ListResource", "Admin", new { @class ="btn btn-info"})
 </div>
 
-@section Scripts {
+@section AdminScripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+    <script>
+        const apiEndpoints = "https://localhost:44394/api/Bot/PreviewUrlCrawler";
+        const getArticleUrl = "https://localhost:44394/api/Bot/PreviewArticle";
+        //static element
+        const previewUrlBtn = document.getElementById("preview-url-btn");
+        const previewArticleBtn = document.getElementById("preview-article-btn");
+
+        const routeInput = document.getElementById("Route");
+        const pathInput = document.getElementById("Path");
+        const linkSelectorInput = document.getElementById("LinkSelector");
+        let previewUrlModalContennt = document.getElementById("preview-url-content");
+
+        const contentSelectorInput = document.getElementById("ContentSelector");
+        const titleSelectorInput = document.getElementById("TitleSelector");
+        const descriptionSelectorInput = document.getElementById("DescriptionSelector");
+        const removalSelectorInput = document.getElementById("RemovalSelector");
+        const linkHidenInput = document.getElementById("hidden-article-link");
+        const previewArticleModalContent = document.getElementById("article-preview-content");
+        
+        //ajax function
+        const getListPreviewUrl = async () => {
+            const route = routeInput.value;
+            const path = pathInput.value;
+            const linkSelector = linkSelectorInput.value;
+            const data = JSON.stringify({
+                "Route": route,
+                "Path": path,
+                "LinkSelector": linkSelector
+            });
+            console.log(data);
+            try {
+                const response = await fetch(apiEndpoints, { method: "POST", headers: { "Content-type": "application/json" }, body: data });
+                if (response.ok) {
+                    const jsonResponse = await response.json();
+                    console.log(jsonResponse);
+                    showResult(jsonResponse);
+                }
+                else {
+                    throw new Error("Can not connect to api");
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        //ajax function
+        const getArticle = async () => {
+            const contentSelector = contentSelectorInput.value;
+            const titleSelector = titleSelectorInput.value;
+            const descriptionSelector = descriptionSelectorInput.value;
+            const removalSelector = removalSelectorInput.value;
+            const link = linkHidenInput.value;
+    
+  
+            const data = JSON.stringify({
+                "Link": link,
+                "TitleSelector": titleSelector,
+                "DescriptionSelector": descriptionSelector,
+                "ContentSelector": contentSelector,
+                "RemovalSelector": removalSelector
+            });
+            console.log(data);
+            try {
+                const response = await fetch(getArticleUrl, { method: "POST", headers: { "Content-type": "application/json" }, body: data });
+                if (response.ok) {
+                    const jsonResponse = await response.json();
+                    console.log(jsonResponse);
+                    previewArticle(jsonResponse);
+                }
+                else {
+                    throw new Error("Can not connect to api");
+                
+                }
+            } catch (err) {
+                previewArticleModalContent.innerHTML = "<p>Can not preview article  run preview url and try again</p>"
+                console.log(err);
+            }
+        }
+        const previewArticle = res => {
+            previewArticleModalContent.innerHTML = "";
+            if (!res || res.length == 0) {
+                previewArticleModalContent.innerHTML = "<p>Can not preview article run preview url and try again</p>"
+            }
+            let articleView = `<h3>${res.Title}</h3><p>${res.Description}</p><div>${res.Content}</div>`
+            previewArticleModalContent.innerHTML = articleView;
+        }
+
+        const showResult = res => {
+            previewUrlModalContennt.innerHTML = "";
+            if (!res || res.length == 0) {
+                previewUrlModalContennt.innerHTML = "<p>Can not preview any url </p>";
+            }
+            let tableView = "<table class ='table'><tr><th>Id</th><th>Url</th></tr>"
+            for (let i = 0; i < res.length; i++) {
+                tableView += `<tr><td>${i}</td><td><a href = ${res[i]} target = "_blank">${res[i]}</a></td></tr>`;
+            }
+            tableView += "</table>";
+            previewUrlModalContennt.innerHTML = tableView;
+            linkHidenInput.value = res[0];
+        }
+
+        previewUrlBtn.addEventListener("click", async e => {
+            console.log("here");
+            await getListPreviewUrl();
+            $("#previewUrl").modal();
+        })
+        previewArticleBtn.addEventListener('click', async e => {
+            console.log("yeet");
+            await getArticle();
+            $("#article-preview").modal();
+        })
+    </script>
 }

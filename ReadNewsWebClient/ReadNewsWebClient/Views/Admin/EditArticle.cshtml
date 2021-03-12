@@ -1,7 +1,7 @@
 ﻿@model ReadNewsWebClient.Models.Article
 
 @{
-    ViewBag.Title = "EditArticle";
+    ViewBag.Title = "Sửa " + Model.Title;
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     var listCategory = (List<ReadNewsWebClient.Models.Category>)ViewBag.ListCategory;
     var categorySelectList = new SelectList(listCategory, "Id", "Name", 1);
