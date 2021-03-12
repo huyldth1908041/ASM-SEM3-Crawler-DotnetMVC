@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -65,5 +66,31 @@ namespace ReadNewsWebClient.Models
         public List<Article> TopFiveLatest { get; set; }
         public List<Article> RelatedArticles { get; set; }
 
+    }
+
+    public class RegisterViewModel
+    {
+        [DisplayName("Full Name")]
+        [Required(ErrorMessage = "Please enter your name!")]
+        public string FullName { get; set; }
+
+        [DisplayName("Username")]
+        [Required(ErrorMessage = "Please enter your username!")]
+        public string Username { get; set; }
+
+        [DisplayName("Email")]
+        [Required(ErrorMessage = "Please enter your email!")]
+        [EmailAddress(ErrorMessage = "Invalid Email. Ex: your-email@example.com")]
+        public string Email { get; set; }
+
+        [DisplayName("Password")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a valid password")]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [DisplayName("Confirm Password")]
+        [Compare(otherProperty: "Password", ErrorMessage = "Password does not match!")]
+        public string ConfirmPassword { get; set; }
     }
 }
